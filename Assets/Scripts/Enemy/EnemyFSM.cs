@@ -119,6 +119,12 @@ public class EnemyFSM : MonoBehaviour
     }
     public void HitEnemy(int hitPower)
     {
+        // 이미 피격 상태이거나 사망 상태라면 아무런 처리 X 함수 종료
+        if (_state == EnemyState.Damaged || _state == EnemyState.Die)
+        {
+            return;
+        }
+
         // The enemy hp decreased by the player ATK
         hp -= hitPower;
 

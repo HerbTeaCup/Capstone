@@ -11,12 +11,18 @@ public class PlayerMove : MonoBehaviour
     public float jumpPower = 10f;
     public bool isJumping = false;
     public int hp;
+    public int weaponPower = 10;
 
     CharacterController controller;
+    public GameObject bulletEffect;
+    ParticleSystem ps;
+
     // Start is called before the first frame update
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+
+        ps = bulletEffect.GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -48,6 +54,28 @@ public class PlayerMove : MonoBehaviour
         dir.y = yVelocity;
 
         controller.Move(dir * moveSpeed * Time.deltaTime);
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+            RaycastHit hitInfo = new RaycastHit();
+
+            if (Physics.Raycast(ray, out hitInfo))
+            {
+                if ((hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy")))
+                {
+                    EnemyFSM eFSM = hitInfo.transform.GetComponent<EnemyFSM>();
+                    eFSM.HitEnemy(weaponPower);
+                }
+                else
+                {
+                    bulletEffect.transform.position = hitInfo.point;
+                    bulletEffect.transform.position = hitInfo.normal;
+
+                    ps.Play();
+                }
+            }
+        }
     }
 
     public void DmgAction(int dmg)

@@ -10,6 +10,7 @@ public class PlayerMove : MonoBehaviour
     float yVelocity = 0;
     public float jumpPower = 10f;
     public bool isJumping = false;
+    public int hp;
 
     CharacterController controller;
     // Start is called before the first frame update
@@ -47,5 +48,10 @@ public class PlayerMove : MonoBehaviour
         dir.y = yVelocity;
 
         controller.Move(dir * moveSpeed * Time.deltaTime);
+    }
+
+    public void DmgAction(int dmg)
+    {
+        hp -= dmg;
     }
 }

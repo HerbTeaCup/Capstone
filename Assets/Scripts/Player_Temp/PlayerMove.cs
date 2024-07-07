@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float moveSpeed = 7f;
+    [SerializeField] float moveSpeed = 7f;
     float gravity = -20f;
     float yVelocity = 0;
-    public float jumpPower = 10f;
-    public bool isJumping = false;
-    public int hp;
-    public int weaponPower = 10;
+    [SerializeField] float jumpPower = 2f;
+    [SerializeField] bool isJumping = false;
+    [SerializeField] int hp = 150;
+    [SerializeField] int weaponPower = 10;
 
     CharacterController controller;
     public GameObject bulletEffect;
@@ -81,5 +81,6 @@ public class PlayerMove : MonoBehaviour
     public void DmgAction(int dmg)
     {
         hp -= dmg;
+        print($"플레이어 hp = {hp}");
     }
 }

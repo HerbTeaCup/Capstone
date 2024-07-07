@@ -18,7 +18,7 @@ public class EnemyFSM : MonoBehaviour
     [SerializeField] float findDistance = 8f; // Find the distance of player
     [SerializeField] float attackDistance = 2f; // Attackable range
     [SerializeField] float moveSpeed = 5f; // Move speed
-    [SerializeField] int ATK = 3; // Attack damage 
+    [SerializeField] int ATK = 5; // Attack damage 
     [SerializeField] int hp = 100;
 
     // 일정 시간 간격으로 공격하기 위한 변수들
@@ -101,6 +101,7 @@ public class EnemyFSM : MonoBehaviour
             {
                 player.GetComponent<PlayerMove>().DmgAction(ATK);
                 currentTime = 0;
+
                 print("공격"); // 잘 작동하는지 확인하기 위한 출력문
             }
         }
@@ -127,6 +128,7 @@ public class EnemyFSM : MonoBehaviour
 
         // The enemy hp decreased by the player ATK
         hp -= hitPower;
+        print($"적 hp = {hp}");
 
         if (hp > 0) // If the enemy hp is bigger than 0, any state converts to the damaged state.
         {

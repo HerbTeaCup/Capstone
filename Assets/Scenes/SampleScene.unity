@@ -714,7 +714,7 @@ MonoBehaviour:
   moveSpeed: 7
   jumpPower: 10
   isJumping: 0
-  hp: 0
+  hp: 150
   weaponPower: 10
   bulletEffect: {fileID: 1262049942}
 --- !u!143 &1220127676
@@ -1089,7 +1089,7 @@ MonoBehaviour:
   findDistance: 8
   attackDistance: 2
   moveSpeed: 5
-  ATK: 3
+  ATK: 20
   hp: 100
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -6,10 +6,16 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     public float moveSpeed = 7f;
+    float gravity = -20f;
+    float yVelocity = 0;
+    public float jumpPower = 10f;
+    public bool isJumping = false;
+
+    CharacterController controller;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        controller = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -23,6 +29,23 @@ public class PlayerMove : MonoBehaviour
 
         dir = Camera.main.transform.TransformDirection(dir);
 
-        transform.position += dir * moveSpeed * Time.deltaTime;
+        if (controller.collisionFlags == CollisionFlags.Below)
+        {
+            if (isJumping)
+            {
+                isJumping = false;
+                yVelocity = 0;
+            }
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            yVelocity = jumpPower;
+        }
+
+        yVelocity += gravity * Time.deltaTime;
+        dir.y = yVelocity;
+
+        controller.Move(dir * moveSpeed * Time.deltaTime);
     }
 }

@@ -22,7 +22,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(_input.FireTrigger);
+        Input.Updater();
+        //Debug.Log(_input.Sprint);
     }
     static void Init()
     {

@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour, IManager
 {
     public System.Action InputDelegate = null;
-    public System.Action LateInputDelegate = null;
 
     public Vector2 XZdir { get; private set; }
     public bool FireTrigger { get; private set; }
@@ -21,15 +20,11 @@ public class InputManager : MonoBehaviour, IManager
 
         ParameterUpdate();
     }
-    public void LateUpdater()
-    {
-        if(LateInputDelegate != null) { LateInputDelegate(); }
-    }
+
     public void Clear() //IManager Interface
     {
         //모든 체인 해제
         InputDelegate = null;
-        LateInputDelegate = null;
     }
 
     void ParameterUpdate()

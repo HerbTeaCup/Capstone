@@ -32,15 +32,42 @@ public class PlayerMove : MonoBehaviour
         _status = GetComponent<PlayerStatus>();
 
         GameManager.Input.InputDelegate += GroundCheck;
-        GameManager.Input.InputDelegate += Move;
+        GameManager.Input.InputDelegate += WorldMove;
         GameManager.Input.InputDelegate += Gravity;
         GameManager.Input.InputDelegate += Rotate;
 
         _radius = _cc.radius;
     }
 
-    void Move()
+    void WorldMove()
     {
+        float targetSpeed = GameManager.Input.Sprint ? _status.runSpeed : _status.walkSpeed;
+
+        if (GameManager.Input.XZdir == Vector2.zero) { targetSpeed = 0f; }
+
+        if (_status.currnetSpeed < targetSpeed - _speedOffset || _status.currnetSpeed > targetSpeed + _speedOffset)
+        {
+            _speed = Mathf.Lerp(_speed, targetSpeed, _status.speedBlend * Time.deltaTime);
+            _speed = Mathf.Round(_speed * 1000f) / 1000f;
+        }
+        else
+        {
+            _speed = targetSpeed;
+        }
+
+        if (GameManager.Input.XZdir != Vector2.zero)
+        {
+            _Dir.x = GameManager.Input.XZdir.x;
+            _Dir.z = GameManager.Input.XZdir.y;
+        }
+
+        _cc.Move(_Dir * _speed * Time.deltaTime + new Vector3(0, _verticalSpeed, 0) * Time.deltaTime);
+        _status.currnetSpeed = _speed;
+    }
+    void RelativeMove()
+    {
+        //카메라 기준 이동 메소드
+        //카메라를 회전시킬 때 유용하나 어째서인지 굉장히 버벅거리는 현상 있음
         float targetSpeed = GameManager.Input.Sprint ? _status.runSpeed : _status.walkSpeed;
 
         if(GameManager.Input.XZdir == Vector2.zero) { targetSpeed = 0f; }
@@ -70,7 +97,9 @@ public class PlayerMove : MonoBehaviour
     }
     void Rotate()
     {
-        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(_targetDir), 
+        if(GameManager.Input.XZdir == Vector2.zero) { return; }
+
+        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(_Dir), 
             _status.speedBlend * Time.deltaTime);
     }
     void Gravity()

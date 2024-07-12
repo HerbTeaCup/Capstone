@@ -1035,7 +1035,6 @@ GameObject:
   - component: {fileID: 4416926081852918491}
   - component: {fileID: 244966658323556117}
   - component: {fileID: 900457632636115995}
-  - component: {fileID: 79068779168858011}
   - component: {fileID: 5417440634982801591}
   m_Layer: 6
   m_Name: PlayerArmature
@@ -1139,19 +1138,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 411fc1fb45be2ec4d8ff62be12b5413f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CameraArm: {fileID: 8338988566280778637}
---- !u!114 &79068779168858011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4416926081852918481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b640c4a2c25004446b8ce46904abfce0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CameraArm: {fileID: 8338988566280778637}

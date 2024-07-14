@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviour
         Input.Updater();
         //Debug.Log(_input.Sprint);
     }
+    private void LateUpdate()
+    {
+        Input.LateUpdater();
+    }
     static void Init()
     {
         if (_ins == null)

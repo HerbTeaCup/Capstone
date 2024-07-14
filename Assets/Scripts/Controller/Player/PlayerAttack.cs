@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     PlayerStatus _status;
-    CameraShake _shake;
 
     [Header("Bullet Prefab")]
     [SerializeField] GameObject[] Bullet;
@@ -16,7 +15,6 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         _status = GetComponent<PlayerStatus>();
-        _shake = Camera.main.GetComponent<CameraShake>();
 
         GameManager.Input.InputDelegate += Fire;
     }
@@ -61,9 +59,6 @@ public class PlayerAttack : MonoBehaviour
 
         // 총알 생성 및 방향 설정
         Instantiate(Bullet[0], firePoint.position, Quaternion.LookRotation(direction));
-
-        // 카메라 흔들림 효과
-        _shake.OnCameraShake(10f, 10f);
     }
 
     public void Clear()

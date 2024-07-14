@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour, IManager
 {
     public System.Action InputDelegate = null;
+    public System.Action LateDelegate = null;
 
     public Vector2 XZdir { get; private set; }
     public bool FireTrigger { get; private set; }
@@ -17,6 +18,10 @@ public class InputManager : MonoBehaviour, IManager
     public void Updater()
     {
         if(InputDelegate != null) { InputDelegate(); }
+    }
+    public void LateUpdater()
+    {
+        if(LateDelegate != null) { LateDelegate(); }
     }
 
     public void Clear() //IManager Interface

@@ -10,6 +10,7 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] Transform CameraPoint;
 
     float maxDis = 10f;
+    float minDis = 3f;
 
     // Start is called before the first frame update
     void Start()
@@ -18,8 +19,9 @@ public class PlayerLook : MonoBehaviour
 
         GetPoint();
 
-        GameManager.Input.InputDelegate += PointMove;
         GameManager.Input.InputDelegate += AimCamera;
+
+        GameManager.Input.LateDelegate += PointMove;
     }
     void GetPoint()
     {
@@ -46,8 +48,12 @@ public class PlayerLook : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 50f, _status.GroundLayer))
         {
             float dis = Vector3.Distance(this.transform.position, new Vector3(hit.point.x, this.transform.position.y, hit.point.z));
-
-            if (dis <= maxDis)
+            if (dis <= minDis)
+            {
+                Vector3 dir = (hit.point - this.transform.position).normalized;
+                TargetPoint.position = this.transform.position + dir * minDis;
+            }
+            else if(dis <= maxDis)
             {
                 // 오브젝트를 클릭 지점으로 이동
                 TargetPoint.position = hit.point;
@@ -55,16 +61,39 @@ public class PlayerLook : MonoBehaviour
             else
             {
                 // 거리가 조건 이상이면, 조건만큼 떨어진 지점을 계산하여 이동
-                Vector3 direction = (hit.point - this.transform.position).normalized;
-                Vector3 targetPosition = this.transform.position + direction * maxDis;
-                TargetPoint.position = targetPosition;
+                Vector3 dir = (hit.point - this.transform.position).normalized;
+                TargetPoint.position = this.transform.position + dir * maxDis;
             }
 
             //0.4f 부분으로 이동하여 과한 시점이동 방지
-            CameraPoint.position = (this.transform.position + TargetPoint.position) * 0.4f;
+            CameraPoint.position = Vector3.Lerp(this.transform.position, TargetPoint.position, 0.4f);
+
+            //만약에 공격하면 카메라 흔들기
+            if (GameManager.Input.FireTrigger) 
+            {
+                StopCoroutine(Shake(0.08f, 0.6f));
+                StartCoroutine(Shake(0.08f, 0.6f));
+            }
         }
 
         Debug.DrawLine(Camera.main.transform.position, hit.point, Color.red);
+    }
+    IEnumerator Shake(float duration, float magnitude)
+    {
+        Vector3 originalPosition = CameraPoint.position;//원래 위치 저장
+
+        float deltaTime = 0.0f;
+
+        while (deltaTime < duration)
+        {
+            CameraPoint.position = originalPosition + Random.insideUnitSphere * magnitude;
+
+            deltaTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        CameraPoint.position = originalPosition;
     }
     void AimCamera()
     {

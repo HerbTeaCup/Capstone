@@ -33,6 +33,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Aiming",
+                    "type": "Button",
+                    "id": "8a42d438-fca8-4403-80bc-162ffb2a1e30",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Sprint",
                     "type": "Value",
                     "id": "d58a6793-51fd-4d16-a47e-6d2568268766",
@@ -293,6 +302,17 @@
                     "action": "ViewMovement",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "45b1a2f5-22c0-4eec-9149-22cf0d62b4ed",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Aiming",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

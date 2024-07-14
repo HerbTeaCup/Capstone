@@ -30,6 +30,12 @@ public class CameraManager : IManager
     }
     public void SetHighestPriority(string key)
     {
+        if (virtualCams.ContainsKey(key) == false)
+        {
+            Debug.LogWarning($"같은 key의 카메라가 존재하지 않음.\nWarning for {key}");
+            return;
+        }
+
         foreach (CinemachineVirtualCameraBase item in virtualCams.Values)
         {
             item.Priority = 10;

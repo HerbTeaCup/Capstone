@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField] Transform CameraArm;
+    [SerializeField] Transform TargetPos;
 
     CharacterController _cc;
     PlayerStatus _status;
@@ -22,8 +23,6 @@ public class PlayerMove : MonoBehaviour
     float _radius = 0.28f;
 
     bool _gizmoColor = false;
-
-    LayerMask groundLayer = 1 << 0;
 
     // Start is called before the first frame update
     void Start()
@@ -97,9 +96,15 @@ public class PlayerMove : MonoBehaviour
     }
     void Rotate()
     {
-        if(GameManager.Input.XZdir == Vector2.zero) { return; }
+        if (GameManager.Input.Aiming)
+        {
+            this.transform.LookAt(new Vector3(TargetPos.position.x, this.transform.position.y, TargetPos.position.z));
+        }
 
-        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(_Dir), 
+        if (GameManager.Input.XZdir == Vector2.zero) { return; }
+
+        if (GameManager.Input.Aiming) { return; }
+        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(_Dir),
             _status.speedBlend * Time.deltaTime);
     }
     void Gravity()
@@ -128,7 +133,7 @@ public class PlayerMove : MonoBehaviour
     {
         Vector3 checkPosition = this.transform.position + new Vector3(0, _radius - 0.05f, 0);
 
-        _status.isGrounded = Physics.CheckSphere(checkPosition, _radius, groundLayer);
+        _status.isGrounded = Physics.CheckSphere(checkPosition, _radius, _status.GroundLayer);
         _gizmoColor = _status.isGrounded;
     }
     #endregion

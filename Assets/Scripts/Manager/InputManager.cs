@@ -17,19 +17,12 @@ public class InputManager : MonoBehaviour, IManager
     public void Updater()
     {
         if(InputDelegate != null) { InputDelegate(); }
-
-        ParameterUpdate();
     }
 
     public void Clear() //IManager Interface
     {
         //모든 체인 해제
         InputDelegate = null;
-    }
-
-    void ParameterUpdate()
-    {
-        if (FireTrigger == true) { FireTrigger = false; } //bool 변수 트리거화
     }
 
     //Action Binding
@@ -40,8 +33,8 @@ public class InputManager : MonoBehaviour, IManager
     }
     public void OnFire(InputAction.CallbackContext context)
     {
-        if(context.performed == false) { FireTrigger = false; return; }//입력이 인정되지 않으면 리턴
-        FireTrigger = true;
+        if(context.performed) { FireTrigger = true; return; }
+        FireTrigger = false;
     }
     public void OnAim(InputAction.CallbackContext context)
     {

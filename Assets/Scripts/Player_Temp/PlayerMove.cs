@@ -65,7 +65,7 @@ public class PlayerMove : MonoBehaviour
                 if ((hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy")))
                 {
                     EnemyFSM eFSM = hitInfo.transform.GetComponent<EnemyFSM>();
-                    eFSM.HitEnemy(weaponPower);
+                    eFSM.TakeDamage(weaponPower);
                 }
                 else
                 {
@@ -78,7 +78,7 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    public void DmgAction(int dmg)
+    public void TakeDamage(int dmg)
     {
         hp -= dmg;
         print($"플레이어 hp = {hp}");

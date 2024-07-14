@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFSM : MonoBehaviour
+public class EnemyFSM : MonoBehaviour, IDamageable
 {
     // State Variable
     enum EnemyState
@@ -91,7 +91,7 @@ public class EnemyFSM : MonoBehaviour
         }
     }
 
-    void Attack()
+    public void Attack()
     {
         // If there is distance between player and enemy in attack range, the enemy attacks the player.
         if (Vector3.Distance(transform.position, player.position) < attackDistance)
@@ -99,7 +99,7 @@ public class EnemyFSM : MonoBehaviour
             currentTime += Time.deltaTime;
             if (currentTime > attackDelay)
             {
-                player.GetComponent<PlayerMove>().DmgAction(ATK);
+                player.GetComponent<PlayerMove>().TakeDamage(ATK);
                 currentTime = 0;
 
                 print("공격"); // 잘 작동하는지 확인하기 위한 출력문
@@ -118,7 +118,8 @@ public class EnemyFSM : MonoBehaviour
         // 특정 코루틴 함수가 끝날 때까지 대기
         StartCoroutine(DmgProcess());
     }
-    public void HitEnemy(int hitPower)
+
+    public void TakeDamage(int dmg)
     {
         // 이미 피격 상태이거나 사망 상태라면 아무런 처리 X 함수 종료
         if (_state == EnemyState.Damaged || _state == EnemyState.Die)
@@ -127,7 +128,7 @@ public class EnemyFSM : MonoBehaviour
         }
 
         // The enemy hp decreased by the player ATK
-        hp -= hitPower;
+        hp -= dmg;
         print($"적 hp = {hp}");
 
         if (hp > 0) // If the enemy hp is bigger than 0, any state converts to the damaged state.
@@ -143,6 +144,7 @@ public class EnemyFSM : MonoBehaviour
             Die();
         }
     }
+
     // 데미지 처리용 코루틴 함수
     IEnumerator DmgProcess()
     {

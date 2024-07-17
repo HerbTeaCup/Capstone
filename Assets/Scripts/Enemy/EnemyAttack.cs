@@ -9,16 +9,18 @@ public class EnemyAttack : EnemyState
     {
         // Attack 상태 진입 시 초기화 작업
         Debug.Log("Entering Attack State");
+        enemy.SetAnimatorParameter("IsAttack", true);
+        enemy.StopMoving();
     }
 
     public override void Execute()
     {
         // Attack 상태의 로직 처리
-        if (Vector3.Distance(enemy.transform.position, enemy.GetPlayer().position) < AttackDistance)
+        if (Vector3.Distance(enemy.transform.position, enemy.GetPlayer().position) <= enemy.att.AttackDistance)
         {
             if (enemy.CanAttack())
             {
-                enemy.GetPlayer().GetComponent<PlayerMove>().TakeDamage(ATK);
+                enemy.GetPlayer().GetComponent<PlayerMove>().TakeDamage(enemy.att.ATK);
                 enemy.ResetAttackTime();
             }
         }
@@ -32,5 +34,6 @@ public class EnemyAttack : EnemyState
     {
         // Attack 상태 종료 시 정리 작업
         Debug.Log("Exiting Attack State");
+        enemy.SetAnimatorParameter("IsAttack", false);
     }
 }

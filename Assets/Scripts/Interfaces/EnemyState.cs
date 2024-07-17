@@ -1,20 +1,12 @@
 using UnityEngine;
 public abstract class EnemyState : IEnemyState
 {
-    public float FindDistance { get; set; } = 8f;
-    public float AttackDistance { get; set; } = 2f;
-    public float MoveSpeed { get; set; } = 5f;
-    public int ATK { get; set; } = 5;
-    public int HP { get; set; } = 100;
-    public float AttackDelay { get; set; } = 2f;
-    public float CurrentTime { get; set; } = 0f;
-
+    private Animator ani;
     protected readonly EnemyFSM enemy;
 
     protected EnemyState(EnemyFSM enemy)
     {
         this.enemy = enemy;
-        this.HP = enemy.HP; // Intialize state HP from enemy HP
     }
 
     public abstract void Enter();
@@ -23,10 +15,10 @@ public abstract class EnemyState : IEnemyState
 
     public virtual void TakeDamage(int damage)
     {
-        Debug.Log($"적의 HP = {HP}");
-        HP -= damage;
-        enemy.HP = HP;  // Update enemy HP
-        if (HP <= 0)
+        Debug.Log($"적의 HP = {enemy.att.HP}");
+        enemy.att.HP -= damage;
+
+        if (enemy.att.HP <= 0)
         {
             enemy.SetState(new EnemyDead(enemy));
         }

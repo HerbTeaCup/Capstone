@@ -9,6 +9,8 @@ public class EnemyDamaged : EnemyState
     {
         Debug.Log("Entering Damaged State");
         // 피격 모션 시간만큼 대기
+        enemy.SetAnimatorParameter("IsDamaged", true);
+        enemy.StopMoving();
         enemy.StartCoroutine(DamageProcess());
     }
 
@@ -21,6 +23,8 @@ public class EnemyDamaged : EnemyState
     {
         // Damaged 상태 종료 시 정리 작업
         Debug.Log("Exiting Damaged State");
+        enemy.SetAnimatorParameter("IsDamaged", false);
+        enemy.ResumeMoving();
     }
 
 
@@ -30,7 +34,7 @@ public class EnemyDamaged : EnemyState
 
         // 피격 모션 시간만큼 대기
         Debug.Log("Starting DamageProcess coroutine");
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.6f);
         Debug.Log("After WaitForSeconds in DamageProcess");
 
         // Move 상태로 전환

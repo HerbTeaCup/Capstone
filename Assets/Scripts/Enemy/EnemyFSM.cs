@@ -5,16 +5,10 @@ public class EnemyFSM : MonoBehaviour
 {
     public IEnemyState CurrentState { get; private set; }
     private NavMeshAgent agent;
-
-    public float FindDistance { get; set; } = 8f;
-    public float AttackDistance { get; set; } = 2f;
-    public float MoveSpeed { get; set; } = 5f;
-    public int ATK { get; set; } = 5;
-    public int HP { get; set; } = 100;
-    public float AttackDelay { get; set; } = 2f;
-    public float CurrentTime { get; set; } = 0f;
-
     private Transform player;
+    private Animator ani;
+
+    public EnemyAttributes att = new EnemyAttributes();
 
     void Start()
     {
@@ -23,8 +17,12 @@ public class EnemyFSM : MonoBehaviour
         {
             agent = gameObject.AddComponent<NavMeshAgent>();
         }
+        agent.speed = att.MoveSpeed;
         agent.enabled = true;
+        ani = GetComponent<Animator>();
+
         player = GameObject.Find("Player").transform;
+        
         SetState(new EnemyIdle(this));
     }
 
@@ -32,7 +30,7 @@ public class EnemyFSM : MonoBehaviour
     {
         if (CurrentState != null)
         {
-            CurrentTime += Time.deltaTime;
+            att.CurrentTime += Time.deltaTime;
             CurrentState.Execute();
         }
     }
@@ -78,12 +76,12 @@ public class EnemyFSM : MonoBehaviour
 
     public bool CanAttack()
     {
-        return CurrentTime >= AttackDelay;
+        return att.CurrentTime >= att.AttackDelay;
     }
 
     public void ResetAttackTime()
     {
-        CurrentTime = 0f;
+        att.CurrentTime = 0f;
     }
 
     public Transform GetPlayer()
@@ -93,6 +91,17 @@ public class EnemyFSM : MonoBehaviour
 
     public void DisableNavMesh()
     {
-        agent.enabled = false;
+        if (agent != null)
+        {
+            agent.enabled = false;
+        }
+    }
+
+    public void SetAnimatorParameter(string parameter, bool value)
+    {
+        if (ani != null)
+        {
+            ani.SetBool(parameter, value);
+        }
     }
 }

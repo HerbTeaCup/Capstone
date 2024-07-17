@@ -14,6 +14,7 @@ public class EnemyDead : EnemyState
     public override void Enter()
     {
         Debug.Log("Entering Die State");
+        enemy.SetAnimatorParameter("IsDead", true);
         enemy.StartCoroutine(DieProcess());
     }
 
@@ -30,16 +31,8 @@ public class EnemyDead : EnemyState
     private IEnumerator DieProcess()
     {
         // 죽음 상태 처리
-        DisableNavMesh(); // NavMeshAgent 비활성화
-        yield return new WaitForSeconds(2f); // 2초 후 적 객체 제거
+        enemy.DisableNavMesh(); // NavMeshAgent 비활성화
+        yield return new WaitForSeconds(5f); // 5초 후 적 객체 제거
         GameObject.Destroy(enemy.gameObject);
-    }
-
-    private void DisableNavMesh()
-    {
-        if (agent != null)
-        {
-            agent.enabled = false; // NavMeshAgent 비활성화
-        }
     }
 }

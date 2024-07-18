@@ -16,7 +16,7 @@ public class EnemyAttack : EnemyState
     public override void Execute()
     {
         // Attack 상태의 로직 처리
-        if (Vector3.Distance(enemy.transform.position, enemy.GetPlayer().position) <= enemy.att.AttackDistance)
+        if (!enemy.isDead && Vector3.Distance(enemy.transform.position, enemy.GetPlayer().position) <= enemy.att.AttackDistance)
         {
             if (enemy.CanAttack())
             {

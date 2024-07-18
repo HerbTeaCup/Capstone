@@ -14,7 +14,9 @@ public class EnemyDead : EnemyState
     public override void Enter()
     {
         Debug.Log("Entering Die State");
+        enemy.isDead = true; // 적이 죽은 상태로 설정
         enemy.SetAnimatorParameter("IsDead", true);
+        enemy.StopMoving();
         enemy.StartCoroutine(DieProcess());
     }
 

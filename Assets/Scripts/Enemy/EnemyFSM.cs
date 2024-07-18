@@ -9,6 +9,7 @@ public class EnemyFSM : MonoBehaviour
     private Animator ani;
 
     public EnemyAttributes att = new EnemyAttributes();
+    public bool isDead = false;
 
     void Start()
     {
@@ -28,7 +29,7 @@ public class EnemyFSM : MonoBehaviour
 
     void LateUpdate()
     {
-        if (CurrentState != null)
+        if (CurrentState != null && !isDead) // 현재 상태가 없거나 isDead 상태일 때 업데이트 중단
         {
             att.CurrentTime += Time.deltaTime;
             CurrentState.Execute();
@@ -47,12 +48,15 @@ public class EnemyFSM : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        CurrentState.TakeDamage(damage);
+        if (!isDead) // isDead 상태일 때는 데미지 받지 않음
+        {
+            CurrentState.TakeDamage(damage);
+        }
     }
 
     public void MoveTo(Vector3 destination)
     {
-        if (agent.enabled)
+        if (agent.enabled && !isDead) 
         {
             agent.SetDestination(destination);
         }
@@ -68,7 +72,7 @@ public class EnemyFSM : MonoBehaviour
 
     public void ResumeMoving()
     {
-        if (agent.enabled)
+        if (agent.enabled && !isDead)
         {
             agent.isStopped = false;
         }

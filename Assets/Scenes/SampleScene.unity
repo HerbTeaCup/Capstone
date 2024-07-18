@@ -436,6 +436,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9100000, guid: 21e0dfeaa52f6a247a6f41de05f22c0a, type: 2}
     - target: {fileID: 9500000, guid: 83df9562de1b27646afd2f8bfb8d8927, type: 3}
+      propertyPath: m_UpdateMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 83df9562de1b27646afd2f8bfb8d8927, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
@@ -1426,6 +1430,7 @@ MonoBehaviour:
     hp: 100
     attackDelay: 2
     currentTime: 0
+  isDead: 0
 --- !u!195 &1385290394
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1536,6 +1541,7 @@ MonoBehaviour:
     hp: 100
     attackDelay: 2
     currentTime: 0
+  isDead: 0
 --- !u!195 &1666057436
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1606,6 +1612,7 @@ MonoBehaviour:
     hp: 141
     attackDelay: 2
     currentTime: 0
+  isDead: 0
 --- !u!195 &1742415641
 NavMeshAgent:
   m_ObjectHideFlags: 0

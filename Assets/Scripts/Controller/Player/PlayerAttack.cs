@@ -39,13 +39,10 @@ public class PlayerAttack : MonoBehaviour
 
         _status.CurrentWeapon.fireCurrentRate = _status.CurrentWeapon.FireRate;
 
-        // firePoint에서 마우스 위치로의 방향 벡터 계산
-        Vector3 direction = (target.position - firePoint.position).normalized;
-
         switch (_status.CurrentWeapon.type)
         {
             case AttackType.straight:
-                StraightShoot(direction);
+                StraightShoot();
                 break;
             case AttackType.Radial:
                 RadialShoot();
@@ -53,10 +50,10 @@ public class PlayerAttack : MonoBehaviour
         }
 
     }
-    void StraightShoot(Vector3 direction)
+    void StraightShoot()
     {
         //총알 생성 및 방향 설정
-        Instantiate(Bullet[0], firePoint.position, Quaternion.LookRotation(direction));
+        Instantiate(Bullet[0], firePoint.position, firePoint.rotation);
         _status.CurrentWeapon.CurrentCapacity--;
     }
     void RadialShoot()

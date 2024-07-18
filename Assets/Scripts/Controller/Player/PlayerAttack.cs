@@ -11,41 +11,33 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] Transform target; //공격 대상 지점
     [SerializeField] Transform firePoint; //공격 시작 지점
 
+    bool reloadingTrigger = false;
+
     // Start is called before the first frame update
     void Start()
     {
         _status = GetComponent<PlayerStatus>();
 
         GameManager.Input.InputDelegate += Fire;
+        GameManager.Input.InputDelegate += ReLoad;
     }
-
-    //void Fire()
-    //{
-    //    if (_status.fireCurrentRate > 0f)
-    //    {
-    //        _status.fireCurrentRate -= Time.deltaTime;
-    //        if (_status.fireCurrentRate < 0.01f) { _status.fireCurrentRate = 0f; }
-    //        return;
-    //    }
-    //    if (GameManager.Input.FireTrigger == false || GameManager.Input.Aiming == false) { return; }
-
-    //    _status.fireCurrentRate = _status.fireRate;
-
-    //    HS_ProjectileMover temp = Instantiate(Bullet[0], firePoint.position, this.transform.rotation).GetComponent<HS_ProjectileMover>();
-    //    _shake.OnCameraShake(10f, 10f);
-    //    temp = null;
-    //}
     void Fire()
     {
-        if (_status.fireCurrentRate > 0f)
+        if (_status.CurrentWeapon.isEmpty)
         {
-            _status.fireCurrentRate -= Time.deltaTime;
-            if (_status.fireCurrentRate < 0.01f) { _status.fireCurrentRate = 0f; }
+            reloadingTrigger = true;
+            return;
+        }
+
+        if (_status.CurrentWeapon.fireCurrentRate > 0f)
+        {
+            _status.CurrentWeapon.fireCurrentRate -= Time.deltaTime;
+            if (_status.CurrentWeapon.fireCurrentRate < 0.01f) { _status.CurrentWeapon.fireCurrentRate = 0f; }
             return;
         }
         if (GameManager.Input.FireTrigger == false || GameManager.Input.Aiming == false) { return; }
 
-        _status.fireCurrentRate = _status.fireRate;
+        _status.CurrentWeapon.fireCurrentRate = _status.CurrentWeapon.FireRate;
 
         // 마우스 위치를 월드 좌표로 변환
         Vector3 mousePosition = Input.mousePosition;
@@ -59,6 +51,27 @@ public class PlayerAttack : MonoBehaviour
 
         // 총알 생성 및 방향 설정
         Instantiate(Bullet[0], firePoint.position, Quaternion.LookRotation(direction));
+        _status.CurrentWeapon.CurrentCapacity--;
+        Debug.Log(_status.CurrentWeapon.CurrentCapacity);
+    }
+    void ReLoad()
+    {
+        if(reloadingTrigger == false) { return; }
+
+        if (_status.CurrentWeapon.ReLoadingTime > _status.CurrentWeapon.reLoadingDelta) 
+        {
+            _status.isReloading = true;
+            _status.CurrentWeapon.reLoadingDelta += Time.deltaTime;
+            return;
+        }
+        Debug.Log("ReLoading");
+        _status.CurrentWeapon.reLoadingDelta = 0f;
+
+        _status.CurrentWeapon.AmmoMax -= _status.CurrentWeapon.Magazine - _status.CurrentWeapon.CurrentCapacity;
+        _status.CurrentWeapon.CurrentCapacity = _status.CurrentWeapon.Magazine;
+
+        _status.isReloading = false;
+        reloadingTrigger = false;
     }
 
     public void Clear()

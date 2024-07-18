@@ -5,10 +5,13 @@ using UnityEngine;
 public class PlayerStatus : MonoBehaviour
 {
     [Header("Battle")]
+    public bool isReloading = false;
     public int Hp;
     public int MaxHP;
-    public float fireCurrentRate = 0f;
-    public float fireRate;
+    public int weaponIndex = 0;
+    public List<WeaponExtand> weapons = new List<WeaponExtand>();
+    public WeaponExtand CurrentWeapon { get { return weapons[weaponIndex]; } }
+
     [Header("MoveMent")]
     public float walkSpeed;
     public float runSpeed;
@@ -16,6 +19,7 @@ public class PlayerStatus : MonoBehaviour
     public float speedBlend = 80f;
     public bool isGrounded = false;
     public LayerMask GroundLayer;
+
     [Header("View")]
     public float viewMaxSpeed = 10f;
 

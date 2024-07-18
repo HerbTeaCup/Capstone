@@ -69,7 +69,7 @@ public class PlayerLook : MonoBehaviour
             CameraPoint.position = Vector3.Lerp(this.transform.position, TargetPoint.position, 0.4f);
 
             //만약에 공격하면 카메라 흔들기
-            if (GameManager.Input.FireTrigger) 
+            if (GameManager.Input.FireTrigger && _status.isReloading == false) 
             {
                 StopCoroutine(Shake(0.08f, 0.6f));
                 StartCoroutine(Shake(0.08f, 0.6f));

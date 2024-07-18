@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFSM : MonoBehaviour, IDamageable
+public class EnemyFSM : MonoBehaviour, IUnitDamageable
 {
     // State Variable
     enum EnemyState
@@ -99,7 +99,7 @@ public class EnemyFSM : MonoBehaviour, IDamageable
             currentTime += Time.deltaTime;
             if (currentTime > attackDelay)
             {
-                player.GetComponent<PlayerMove>().TakeDamage(ATK);
+                //player.GetComponent<PlayerMove>().TakeDamage(ATK); PlayerTemp파일 지워서 임시 주석처리
                 currentTime = 0;
 
                 print("공격"); // 잘 작동하는지 확인하기 위한 출력문

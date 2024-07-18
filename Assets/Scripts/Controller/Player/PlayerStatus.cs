@@ -15,7 +15,7 @@ public class PlayerStatus : MonoBehaviour
     [Header("MoveMent")]
     public float walkSpeed;
     public float runSpeed;
-    public float currnetSpeed = 0f;
+    public float currnetSpeed = 0f; //오타있는데 수정안함
     public float speedBlend = 80f;
     public bool isGrounded = false;
     public LayerMask GroundLayer;

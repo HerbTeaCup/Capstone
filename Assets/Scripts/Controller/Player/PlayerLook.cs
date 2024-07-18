@@ -45,7 +45,7 @@ public class PlayerLook : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 50f, _status.GroundLayer))
+        if (Physics.Raycast(ray, out hit, 50f))
         {
             float dis = Vector3.Distance(this.transform.position, new Vector3(hit.point.x, this.transform.position.y, hit.point.z));
             if (dis <= minDis)
@@ -69,10 +69,11 @@ public class PlayerLook : MonoBehaviour
             CameraPoint.position = Vector3.Lerp(this.transform.position, TargetPoint.position, 0.4f);
 
             //만약에 공격하면 카메라 흔들기
+            if(_status.CurrentWeapon.fireCurrentRate < _status.CurrentWeapon.FireRate) { return; }
             if (GameManager.Input.FireTrigger && _status.isReloading == false) 
             {
-                StopCoroutine(Shake(0.08f, 0.6f));
-                StartCoroutine(Shake(0.08f, 0.6f));
+                StopCoroutine(Shake(0.12f, 2f));
+                StartCoroutine(Shake(0.12f, 2f));
             }
         }
 

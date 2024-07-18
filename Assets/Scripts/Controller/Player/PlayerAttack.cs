@@ -39,20 +39,41 @@ public class PlayerAttack : MonoBehaviour
 
         _status.CurrentWeapon.fireCurrentRate = _status.CurrentWeapon.FireRate;
 
-        // 마우스 위치를 월드 좌표로 변환
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = Mathf.Abs(Camera.main.transform.position.y); // 카메라의 y 위치를 z 축에 설정 (카메라가 고정 높이일 경우)
-
-        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        mouseWorldPosition.y = firePoint.position.y; // 동일한 높이로 설정
-
         // firePoint에서 마우스 위치로의 방향 벡터 계산
-        Vector3 direction = (mouseWorldPosition - firePoint.position).normalized;
+        Vector3 direction = (target.position - firePoint.position).normalized;
 
-        // 총알 생성 및 방향 설정
+        switch (_status.CurrentWeapon.type)
+        {
+            case AttackType.straight:
+                StraightShoot(direction);
+                break;
+            case AttackType.Radial:
+                RadialShoot();
+                break;
+        }
+
+    }
+    void StraightShoot(Vector3 direction)
+    {
+        //총알 생성 및 방향 설정
         Instantiate(Bullet[0], firePoint.position, Quaternion.LookRotation(direction));
         _status.CurrentWeapon.CurrentCapacity--;
-        Debug.Log(_status.CurrentWeapon.CurrentCapacity);
+    }
+    void RadialShoot()
+    {
+        ShotGun temp = (ShotGun) _status.CurrentWeapon;
+        for (int i = 0; i < temp.bulletCount; i++)
+        {
+            // 탄환의 퍼짐 각도를 랜덤하게 설정
+            float angle = Random.Range(-temp.spreadAngle / 2, temp.spreadAngle / 2);
+
+            // firePoint의 회전값을 기준으로 각도를 적용
+            Quaternion rotation = firePoint.rotation * Quaternion.Euler(0, angle, 0);
+
+            // 탄환 생성
+            Instantiate(Bullet[0], firePoint.position, rotation);
+        }
+        temp.CurrentCapacity--;
     }
     void ReLoad()
     {

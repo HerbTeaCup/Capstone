@@ -5,12 +5,21 @@ public class EnemyDamaged : EnemyState
 {
     public EnemyDamaged(EnemyFSM enemy) : base(enemy) { }
 
+    // 넉백 거리
+    private float knockbackDistance = 2f;
+    private Vector3 knockbackDirection;
+
     public override void Enter()
     {
         Debug.Log("Entering Damaged State");
         // 피격 모션 시간만큼 대기
         enemy.SetAnimatorParameter("IsDamaged", true);
         enemy.StopMoving();
+
+        // 플레이어로부터 밀려나는 방향 계산
+        knockbackDirection = (enemy.transform.position - enemy.GetPlayer().position).normalized * knockbackDistance;
+
+        // 효과 적용
         enemy.StartCoroutine(DamageProcess());
     }
 
@@ -34,7 +43,18 @@ public class EnemyDamaged : EnemyState
 
         // 피격 모션 시간만큼 대기
         Debug.Log("Starting DamageProcess coroutine");
-        yield return new WaitForSeconds(1.6f);
+
+        // 넉백 시간 및 넉백 적용
+        float knockbackTime = 0.2f;
+        float elapsedTime = 0f;
+        while (elapsedTime < knockbackTime)
+        {
+            enemy.transform.position += knockbackDirection * Time.deltaTime / knockbackTime;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        
+        yield return new WaitForSeconds(1.3f); // 1.3f 정지
         Debug.Log("After WaitForSeconds in DamageProcess");
 
         // Move 상태로 전환

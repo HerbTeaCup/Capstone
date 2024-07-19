@@ -9,7 +9,7 @@ public class EnemyAttributes
     [SerializeField] private int atk = 5;
     [SerializeField] private int hp = 100;
     [SerializeField] private float attackDelay = 2f;
-    [SerializeField] private float currentTime = 0f;
+    private float currentTime = 0f;
 
     public float FindDistance
     {

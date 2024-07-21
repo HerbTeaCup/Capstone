@@ -1,40 +1,43 @@
 using UnityEngine;
 
-public class EnemyAttack : EnemyState
+public class EnemyAttack : MonoBehaviour, IEnemyState
 {
-    public EnemyAttack(EnemyFSM enemy) : base(enemy) { }
+    private EnemyFSM enemyFSM;
 
-    public override void Enter()
+    public void Enter(EnemyFSM enemy)
     {
+        enemyFSM = enemy;
         Debug.Log("Entering Attack State");
-        enemy.SetAnimatorParameter("IsAttack", true);
-        enemy.StopMoving();
+        enemyFSM.SetAnimatorParameter("IsAttack", true);
+        enemyFSM.StopMoving();
     }
 
-    public override void Execute()
+    public void Execute()
     {
-        if (!enemy.status.isDead && Vector3.Distance(enemy.transform.position, enemy.GetPlayer().position) <= enemy.status.AttackDistance)
+        if (!enemyFSM.isDead && Vector3.Distance(enemyFSM.transform.position, enemyFSM.GetPlayer().position) <= enemyFSM.GetComponent<EnemyStatus>().AttackDistance)
         {
-            if (enemy.CanAttack())
+            if (enemyFSM.CanAttack())
             {
-                // enemy.GetPlayer().GetComponent<IUnitDamageable>().TakeDamage(enemy.status.ATK);
-                enemy.ResetAttackTime();
-            }
-            else
-            {
-                // 공격 지연 시간 감소
-                enemy.status.AttackDelay -= Time.deltaTime;
+                // enemyFSM.GetPlayer().GetComponent<PlayerStatus>().TakeDamage(enemyFSM.GetComponent<EnemyStatus>().ATK);
+                enemyFSM.GetPlayer().GetComponent<PlayerMove>().TakeDamage(enemyFSM.GetComponent<EnemyStatus>().ATK);
+                enemyFSM.ResetAttackTime();
             }
         }
         else
         {
-            enemy.TransitionToState(enemy.moveState);
+            enemyFSM.SetState(enemyFSM.moveState);
         }
     }
 
-    public override void Exit()
+    public void Exit()
     {
         Debug.Log("Exiting Attack State");
-        enemy.SetAnimatorParameter("IsAttack", false);
+        enemyFSM.SetAnimatorParameter("IsAttack", false);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        // Attack 상태에서는 TakeDamage 메서드가 필요없을 수 있습니다.
+        // 또는 필요한 경우 적절히 처리합니다.
     }
 }

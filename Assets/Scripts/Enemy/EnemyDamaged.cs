@@ -1,46 +1,63 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
-public class EnemyDamaged : EnemyState
+public class EnemyDamaged : MonoBehaviour, IEnemyState
 {
-    public EnemyDamaged(EnemyFSM enemy) : base(enemy) { }
-
+    private EnemyFSM enemyFSM;
     private float knockbackDistance = 2f;
     private Vector3 knockbackDirection;
 
-    public override void Enter()
+    public void Enter(EnemyFSM enemy)
     {
+        enemyFSM = enemy;
         Debug.Log("Entering Damaged State");
-        enemy.SetAnimatorParameter("IsDamaged", true);
-        enemy.StopMoving();
+        enemyFSM.SetAnimatorParameter("IsDamaged", true);
+        enemyFSM.StopMoving();
 
-        knockbackDirection = (enemy.transform.position - enemy.GetPlayer().position).normalized * knockbackDistance;
+        knockbackDirection = (enemyFSM.transform.position - enemyFSM.GetPlayer().position).normalized * knockbackDistance;
 
-        enemy.StartCoroutine(DamagedProcess());
+        enemyFSM.StartCoroutine(DamageProcess());
     }
 
-    public override void Execute() { }
+    public void Execute()
+    {
+        if (enemyFSM.GetComponent<EnemyStatus>().isDead)
+        {
+            enemyFSM.SetState(enemyFSM.deadState);
+        }
+        else if (enemyFSM.GetComponent<EnemyStatus>().CurrentTime >= 1.3f)
+        {
+            enemyFSM.SetState(enemyFSM.idleState);
+        }
+    }
 
-    public override void Exit()
+    public void Exit()
     {
         Debug.Log("Exiting Damaged State");
-        enemy.SetAnimatorParameter("IsDamaged", false);
-        enemy.ResumeMoving();
+        enemyFSM.SetAnimatorParameter("IsDamaged", false);
+        enemyFSM.ResumeMoving();
     }
 
-    private IEnumerator DamagedProcess()
+    private IEnumerator DamageProcess()
     {
         float knockbackTime = 0.2f;
         float elapsedTime = 0f;
         while (elapsedTime < knockbackTime)
         {
-            enemy.transform.position += knockbackDirection * Time.deltaTime / knockbackTime;
+            enemyFSM.transform.position += knockbackDirection * Time.deltaTime / knockbackTime;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        yield return new WaitForSeconds(1.3f);
+        yield return new WaitForSeconds(1.3f); // Wait before transitioning to another state
+        Debug.Log("After WaitForSeconds in DamageProcess");
 
-        enemy.TransitionToState(enemy.moveState);
+        enemyFSM.SetState(enemyFSM.moveState);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        // Attack 상태에서는 TakeDamage 메서드가 필요없을 수 있습니다.
+        // 또는 필요한 경우 적절히 처리합니다.
     }
 }

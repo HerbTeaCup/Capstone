@@ -2,27 +2,54 @@ using UnityEngine;
 
 public class EnemyStatus : MonoBehaviour
 {
-    [Header("Battle")]
-    public int Hp;
-    public int MaxHP;
-    public float MoveSpeed;
-    public float AttackDistance;
-    public float FindDistance;
-    public float AttackDelay;
-    public int ATK;
+    [SerializeField] private float findDistance = 8f;
+    [SerializeField] private float attackDistance = 2f;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private int atk = 5;
+    [SerializeField] private int hp = 100;
+    [SerializeField] private float attackDelay = 2f;
+    private float currentTime = 0f;
     public bool isDead = false;
 
-    [HideInInspector]
-    public float initialAttackDelay;  // 초기 공격 지연 시간
-
-    private void Start()
+    public float FindDistance
     {
-        StatInit();
+        get { return findDistance; }
+        set { findDistance = value; }
     }
 
-    void StatInit()
+    public float AttackDistance
     {
-        Hp = MaxHP;
-        initialAttackDelay = AttackDelay;  // 초기 공격 지연 시간 설정
+        get { return attackDistance; }
+        set { attackDistance = value; }
+    }
+
+    public float MoveSpeed
+    {
+        get { return moveSpeed; }
+        set { moveSpeed = value; }
+    }
+
+    public int ATK
+    {
+        get { return atk; }
+        set { atk = value; }
+    }
+
+    public int HP
+    {
+        get { return hp; }
+        set { hp = value; }
+    }
+
+    public float AttackDelay
+    {
+        get { return attackDelay; }
+        set { attackDelay = value; }
+    }
+
+    public float CurrentTime
+    {
+        get { return currentTime; }
+        set { currentTime = value; }
     }
 }

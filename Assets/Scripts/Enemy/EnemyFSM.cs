@@ -1,63 +1,69 @@
-using UnityEngine.AI;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class EnemyFSM : MonoBehaviour, IEnemyDamageable
+public class EnemyFSM : MonoBehaviour
 {
-    public EnemyState currentState { get; private set; }
+    public EnemyIdle idleState;
+    public EnemyDead deadState;
+    public EnemyDamaged damagedState;
+    public EnemyAttack attackState;
+    public EnemyMove moveState;
+
+    private IEnemyState currentState;
+    private EnemyStatus _status;
     private NavMeshAgent agent;
     private Transform player;
     private Animator ani;
+    public bool isDead = false; // 추가된 부분
 
-    public EnemyStatus status;
-    public EnemyIdle idleState;
-    public EnemyMove moveState;
-    public EnemyAttack attackState;
-    public EnemyDamaged damagedState;
-    public EnemyDead deadState;
-
-    void Start()
+    private void Awake()
     {
+        _status = GetComponent<EnemyStatus>();
+        if (_status == null)
+        {
+            Debug.LogError("EnemyStatus component is not assigned!");
+        }
+
         agent = GetComponent<NavMeshAgent>();
         if (agent == null)
         {
             agent = gameObject.AddComponent<NavMeshAgent>();
         }
-        agent.speed = status.MoveSpeed;
-        agent.enabled = true;
-        ani = GetComponent<Animator>();
 
+        ani = GetComponent<Animator>();
         player = GameObject.Find("Player").transform;
 
-        idleState = new EnemyIdle(this);
-        moveState = new EnemyMove(this);
-        attackState = new EnemyAttack(this);
-        damagedState = new EnemyDamaged(this);
-        deadState = new EnemyDead(this);
+        idleState = gameObject.AddComponent<EnemyIdle>();
+        deadState = gameObject.AddComponent<EnemyDead>();
+        damagedState = gameObject.AddComponent<EnemyDamaged>();
+        attackState = gameObject.AddComponent<EnemyAttack>();
+        moveState = gameObject.AddComponent<EnemyMove>();
 
-        TransitionToState(idleState);
+        SetState(idleState);
     }
 
-    void LateUpdate()
+    private void Update()
     {
-        if (currentState != null && !status.isDead)
+        if (currentState != null && !isDead)
         {
+            _status.CurrentTime += Time.deltaTime;
             currentState.Execute();
         }
     }
 
-    public void TransitionToState(EnemyState newState)
+    public void SetState(IEnemyState newState)
     {
         if (currentState != null)
         {
             currentState.Exit();
         }
         currentState = newState;
-        currentState.Enter();
+        currentState.Enter(this);
     }
 
     public void TakeDamage(int damage)
     {
-        if (!status.isDead)
+        if (!isDead)
         {
             currentState.TakeDamage(damage);
         }
@@ -65,7 +71,7 @@ public class EnemyFSM : MonoBehaviour, IEnemyDamageable
 
     public void MoveTo(Vector3 destination)
     {
-        if (agent.enabled && !status.isDead)
+        if (agent.enabled && !isDead)
         {
             agent.SetDestination(destination);
         }
@@ -81,7 +87,7 @@ public class EnemyFSM : MonoBehaviour, IEnemyDamageable
 
     public void ResumeMoving()
     {
-        if (agent.enabled && !status.isDead)
+        if (agent.enabled && !isDead)
         {
             agent.isStopped = false;
         }
@@ -89,12 +95,12 @@ public class EnemyFSM : MonoBehaviour, IEnemyDamageable
 
     public bool CanAttack()
     {
-        return status.AttackDelay <= 0;
+        return _status.CurrentTime >= _status.AttackDelay;
     }
 
     public void ResetAttackTime()
     {
-        status.AttackDelay = status.initialAttackDelay;
+        _status.CurrentTime = 0f;
     }
 
     public Transform GetPlayer()

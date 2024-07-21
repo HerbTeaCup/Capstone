@@ -1,173 +1,126 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class EnemyFSM : MonoBehaviour, IUnitDamageable
+public class EnemyFSM : MonoBehaviour
 {
-    // State Variable
-    enum EnemyState
+    public EnemyIdle idleState;
+    public EnemyDead deadState;
+    public EnemyDamaged damagedState;
+    public EnemyAttack attackState;
+    public EnemyMove moveState;
+
+    private IEnemyState currentState;
+    private EnemyStatus _status;
+    private NavMeshAgent agent;
+    private Transform player;
+    private Animator ani;
+    public bool isDead = false; // 占쌩곤옙占쏙옙 占싸븝옙
+
+    private void Awake()
     {
-        Idle,
-        Move,
-        Attack,
-        Damaged,
-        Die
-    }
-    EnemyState _state;
+        _status = GetComponent<EnemyStatus>();
+        if (_status == null)
+        {
+            Debug.LogError("EnemyStatus component is not assigned!");
+        }
 
-    [SerializeField] float findDistance = 8f; // Find the distance of player
-    [SerializeField] float attackDistance = 2f; // Attackable range
-    [SerializeField] float moveSpeed = 5f; // Move speed
-    [SerializeField] int ATK = 5; // Attack damage 
-    [SerializeField] int hp = 100;
+        agent = GetComponent<NavMeshAgent>();
+        if (agent == null)
+        {
+            agent = gameObject.AddComponent<NavMeshAgent>();
+        }
 
-    // 일정 시간 간격으로 공격하기 위한 변수들
-    float currentTime = 0; // cumulative time
-    float attackDelay = 2f; // attack delay time
-
-    CharacterController cc;
-    Transform player;
-
-    void Start()
-    {
-        // Initial state is Idle state.
-        _state = EnemyState.Idle;
-
+        ani = GetComponent<Animator>();
         player = GameObject.Find("Player").transform;
 
-        cc = GetComponent<CharacterController>();
+        idleState = gameObject.AddComponent<EnemyIdle>();
+        deadState = gameObject.AddComponent<EnemyDead>();
+        damagedState = gameObject.AddComponent<EnemyDamaged>();
+        attackState = gameObject.AddComponent<EnemyAttack>();
+        moveState = gameObject.AddComponent<EnemyMove>();
+
+        SetState(idleState);
     }
 
-
-    void Update()
+    private void Update()
     {
-        // 현재 Enemy 어떤 state?
-        switch (_state)
+        if (currentState != null && !isDead)
         {
-            case EnemyState.Idle:
-                Idle();
-                break;
-            case EnemyState.Move:
-                Move();
-                break;
-            case EnemyState.Attack:
-                Attack();
-                break;
-            case EnemyState.Damaged: // 상태 전환 시 1회만 실행
-                //Damaged();
-                break;
-            case EnemyState.Die: // 상태 전환 시 1회만 실행
-                //Die();
-                break;
-        }
-    }
-    
-    void Idle()
-    {
-        // If, distance between player and enemy in action start range -> convert move state
-        if (Vector3.Distance(transform.position, player.position) < findDistance)
-        {
-            _state = EnemyState.Move;
-            print("Idle -> Move"); // 잘 작동하는지 확인하기 위한 출력문
+            _status.CurrentTime += Time.deltaTime;
+            currentState.Execute();
         }
     }
 
-    void Move()
+    public void SetState(IEnemyState newState)
     {
-        // If there is distance between player and enemy out of attack range, the enemy moves forward to the player.
-        if (Vector3.Distance(transform.position, player.position) > attackDistance)
+        if (currentState != null)
         {
-            Vector3 dir = (player.position - transform.position).normalized; // Setting move direction
-            
-            cc.Move(dir * moveSpeed * Time.deltaTime); // move using the Character Controller Component
+            currentState.Exit();
         }
-        else // The current state convert to the attack state.
-        {
-            _state = EnemyState.Attack;
-            print("Move -> Attack"); // 잘 작동하는지 확인하기 위한 출력문
+        currentState = newState;
+        currentState.Enter(this);
+    }
 
-            // 누적 시간을 공격 딜레이 시간만큼 미리 진행시켜 놓음
-            currentTime = attackDelay;
+    public void TakeDamage(int damage)
+    {
+        if (!isDead)
+        {
+            currentState.TakeDamage(damage);
         }
     }
 
-    public void Attack()
+    public void MoveTo(Vector3 destination)
     {
-        // If there is distance between player and enemy in attack range, the enemy attacks the player.
-        if (Vector3.Distance(transform.position, player.position) < attackDistance)
+        if (agent.enabled && !isDead)
         {
-            currentTime += Time.deltaTime;
-            if (currentTime > attackDelay)
-            {
-                //player.GetComponent<PlayerMove>().TakeDamage(ATK); PlayerTemp파일 지워서 임시 주석처리
-                currentTime = 0;
-
-                print("공격"); // 잘 작동하는지 확인하기 위한 출력문
-            }
-        }
-        else // The current state convert to the move state. (Rechase)
-        {
-            _state = EnemyState.Move;
-            print("Atack -> Move"); // 잘 작동하는지 확인하기 위한 출력문
-            currentTime = 0;
+            agent.SetDestination(destination);
         }
     }
 
-    void Damaged()
+    public void StopMoving()
     {
-        // 특정 코루틴 함수가 끝날 때까지 대기
-        StartCoroutine(DmgProcess());
-    }
-
-    public void TakeDamage(int dmg)
-    {
-        // 이미 피격 상태이거나 사망 상태라면 아무런 처리 X 함수 종료
-        if (_state == EnemyState.Damaged || _state == EnemyState.Die)
+        if (agent.enabled)
         {
-            return;
-        }
-
-        // The enemy hp decreased by the player ATK
-        hp -= dmg;
-        print($"적 hp = {hp}");
-
-        if (hp > 0) // If the enemy hp is bigger than 0, any state converts to the damaged state.
-        {
-            _state = EnemyState.Damaged;
-            print("Any state -> Damaged"); // 잘 작동하는지 확인하기 위한 출력문
-            Damaged();
-        }
-        else
-        {
-            _state = EnemyState.Die;
-            print("Any state -> Damaged"); // 잘 작동하는지 확인하기 위한 출력문
-            Die();
+            agent.isStopped = true;
         }
     }
 
-    // 데미지 처리용 코루틴 함수
-    IEnumerator DmgProcess()
+    public void ResumeMoving()
     {
-        // 피격 모션 시간만큼 기다림
-        yield return new WaitForSeconds(0.5f);
-
-        // The current state converts to the move state.
-        _state = EnemyState.Move;
-        print("Damaged -> Move");
+        if (agent.enabled && !isDead)
+        {
+            agent.isStopped = false;
+        }
     }
-    
-    void Die()
-    {
-        StopAllCoroutines(); // 진행 중인 피격 코루틴 중지
-        StartCoroutine(DieProcess()); // 죽음 상태를 처리하기 위한 코루틴 실행
-    }
-    IEnumerator DieProcess()
-    {
-        cc.enabled = false; // Disabled the Character Contoller Component 
 
-        // Remove the enemy after 2 seconds
-        yield return new WaitForSeconds(2f); // 지정된 시간(초) 동안 대기
-        print("적 제거");
-        Destroy(gameObject); // Remove the enemy
+    public bool CanAttack()
+    {
+        return _status.CurrentTime >= _status.AttackDelay;
+    }
+
+    public void ResetAttackTime()
+    {
+        _status.CurrentTime = 0f;
+    }
+
+    public Transform GetPlayer()
+    {
+        return player;
+    }
+
+    public void DisableNavMesh()
+    {
+        if (agent != null)
+        {
+            agent.enabled = false;
+        }
+    }
+
+    public void SetAnimatorParameter(string parameter, bool value)
+    {
+        if (ani != null)
+        {
+            ani.SetBool(parameter, value);
+        }
     }
 }

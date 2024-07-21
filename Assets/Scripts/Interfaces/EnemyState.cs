@@ -1,8 +1,8 @@
 using UnityEngine;
-public abstract class EnemyState : IEnemyState
+
+public abstract class EnemyState
 {
-    private Animator ani;
-    protected readonly EnemyFSM enemy;
+    protected EnemyFSM enemy;
 
     protected EnemyState(EnemyFSM enemy)
     {
@@ -15,16 +15,15 @@ public abstract class EnemyState : IEnemyState
 
     public virtual void TakeDamage(int damage)
     {
-        Debug.Log($"ÀûÀÇ HP = {enemy.att.HP}");
-        enemy.att.HP -= damage;
+        enemy.status.Hp -= damage;
 
-        if (enemy.att.HP <= 0)
+        if (enemy.status.Hp <= 0)
         {
-            enemy.SetState(new EnemyDead(enemy));
+            enemy.TransitionToState(enemy.deadState);
         }
         else
         {
-            enemy.SetState(new EnemyDamaged(enemy));
+            enemy.TransitionToState(enemy.damagedState);
         }
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class EnemyAttack : EnemyState
@@ -7,7 +6,6 @@ public class EnemyAttack : EnemyState
 
     public override void Enter()
     {
-        // Attack 상태 진입 시 초기화 작업
         Debug.Log("Entering Attack State");
         enemy.SetAnimatorParameter("IsAttack", true);
         enemy.StopMoving();
@@ -15,24 +13,27 @@ public class EnemyAttack : EnemyState
 
     public override void Execute()
     {
-        // Attack 상태의 로직 처리
-        if (!enemy.isDead && Vector3.Distance(enemy.transform.position, enemy.GetPlayer().position) <= enemy.att.AttackDistance)
+        if (!enemy.status.isDead && Vector3.Distance(enemy.transform.position, enemy.GetPlayer().position) <= enemy.status.AttackDistance)
         {
             if (enemy.CanAttack())
             {
-                enemy.GetPlayer().GetComponent<PlayerMove>().TakeDamage(enemy.att.ATK);
+                // enemy.GetPlayer().GetComponent<IUnitDamageable>().TakeDamage(enemy.status.ATK);
                 enemy.ResetAttackTime();
+            }
+            else
+            {
+                // 공격 지연 시간 감소
+                enemy.status.AttackDelay -= Time.deltaTime;
             }
         }
         else
         {
-            enemy.SetState(new EnemyMove(enemy));
+            enemy.TransitionToState(enemy.moveState);
         }
     }
 
     public override void Exit()
     {
-        // Attack 상태 종료 시 정리 작업
         Debug.Log("Exiting Attack State");
         enemy.SetAnimatorParameter("IsAttack", false);
     }

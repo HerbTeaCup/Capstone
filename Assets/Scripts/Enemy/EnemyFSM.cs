@@ -1,15 +1,19 @@
-using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine;
 
-public class EnemyFSM : MonoBehaviour
+public class EnemyFSM : MonoBehaviour, IEnemyDamageable
 {
-    public IEnemyState CurrentState { get; private set; }
+    public EnemyState currentState { get; private set; }
     private NavMeshAgent agent;
     private Transform player;
     private Animator ani;
 
-    public EnemyAttributes att = new EnemyAttributes();
-    public bool isDead = false;
+    public EnemyStatus status;
+    public EnemyIdle idleState;
+    public EnemyMove moveState;
+    public EnemyAttack attackState;
+    public EnemyDamaged damagedState;
+    public EnemyDead deadState;
 
     void Start()
     {
@@ -18,45 +22,50 @@ public class EnemyFSM : MonoBehaviour
         {
             agent = gameObject.AddComponent<NavMeshAgent>();
         }
-        agent.speed = att.MoveSpeed;
+        agent.speed = status.MoveSpeed;
         agent.enabled = true;
         ani = GetComponent<Animator>();
 
         player = GameObject.Find("Player").transform;
-        
-        SetState(new EnemyIdle(this));
+
+        idleState = new EnemyIdle(this);
+        moveState = new EnemyMove(this);
+        attackState = new EnemyAttack(this);
+        damagedState = new EnemyDamaged(this);
+        deadState = new EnemyDead(this);
+
+        TransitionToState(idleState);
     }
 
     void LateUpdate()
     {
-        if (CurrentState != null && !isDead) // 현재 상태가 없거나 isDead 상태일 때 업데이트 중단
+        if (currentState != null && !status.isDead)
         {
-            att.CurrentTime += Time.deltaTime;
-            CurrentState.Execute();
+            currentState.Execute();
         }
     }
 
-    public void SetState(IEnemyState newState)
+    public void TransitionToState(EnemyState newState)
     {
-        if (CurrentState != null)
+        if (currentState != null)
         {
-            CurrentState.Exit();
+            currentState.Exit();
         }
-        CurrentState = newState;
-        CurrentState.Enter();
+        currentState = newState;
+        currentState.Enter();
     }
 
     public void TakeDamage(int damage)
     {
-        if (!isDead) // isDead 상태일 때는 데미지 받지 않음
+        if (!status.isDead)
         {
-            CurrentState.TakeDamage(damage);
+            currentState.TakeDamage(damage);
         }
     }
 
     public void MoveTo(Vector3 destination)
     {
-        if (agent.enabled && !isDead) 
+        if (agent.enabled && !status.isDead)
         {
             agent.SetDestination(destination);
         }
@@ -72,7 +81,7 @@ public class EnemyFSM : MonoBehaviour
 
     public void ResumeMoving()
     {
-        if (agent.enabled && !isDead)
+        if (agent.enabled && !status.isDead)
         {
             agent.isStopped = false;
         }
@@ -80,12 +89,12 @@ public class EnemyFSM : MonoBehaviour
 
     public bool CanAttack()
     {
-        return att.CurrentTime >= att.AttackDelay;
+        return status.AttackDelay <= 0;
     }
 
     public void ResetAttackTime()
     {
-        att.CurrentTime = 0f;
+        status.AttackDelay = status.initialAttackDelay;
     }
 
     public Transform GetPlayer()

@@ -19,7 +19,7 @@ public class EnemyAttack : MonoBehaviour, IEnemyState
             if (enemyFSM.CanAttack())
             {
                 // enemyFSM.GetPlayer().GetComponent<PlayerStatus>().TakeDamage(enemyFSM.GetComponent<EnemyStatus>().ATK);
-                enemyFSM.GetPlayer().GetComponent<PlayerMove>().TakeDamage(enemyFSM.GetComponent<EnemyStatus>().ATK);
+                // enemyFSM.GetPlayer().GetComponent<PlayerMove>().TakeDamage(enemyFSM.GetComponent<EnemyStatus>().ATK);
                 enemyFSM.ResetAttackTime();
             }
         }

@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Scripts/Interfaces/InterfacesAndEnums.cs.meta
-guid: af5d892e65186d4439646e91a9d599ee
-========
-guid: 887cc38cc2c8aeb448b32eb5bfb8204f
->>>>>>>> enemy_v4:Assets/Scripts/Enemy/EnemyAttack.cs.meta
+guid: d2c7bb26561a0c040a6cd9af93e160a1
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

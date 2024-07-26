@@ -8,10 +8,12 @@ public class GameManager : MonoBehaviour
     InputManager _input = null;
 
     CameraManager _cam = new CameraManager();
+    EnemyManager _enemy = new EnemyManager();
 
     public static GameManager Instance { get { Init(); return _ins; } }
     public static InputManager Input { get { return Instance._input; } }
     public static CameraManager Cam { get { return Instance._cam; } }
+    public static EnemyManager Enemy { get { return Instance._enemy; } }
 
     // Start is called before the first frame update
     void Start()
@@ -23,11 +25,12 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         Input.Updater();
-        //Debug.Log(_input.Sprint);
+        Enemy.Updater();
     }
     private void LateUpdate()
     {
         Input.LateUpdater();
+        Enemy.LateUpdater();
     }
     static void Init()
     {

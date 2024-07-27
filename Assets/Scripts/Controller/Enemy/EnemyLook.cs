@@ -47,17 +47,14 @@ public class EnemyLook : MonoBehaviour
         bool foundPlayer = Searching(out distanceToPlayer);
 
         Debug.Log(_status.state);
-        if (_status.state == EnemyState.Capture)
-        {
-            if (_keepState) { return; }
-            StartCoroutine(KeepingState());
-        }
 
         if (foundPlayer)
         {
             // 거리가 가까울수록 탐지 속도 증가
             float detectionSpeed = _status.searchRadius / Mathf.Max(distanceToPlayer, 0.1f);
             _timeDelta += Time.deltaTime * detectionSpeed;
+
+            if (_timeDelta > 7f) { _timeDelta = 7f; }
         }
         else
         {
@@ -72,13 +69,10 @@ public class EnemyLook : MonoBehaviour
         {
             _status.state = EnemyState.Boundary;
         }
-
-    }
-    IEnumerator KeepingState(float wait = 3f)
-    {
-        _keepState = true;
-        yield return wait;
-        _keepState = false;
+        else
+        {
+            _status.state = EnemyState.Idle;
+        }
     }
     private void OnDrawGizmos()
     {

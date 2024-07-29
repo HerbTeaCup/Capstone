@@ -12,6 +12,7 @@ public class PlayerStatus : GenericUnit
 
     [Header("MoveMent")]
     public float speedBlend = 80f;
+    public float viewSensitivity;
     public bool isGrounded = false;
     public LayerMask GroundLayer;
 

@@ -7,7 +7,6 @@ public class EnemyLook : MonoBehaviour
     EnemyStatus _status;
 
     bool _gizmoColor = false;
-    bool _keepState = false;
 
     float _timeDelta = 0f;
     // Start is called before the first frame update
@@ -46,19 +45,20 @@ public class EnemyLook : MonoBehaviour
         float distanceToPlayer;
         bool foundPlayer = Searching(out distanceToPlayer);
 
-        Debug.Log(_status.state);
-
+        _status.currentTime = _timeDelta;
         if (foundPlayer)
         {
             // 거리가 가까울수록 탐지 속도 증가
             float detectionSpeed = _status.searchRadius / Mathf.Max(distanceToPlayer, 0.1f);
             _timeDelta += Time.deltaTime * detectionSpeed;
 
-            if (_timeDelta > 7f) { _timeDelta = 7f; }
+            //발각 상태가 되면 7초가 되서 2초의 유예시간을 줌
+            if (_timeDelta > 7f || _status.state == EnemyState.Capture) { _timeDelta = 7f; return; }
         }
         else
         {
             _timeDelta = Mathf.Max(0, _timeDelta - Time.deltaTime);
+            if(_timeDelta < 0.1f) { _timeDelta = 0f; }
         }
 
         if (_timeDelta > _status.captureTime)

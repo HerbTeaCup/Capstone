@@ -6,11 +6,15 @@ public class PlayerLook : MonoBehaviour
 {
     PlayerStatus _status;
 
+    [SerializeField] Transform CameraArm;
     [SerializeField] Transform TargetPoint;
     [SerializeField] Transform CameraPoint;
 
     float maxDis = 10f;
     float minDis = 3f;
+
+    //camera
+    float _targetPitch = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -20,8 +24,8 @@ public class PlayerLook : MonoBehaviour
         GetPoint();
 
         GameManager.Input.InputDelegate += AimCamera;
-
         GameManager.Input.LateDelegate += PointMove;
+        GameManager.Input.LateDelegate += CameraRotate;
     }
     void GetPoint()
     {
@@ -79,6 +83,24 @@ public class PlayerLook : MonoBehaviour
 
         Debug.DrawLine(Camera.main.transform.position, hit.point, Color.red);
     }
+    void CameraRotate()
+    {
+        if (GameManager.Input.ViewMove != 0f)
+        {
+            _targetPitch += GameManager.Input.ViewMove * _status.viewSensitivity;
+        }
+
+        _targetPitch = AngleClamp(float.MinValue, float.MaxValue, _targetPitch);
+
+        CameraArm.rotation = Quaternion.Euler(0, _targetPitch, 0);
+    }
+    float AngleClamp(float min, float max, float value)
+    {
+        if (value < -360) value += 360;
+        if (value > 360) value -= 360;
+
+        return Mathf.Clamp(value, min, max);
+    }
     IEnumerator Shake(float duration, float magnitude)
     {
         Vector3 originalPosition = CameraPoint.position;//원래 위치 저장
@@ -104,7 +126,7 @@ public class PlayerLook : MonoBehaviour
         }
         else
         {
-            GameManager.Cam.SetHighestPriority("BasicFollowCam");
+            GameManager.Cam.SetHighestPriority("3rd Person Cam");
         }
     }
 }

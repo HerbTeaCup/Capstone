@@ -31,10 +31,10 @@ public class PlayerMove : MonoBehaviour
         _status = GetComponent<PlayerStatus>();
 
         GameManager.Input.InputDelegate += GroundCheck;
-        //GameManager.Input.InputDelegate += WorldMove;
         GameManager.Input.InputDelegate += RelativeMove;
         GameManager.Input.InputDelegate += Gravity;
-        GameManager.Input.InputDelegate += Rotate;
+        //GameManager.Input.InputDelegate += Rotate;
+        //GameManager.Input.InputDelegate += WorldMove;
 
         _radius = _cc.radius;
     }

@@ -93,6 +93,7 @@ public class PlayerLook : MonoBehaviour
         _targetPitch = AngleClamp(float.MinValue, float.MaxValue, _targetPitch);
 
         CameraArm.rotation = Quaternion.Euler(0, _targetPitch, 0);
+        CameraPoint.rotation = CameraArm.rotation;
     }
     float AngleClamp(float min, float max, float value)
     {

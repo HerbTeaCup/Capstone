@@ -11,7 +11,8 @@ public class PlayerStatus : GenericUnit
     public WeaponExtand CurrentWeapon { get { return weapons[weaponIndex]; } }
 
     [Header("MoveMent")]
-    public float speedBlend = 80f;
+    public float speedBlend = 10f;
+    public float trunSpeedBlend = 20f;
     public float viewSensitivity;
     public bool isGrounded = false;
     public LayerMask GroundLayer;
@@ -19,5 +20,7 @@ public class PlayerStatus : GenericUnit
     protected override void Start()
     {
         base.Start();
+
+        GameManager.Player = this.gameObject;
     }
 }

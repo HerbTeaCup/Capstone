@@ -71,13 +71,14 @@ public class PlayerLook : MonoBehaviour
 
             //0.4f 부분으로 이동하여 과한 시점이동 방지
             CameraPoint.position = Vector3.Lerp(this.transform.position, TargetPoint.position, 0.4f);
+            CameraPoint.position = new Vector3(CameraPoint.position.x, this.transform.position.y, CameraPoint.position.z);
 
             //만약에 공격하면 카메라 흔들기
             if(_status.CurrentWeapon.fireCurrentRate < _status.CurrentWeapon.FireRate) { return; }
             if (GameManager.Input.FireTrigger && _status.isReloading == false) 
             {
-                StopCoroutine(Shake(0.12f, 2f));
-                StartCoroutine(Shake(0.12f, 2f));
+                StopCoroutine(Shake(0.12f, 0.5f));
+                StartCoroutine(Shake(0.12f, 0.5f));
             }
         }
 

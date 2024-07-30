@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public static CameraManager Cam { get { return Instance._cam; } }
     public static EnemyManager Enemy { get { return Instance._enemy; } }
 
+    public static GameObject Player { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {

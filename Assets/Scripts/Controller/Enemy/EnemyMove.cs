@@ -11,6 +11,7 @@ public class EnemyMove : MonoBehaviour
     [SerializeField] Transform[] PatrolPoints;
 
     int _patrolIndex = 0;
+    int _indexCashe = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -28,25 +29,41 @@ public class EnemyMove : MonoBehaviour
         if (_status.state != EnemyState.Idle)
             return;
 
-        if (PatrolPoints.Length > 0)
+        if (PatrolPoints.Length == 0)
             return;
 
-        if (_navAgent.remainingDistance < 0.2f)
+        _navAgent.isStopped = false;
+        _navAgent.speed = Mathf.Lerp(_navAgent.speed, _status.runSpeed, 10 * Time.deltaTime);
+
+        if (_navAgent.remainingDistance - _navAgent.stoppingDistance < 0.1f)
         {
             _patrolIndex++;
-            _patrolIndex = Mathf.Clamp(_patrolIndex, 0, PatrolPoints.Length);
+            _patrolIndex = IndexClamping(_patrolIndex, 0, PatrolPoints.Length - 1);
         }
 
+        if (_patrolIndex != _indexCashe)
+        {
+            _indexCashe = _patrolIndex;
+            _navAgent.SetDestination(PatrolPoints[_patrolIndex].position);
+        }
     }
     void BoundaryMove()
     {
         if (_status.state != EnemyState.Boundary)
             return;
+
+        _navAgent.isStopped = true;
+        this.transform.LookAt(GameManager.Player.transform.position);
     }
     void CatureMove()
     {
         if (_status.state != EnemyState.Capture)
             return;
+
+        _navAgent.isStopped = false;
+        _navAgent.speed = Mathf.Lerp(_navAgent.speed, _status.walkSpeed, 10 * Time.deltaTime);
+
+        _navAgent.SetDestination(GameManager.Player.transform.position);
     }
 
     int IndexClamping(int value, int min, int max)
@@ -55,7 +72,7 @@ public class EnemyMove : MonoBehaviour
         {
             return max;
         }
-        else if (value >= max)
+        else if (value > max)
         {
             return min;
         }

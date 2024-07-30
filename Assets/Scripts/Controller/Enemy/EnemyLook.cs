@@ -49,11 +49,11 @@ public class EnemyLook : MonoBehaviour
         if (foundPlayer)
         {
             // 거리가 가까울수록 탐지 속도 증가
-            float detectionSpeed = _status.searchRadius / Mathf.Max(distanceToPlayer, 0.1f);
+            float detectionSpeed = _status.searchRadius / Mathf.Max(distanceToPlayer, 0.1f) * 1.2f;//1.2f는 속도를 위한 임의값
             _timeDelta += Time.deltaTime * detectionSpeed;
 
-            //발각 상태가 되면 7초가 되서 2초의 유예시간을 줌
-            if (_timeDelta > 7f || _status.state == EnemyState.Capture) { _timeDelta = 7f; return; }
+            //발각 상태가 되면 8초가 되서 3초의 유예시간을 줌
+            if (_timeDelta > 8f || _status.state == EnemyState.Capture) { _timeDelta = 8f; return; }
         }
         else
         {

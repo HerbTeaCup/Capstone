@@ -12,9 +12,33 @@ public class EnemyStatus : GenericUnit
     public float captureTime = 5f;
     public float currentTime;
 
+    float walkTemp;
+    float runTemp;
+
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
+
+        this.walkTemp = this.walkSpeed;
+        this.runTemp = this.runSpeed;
+
+        GameManager.Stage.remainingEnemy++;
+    }
+
+    public override void TakeDamage(int dmg)
+    {
+        base.TakeDamage(dmg);
+        StopCoroutine(Getstiff());
+        StartCoroutine(Getstiff());
+    }
+
+    IEnumerator Getstiff()
+    {
+        this.walkSpeed = 0f;
+        this.runSpeed = 0f;
+        yield return new WaitForSeconds(0.3f);
+        this.walkSpeed = walkTemp;
+        this.runSpeed = runTemp;
     }
 }

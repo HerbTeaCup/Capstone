@@ -28,6 +28,7 @@ public class InputManager : MonoBehaviour, IManager
     {
         //모든 체인 해제
         InputDelegate = null;
+        LateDelegate = null;
     }
 
     //Action Binding

@@ -26,6 +26,11 @@ public class GenericUnit : MonoBehaviour, IUnitDamageable
     }
     public virtual void TakeDamage(int dmg)
     {
+        if (IsAlive == false)
+            return;
+
         Hp -= dmg;
+
+        Debug.Log("Dameged");
     }
 }

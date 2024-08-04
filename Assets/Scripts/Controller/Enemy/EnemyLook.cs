@@ -9,6 +9,8 @@ public class EnemyLook : MonoBehaviour
     bool _gizmoColor = false;
 
     float _timeDelta = 0f;
+    float _serachingCycle = 0.2f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,17 +30,20 @@ public class EnemyLook : MonoBehaviour
         if (temp.Length == 0)
             return false;
 
-        Debug.DrawLine(this.transform.position + Vector3.up * 1.5f, temp[0].transform.position + Vector3.up * 1.5f);
-
         Vector3 directionToTarget = (temp[0].transform.position - this.transform.position).normalized;
 
+        if (Vector3.Dot(directionToTarget, this.transform.forward) < 0.4f)
+            return false;
         if (!Physics.Raycast(this.transform.position + Vector3.up * 1.5f, directionToTarget, out hit, _status.searchRadius))
             return false;
+
+        Debug.DrawLine(this.transform.position + Vector3.up * 1.5f, temp[0].transform.position + Vector3.up * 1.5f);
+
         if (hit.transform.gameObject.layer != LayerMask.NameToLayer("Player"))
             return false; // 레이어가 Player가 아니면 false 반환
 
         distanceToPlayer = Vector3.Distance(this.transform.position, temp[0].transform.position);
-        return Vector3.Dot(directionToTarget, this.transform.forward) > 0.596f;
+        return true;
     }
     void StateUpdate()
     {

@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour, IManager
     }
     public void Clear()
     {
+        Player = null;
         Input.Clear();
         Cam.Clear();
         Enemy.Clear();

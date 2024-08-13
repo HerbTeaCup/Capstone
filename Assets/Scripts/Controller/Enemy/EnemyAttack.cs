@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class EnemyAttack : MonoBehaviour
 {
-    PlayerStatus _status;
+    EnemyStatus _status;
 
     [Header("Bullet Prefab")]
     [SerializeField] GameObject[] Bullet;
@@ -16,11 +16,9 @@ public class PlayerAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _status = GetComponent<PlayerStatus>();
-
-        GameManager.Input.InputDelegate += Fire;
-        GameManager.Input.InputDelegate += ReLoad;
+        
     }
+
     void Fire()
     {
         if (_status.CurrentWeapon.isEmpty)
@@ -35,7 +33,7 @@ public class PlayerAttack : MonoBehaviour
             if (_status.CurrentWeapon.fireCurrentRate < 0.01f) { _status.CurrentWeapon.fireCurrentRate = 0f; }
             return;
         }
-        if (GameManager.Input.FireTrigger == false || GameManager.Input.Aiming == false) { return; }
+        if (_status.state != EnemyState.Capture) { return; }
 
         _status.CurrentWeapon.fireCurrentRate = _status.CurrentWeapon.FireRate;
 
@@ -58,7 +56,7 @@ public class PlayerAttack : MonoBehaviour
     }
     void RadialShoot()
     {
-        ShotGun temp = (ShotGun) _status.CurrentWeapon;
+        ShotGun temp = (ShotGun)_status.CurrentWeapon;
         for (int i = 0; i < temp.bulletCount; i++)
         {
             // ÅºÈ¯ÀÇ ÆÛÁü °¢µµ¸¦ ·£´ýÇÏ°Ô ¼³Á¤
@@ -74,9 +72,9 @@ public class PlayerAttack : MonoBehaviour
     }
     void ReLoad()
     {
-        if(reloadingTrigger == false) { return; }
+        if (reloadingTrigger == false) { return; }
 
-        if (_status.CurrentWeapon.ReLoadingTime > _status.CurrentWeapon.reLoadingDelta) 
+        if (_status.CurrentWeapon.ReLoadingTime > _status.CurrentWeapon.reLoadingDelta)
         {
             _status.isReloading = true;
             _status.CurrentWeapon.reLoadingDelta += Time.deltaTime;
@@ -90,10 +88,5 @@ public class PlayerAttack : MonoBehaviour
 
         _status.isReloading = false;
         reloadingTrigger = false;
-    }
-
-    public void Clear()
-    {
-        GameManager.Input.InputDelegate -= Fire;
     }
 }

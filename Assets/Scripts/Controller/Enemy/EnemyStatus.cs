@@ -7,6 +7,8 @@ public class EnemyStatus : GenericUnit
     [Header("EnemeyStatus")]
     public EnemyState state = EnemyState.Idle;
 
+    public bool isReloading = false;
+
     public float searchRadius = 10f;
     public float boundaryTime = 2f;
     public float captureTime = 5f;
@@ -37,7 +39,7 @@ public class EnemyStatus : GenericUnit
     {
         this.walkSpeed = 0f;
         this.runSpeed = 0f;
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.6f);
         this.walkSpeed = walkTemp;
         this.runSpeed = runTemp;
     }

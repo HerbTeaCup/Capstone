@@ -1198,7 +1198,10 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a0360dfa480a51e4396a4959e8f74d75, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 560147b15b1e5db4882df9336920ed2b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 816860462}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 560147b15b1e5db4882df9336920ed2b, type: 3}
       insertIndex: -1
@@ -1218,6 +1221,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 560147b15b1e5db4882df9336920ed2b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 417799705}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 560147b15b1e5db4882df9336920ed2b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 417799710}
   m_SourcePrefab: {fileID: 100100000, guid: 560147b15b1e5db4882df9336920ed2b, type: 3}
 --- !u!1 &417799699 stripped
 GameObject:
@@ -1260,10 +1266,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hp: 0
   MaxHP: 10
+  weaponIndex: 0
   walkSpeed: 1.5
   runSpeed: 3
   currnetSpeed: 0
+  weapons: []
   state: 0
+  isReloading: 0
   searchRadius: 10
   boundaryTime: 2
   captureTime: 5
@@ -1347,6 +1356,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!4 &417799709 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 560147b15b1e5db4882df9336920ed2b, type: 3}
+  m_PrefabInstance: {fileID: 417799698}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &417799710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417799699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c817430bef3babe49b0b59ae0911beca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Bullet:
+  - {fileID: 1795072395756124, guid: d223fbf886f2aa4408426d093198ef12, type: 3}
+  target: {fileID: 0}
+  firePoint: {fileID: 816860462}
 --- !u!1 &507002781
 GameObject:
   m_ObjectHideFlags: 3
@@ -2055,6 +2085,37 @@ MonoBehaviour:
   type: 1
   reLoadingDelta: 0
   fireCurrentRate: 0
+--- !u!1 &816860461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 816860462}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &816860462
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 816860461}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.3, z: 0.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 417799709}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -3364,13 +3425,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hp: 0
   MaxHP: 30
+  weaponIndex: 0
   walkSpeed: 2
   runSpeed: 5
   currnetSpeed: 0
-  isReloading: 0
-  weaponIndex: 0
   weapons:
   - {fileID: 23895390}
+  isReloading: 0
   speedBlend: 10
   trunSpeedBlend: 20
   viewSensitivity: 1.1

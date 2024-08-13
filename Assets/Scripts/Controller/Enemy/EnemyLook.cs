@@ -9,7 +9,6 @@ public class EnemyLook : MonoBehaviour
     bool _gizmoColor = false;
 
     float _timeDelta = 0f;
-    float _serachingCycle = 0.2f;
 
     // Start is called before the first frame update
     void Start()

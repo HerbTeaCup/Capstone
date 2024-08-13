@@ -6,9 +6,6 @@ public class PlayerStatus : GenericUnit
 {
     [Header("Battle")]
     public bool isReloading = false;
-    public int weaponIndex = 0;
-    public List<WeaponExtand> weapons = new List<WeaponExtand>();
-    public WeaponExtand CurrentWeapon { get { return weapons[weaponIndex]; } }
 
     [Header("MoveMent")]
     public float speedBlend = 10f;

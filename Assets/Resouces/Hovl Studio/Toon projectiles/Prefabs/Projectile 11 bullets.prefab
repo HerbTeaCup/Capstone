@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 108080247811274414}
   - component: {fileID: 54175853139288072}
   - component: {fileID: 135786877233098124}
+  - component: {fileID: 8489550761115134769}
   m_Layer: 30
   m_Name: Projectile 11 bullets
   m_TagString: Untagged
@@ -48,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 605a456cfc02f6b499a64717539a27e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 35
+  speed: 45
   hitOffset: 0.01
   UseFirePointRotation: 0
   rotationOffset: {x: 0, y: 0, z: 0}
@@ -169,8 +170,20 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.05
+  m_Radius: 0.15
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8489550761115134769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795072395756124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f68ab489a836bc6408c063e0239de515, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7256175362937512976
 GameObject:
   m_ObjectHideFlags: 0

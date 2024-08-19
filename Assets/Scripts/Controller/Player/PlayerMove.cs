@@ -10,8 +10,8 @@ public class PlayerMove : MonoBehaviour
     CharacterController _cc;
     PlayerStatus _status;
 
-    Vector3 _Dir = new Vector3(0, 0, 0);
-    Vector3 _targetDir = new Vector3();
+    Vector3 _Dir = Vector3.zero;
+    Vector3 _targetDir = Vector3.zero;
 
     float _speed = 0f;
     float _verticalSpeed = 0f;
@@ -31,38 +31,14 @@ public class PlayerMove : MonoBehaviour
         _status = GetComponent<PlayerStatus>();
 
         GameManager.Input.InputDelegate += GroundCheck;
-        GameManager.Input.InputDelegate += WorldMove;
+        GameManager.Input.InputDelegate += RelativeMove;
         GameManager.Input.InputDelegate += Gravity;
-        GameManager.Input.InputDelegate += Rotate;
+        //GameManager.Input.InputDelegate += Rotate;
+        //GameManager.Input.InputDelegate += WorldMove;
 
         _radius = _cc.radius;
     }
 
-    void WorldMove()
-    {
-        float targetSpeed = GameManager.Input.Sprint ? _status.runSpeed : _status.walkSpeed;
-
-        if (GameManager.Input.XZdir == Vector2.zero) { targetSpeed = 0f; }
-
-        if (_status.currnetSpeed < targetSpeed - _speedOffset || _status.currnetSpeed > targetSpeed + _speedOffset)
-        {
-            _speed = Mathf.Lerp(_speed, targetSpeed, _status.speedBlend * Time.deltaTime);
-            _speed = Mathf.Round(_speed * 1000f) / 1000f;
-        }
-        else
-        {
-            _speed = targetSpeed;
-        }
-
-        if (GameManager.Input.XZdir != Vector2.zero)
-        {
-            _Dir.x = GameManager.Input.XZdir.x;
-            _Dir.z = GameManager.Input.XZdir.y;
-        }
-
-        _cc.Move(_Dir * _speed * Time.deltaTime + new Vector3(0, _verticalSpeed, 0) * Time.deltaTime);
-        _status.currnetSpeed = _speed;
-    }
     void RelativeMove()
     {
         //카메라 기준 이동 메소드
@@ -93,19 +69,16 @@ public class PlayerMove : MonoBehaviour
 
         _cc.Move(_targetDir * _speed * Time.deltaTime + new Vector3(0, _verticalSpeed, 0) * Time.deltaTime);
         _status.currnetSpeed = _speed;
-    }
-    void Rotate()
-    {
+
         if (GameManager.Input.Aiming)
         {
             this.transform.LookAt(new Vector3(TargetPos.position.x, this.transform.position.y, TargetPos.position.z));
         }
-
-        if (GameManager.Input.XZdir == Vector2.zero) { return; }
-
-        if (GameManager.Input.Aiming) { return; }
-        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(_Dir),
-            _status.speedBlend * Time.deltaTime);
+        else
+        {
+            this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.Euler(0, _targetRotation, 0),
+                _status.trunSpeedBlend * Time.deltaTime);
+        }
     }
     void Gravity()
     {

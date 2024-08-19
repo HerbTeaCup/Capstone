@@ -6,11 +6,15 @@ public class PlayerLook : MonoBehaviour
 {
     PlayerStatus _status;
 
+    [SerializeField] Transform CameraArm;
     [SerializeField] Transform TargetPoint;
     [SerializeField] Transform CameraPoint;
 
     float maxDis = 10f;
     float minDis = 3f;
+
+    //camera
+    float _targetPitch = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -20,8 +24,8 @@ public class PlayerLook : MonoBehaviour
         GetPoint();
 
         GameManager.Input.InputDelegate += AimCamera;
-
         GameManager.Input.LateDelegate += PointMove;
+        GameManager.Input.LateDelegate += CameraRotate;
     }
     void GetPoint()
     {
@@ -67,17 +71,37 @@ public class PlayerLook : MonoBehaviour
 
             //0.4f 부분으로 이동하여 과한 시점이동 방지
             CameraPoint.position = Vector3.Lerp(this.transform.position, TargetPoint.position, 0.4f);
+            CameraPoint.position = new Vector3(CameraPoint.position.x, this.transform.position.y, CameraPoint.position.z);
 
             //만약에 공격하면 카메라 흔들기
             if(_status.CurrentWeapon.fireCurrentRate < _status.CurrentWeapon.FireRate) { return; }
             if (GameManager.Input.FireTrigger && _status.isReloading == false) 
             {
-                StopCoroutine(Shake(0.12f, 2f));
-                StartCoroutine(Shake(0.12f, 2f));
+                StopCoroutine(Shake(0.12f, 0.5f));
+                StartCoroutine(Shake(0.12f, 0.5f));
             }
         }
 
         Debug.DrawLine(Camera.main.transform.position, hit.point, Color.red);
+    }
+    void CameraRotate()
+    {
+        if (GameManager.Input.ViewMove != 0f)
+        {
+            _targetPitch += GameManager.Input.ViewMove * _status.viewSensitivity;
+        }
+
+        _targetPitch = AngleClamp(float.MinValue, float.MaxValue, _targetPitch);
+
+        CameraArm.rotation = Quaternion.Euler(0, _targetPitch, 0);
+        CameraPoint.rotation = CameraArm.rotation;
+    }
+    float AngleClamp(float min, float max, float value)
+    {
+        if (value < -360) value += 360;
+        if (value > 360) value -= 360;
+
+        return Mathf.Clamp(value, min, max);
     }
     IEnumerator Shake(float duration, float magnitude)
     {
@@ -104,7 +128,7 @@ public class PlayerLook : MonoBehaviour
         }
         else
         {
-            GameManager.Cam.SetHighestPriority("BasicFollowCam");
+            GameManager.Cam.SetHighestPriority("3rd Person Cam");
         }
     }
 }

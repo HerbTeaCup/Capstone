@@ -82,7 +82,7 @@ public class PlayerAttack : MonoBehaviour
             _status.CurrentWeapon.reLoadingDelta += Time.deltaTime;
             return;
         }
-        Debug.Log("ReLoading");
+        Debug.Log("Player ReLoading");
         _status.CurrentWeapon.reLoadingDelta = 0f;
 
         _status.CurrentWeapon.AmmoMax -= _status.CurrentWeapon.Magazine - _status.CurrentWeapon.CurrentCapacity;

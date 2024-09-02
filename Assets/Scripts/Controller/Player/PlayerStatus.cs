@@ -10,9 +10,10 @@ public class PlayerStatus : GenericUnit
     [Header("MoveMent")]
     public float speedBlend = 10f;
     public float trunSpeedBlend = 20f;
-    public float viewSensitivity;
+    public float viewSensitivity = 1f;
     public bool isGrounded = false;
     public LayerMask GroundLayer;
+    [HideInInspector] public Vector3 TargetDir;
 
     protected override void Start()
     {

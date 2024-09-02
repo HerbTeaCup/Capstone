@@ -16,7 +16,7 @@ public class EnemyAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameManager.Enemy.UpdateDelegate += ReLoad;
     }
 
     void Fire()
@@ -46,7 +46,6 @@ public class EnemyAttack : MonoBehaviour
                 RadialShoot();
                 break;
         }
-
     }
     void StraightShoot()
     {

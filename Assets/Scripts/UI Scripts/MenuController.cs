@@ -32,7 +32,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Toggle fullScreenToggle;
 
     private int _qualityLevel;
-    private bool _isFullscreen;
+    private bool _isFullScreen;
     private float _brightnessLevel;
 
     [Header("Confirmation")]
@@ -59,7 +59,7 @@ public class MenuController : MonoBehaviour
 
         for (int i = 0; i < resolutions.Length; i++)
         {
-            string option = resolutions[i].width + " ¡¿ " + resolutions[i].height;
+            string option = resolutions[i].width + " x " + resolutions[i].height;
             options.Add(option);
 
             if (resolutions[i].width == Screen.width && resolutions[i].height == Screen.height)
@@ -67,6 +67,10 @@ public class MenuController : MonoBehaviour
                 currentResolutionIndex = i;
             }
         }
+
+        resolutionDropdown.AddOptions(options);
+        resolutionDropdown.value = currentResolutionIndex;
+        resolutionDropdown.RefreshShownValue();
     }
 
     public void SetResolution(int resolutionIndex)
@@ -143,7 +147,7 @@ public class MenuController : MonoBehaviour
 
     public void SetFullScreen(bool isFullscreen)
     {
-        _isFullscreen = isFullscreen;
+        _isFullScreen = isFullscreen;
     }
 
     public void SetQuality(int qualityIndex)
@@ -159,8 +163,10 @@ public class MenuController : MonoBehaviour
         PlayerPrefs.SetInt("masterQuality", _qualityLevel);
         QualitySettings.SetQualityLevel(_qualityLevel);
 
-        PlayerPrefs.SetInt("masterFullscreen", (_isFullscreen ? 1 : 0));
-        Screen.fullScreen = _isFullscreen;
+        PlayerPrefs.SetInt("masterFullscreen", (_isFullScreen ? 1 : 0));
+        Screen.fullScreen = _isFullScreen;
+
+        StartCoroutine(ConfirmationBox());
     }
 
     public void ResetButton(string menuType)

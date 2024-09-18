@@ -7,21 +7,24 @@ using TMPro;
 
 public class MenuController : MonoBehaviour
 {
-    // Volume Setting
+    // 볼륨 설정
     [Header("Volume Setting")]
     [SerializeField] private TMP_Text volumeTextValue = null;
     [SerializeField] private Slider volumeSlider = null;
     [SerializeField] private float defaultVolume = 1.0f;
 
+    // 게임플레이 설정 (컨트롤러 감도)
     [Header("Gameplay Settings")]
     [SerializeField] private TMP_Text controllerSenTextValue = null;
     [SerializeField] private Slider controllerSenSlider = null;
     [SerializeField] private int defaultSen = 4;
     public int mainControllerSen = 4;
 
+    // Y축 반전 설정
     [Header("Toggle Settings")]
     [SerializeField] private Toggle invertYToggle = null;
 
+    // 그래픽 설정
     [Header("Graphics Settings")]
     [SerializeField] private Slider brightnessSlider = null;
     [SerializeField] private TMP_Text brightnessTextValue = null;
@@ -35,15 +38,17 @@ public class MenuController : MonoBehaviour
     private bool _isFullScreen;
     private float _brightnessLevel;
 
+    // 확인 프롬프트 (설정 적용되었는지 확인)
     [Header("Confirmation")]
     [SerializeField] private GameObject comfirmationPrompt = null;
 
-    // Game Load
+    // 게임 로드
     [Header("Levels To Load")]
-    public string _newGameLevel;
-    private string levelToLoad;
-    [SerializeField] private GameObject noSavedGameDialog = null;
+    public string _newGameLevel; // 새 게임
+    private string levelToLoad; // 저장된 게임 로드
+    [SerializeField] private GameObject noSavedGameDialog = null; // 저장된 게임 존재 X
 
+    // 해상도 설정
     [Header("Resolution Dropdowns")]
     public TMP_Dropdown resolutionDropdown;
     private Resolution[] resolutions;
@@ -197,7 +202,7 @@ public class MenuController : MonoBehaviour
         StartCoroutine(ConfirmationBox());
     }
 
-    public void ResetButton(string menuType)
+    public void ResetButton(string menuType) // 설정 리셋
     {
         if (menuType == "Graphics")
         {

@@ -68,16 +68,39 @@ public class MenuController : MonoBehaviour
             }
         }
 
+        // 2560x1440 해상도 수동 추가 (현재 모니터에서 지원하는 해상도 목록만 반환하기 때문에 해상도가 목록에 없을 수 있음)
+        string customResolution = "2560 x 1440";
+        options.Add(customResolution);
+
+        // 2560x1440 해상도가 이미 존재할 경우, 현재 인덱스 설정
+        if (Screen.width == 2560 && Screen.height == 1440)
+        {
+            currentResolutionIndex = options.Count - 1;
+        }
+
         resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentResolutionIndex;
+        resolutionDropdown.value = currentResolutionIndex; // 현재 해상도와 일치하는 인덱스 사용
         resolutionDropdown.RefreshShownValue();
     }
 
     public void SetResolution(int resolutionIndex)
     {
-        Resolution resolution = resolutions[resolutionIndex];
-        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        if (resolutionIndex < resolutions.Length)
+        {
+            // 기본 해상도 목록에서 선택된 경우
+            Resolution resolution = resolutions[resolutionIndex];
+            // 풀스크린 여부 직접 전달
+            // Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+            Screen.SetResolution(resolution.width, resolution.height, _isFullScreen);
+        }
+        else
+        {
+            // 수동으로 추가한 2560x1440 해상도 선택된 경우
+            Screen.SetResolution(2560, 1440, _isFullScreen);
+        }
+        
     }
+
 
     public void NewGameDialogYes()
     {
@@ -148,6 +171,7 @@ public class MenuController : MonoBehaviour
     public void SetFullScreen(bool isFullscreen)
     {
         _isFullScreen = isFullscreen;
+        Screen.fullScreen = isFullscreen; // 즉시 적용
     }
 
     public void SetQuality(int qualityIndex)
@@ -165,6 +189,10 @@ public class MenuController : MonoBehaviour
 
         PlayerPrefs.SetInt("masterFullscreen", (_isFullScreen ? 1 : 0));
         Screen.fullScreen = _isFullScreen;
+
+        // 해상도를 다시 설정하여 적용 (해상도가 적용되지 않는 문제 해결)
+        Resolution currentResolution = resolutions[resolutionDropdown.value];
+        Screen.SetResolution(currentResolution.width, currentResolution.height, _isFullScreen);
 
         StartCoroutine(ConfirmationBox());
     }

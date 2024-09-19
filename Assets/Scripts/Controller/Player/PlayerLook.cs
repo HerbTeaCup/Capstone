@@ -83,8 +83,6 @@ public class PlayerLook : MonoBehaviour
                 StartCoroutine(Shake(0.12f, 0.5f));
             }
         }
-
-        Debug.DrawLine(Camera.main.transform.position, hit.point, Color.red);
     }
     void CameraRotate()
     {

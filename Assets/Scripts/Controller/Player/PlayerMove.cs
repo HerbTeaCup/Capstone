@@ -41,12 +41,11 @@ public class PlayerMove : MonoBehaviour
 
     void RelativeMove()
     {
-        if (GameManager.Input.Aiming) { return; }
         //카메라 기준 이동 메소드
         //카메라를 회전시킬 때 유용하나 어째서인지 굉장히 버벅거리는 현상 있음
         float targetSpeed = GameManager.Input.Sprint ? _status.runSpeed : _status.walkSpeed;
 
-        if(GameManager.Input.XZdir == Vector2.zero) { targetSpeed = 0f; }
+        if(GameManager.Input.XZdir == Vector2.zero || GameManager.Input.Aiming) { targetSpeed = 0f; }
 
         if (_status.currnetSpeed < targetSpeed - _speedOffset || _status.currnetSpeed > targetSpeed + _speedOffset)
         {

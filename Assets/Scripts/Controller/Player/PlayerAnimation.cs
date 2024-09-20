@@ -7,11 +7,6 @@ public class PlayerAnimation : MonoBehaviour
     PlayerStatus _status;
 
     Animator _anim;
-
-    float _horizon = 0f;
-    float _vertical = 0f;
-
-    float _lerpRatio = 0.4f;
     // Start is called before the first frame update
     void Start()
     {

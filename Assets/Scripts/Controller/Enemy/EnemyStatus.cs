@@ -26,6 +26,9 @@ public class EnemyStatus : GenericUnit
         this.runTemp = this.runSpeed;
 
         GameManager.Stage.remainingEnemy++;
+
+        //Debug.Log(CurrentWeapon.gameObject.name);
+        Debug.Log(CurrentWeapon.isEmpty);
     }
 
     public override void TakeDamage(int dmg)

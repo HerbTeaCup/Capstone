@@ -7,8 +7,7 @@ public class EnemyAttack : MonoBehaviour
     EnemyStatus _status;
 
     [Header("Bullet Prefab")]
-    [SerializeField] GameObject Bullet;
-    [SerializeField] Transform target; //공격 대상 지점
+    //[SerializeField] GameObject Bullet;
     [SerializeField] Transform firePoint; //공격 시작 지점
 
     bool reloadingTrigger = false;
@@ -16,8 +15,10 @@ public class EnemyAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _status = GetComponent<EnemyStatus>();
+
         GameManager.Enemy.UpdateDelegate += ReLoad;
-        //GameManager.Enemy.UpdateDelegate += Fire;
+        GameManager.Enemy.UpdateDelegate += Fire;
     }
 
     void Fire()
@@ -51,7 +52,7 @@ public class EnemyAttack : MonoBehaviour
     void StraightShoot()
     {
         //총알 생성 및 방향 설정
-        Instantiate(Bullet, firePoint.position, firePoint.rotation);
+        Instantiate(WeaponExtand.Bullet, firePoint.position, firePoint.rotation);
         _status.CurrentWeapon.CurrentCapacity--;
     }
     void RadialShoot()
@@ -66,7 +67,7 @@ public class EnemyAttack : MonoBehaviour
             Quaternion rotation = firePoint.rotation * Quaternion.Euler(0, angle, 0);
 
             // 탄환 생성
-            Instantiate(Bullet, firePoint.position, rotation);
+            Instantiate(WeaponExtand.Bullet, firePoint.position, rotation);
         }
         temp.CurrentCapacity--;
     }

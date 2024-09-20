@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class WeaponExtand : MonoBehaviour, IWeaponGun
 {
+    public static GameObject Bullet;
+
     public AttackType type;
     public int AmmoMax { get; set; }//가지고 있는 총알 수
     public int CurrentCapacity { get; set; }//현재 탄창수 Magazine을 넘을 수 없음
@@ -15,6 +17,13 @@ public abstract class WeaponExtand : MonoBehaviour, IWeaponGun
     [HideInInspector] public float fireCurrentRate = 0f;
     public bool isEmpty { get { return CurrentCapacity < 1; } }
 
+    protected virtual void Start()
+    {
+        if (Bullet == null)
+        {
+            Bullet = ResourceManager.Load<GameObject>("Bullet/Projectile 11 bullets");
+        }
+    }
 
     protected void Init(AttackType type, int AmmoMax, int Magazine, float ReLoadingTime, float fireRate)
     {

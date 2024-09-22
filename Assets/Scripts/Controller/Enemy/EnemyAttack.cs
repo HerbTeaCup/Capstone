@@ -35,7 +35,9 @@ public class EnemyAttack : MonoBehaviour
             if (_status.CurrentWeapon.fireCurrentRate < 0.01f) { _status.CurrentWeapon.fireCurrentRate = 0f; }
             return;
         }
-        if (_status.state != EnemyState.Capture) { return; }
+        //포착상태 아니고 플레이어를 공격할 수 없는 상태면 리턴
+        //플레이어가 엄폐하면 공격 중지
+        if (_status.state != EnemyState.Capture || _status.curveNeed == true) { return; }
 
         _status.CurrentWeapon.fireCurrentRate = _status.CurrentWeapon.FireRate;
 

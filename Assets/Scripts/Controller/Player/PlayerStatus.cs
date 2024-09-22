@@ -6,6 +6,10 @@ public class PlayerStatus : GenericUnit
 {
     [Header("Battle")]
     public bool isReloading = false;
+    [SerializeField] float _invincibleTime = 1.0f;
+
+    float _invincibleDeltaTime = 0f;
+    bool _damagedAble { get { return _invincibleDeltaTime > _invincibleTime; } }
 
     [Header("MoveMent")]
     public float speedBlend = 10f;
@@ -20,5 +24,21 @@ public class PlayerStatus : GenericUnit
         base.Start();
 
         GameManager.Player = this.gameObject;
+    }
+    private void Update()
+    {
+        Debug.Log($"Dameaged = {_damagedAble}");
+        if (_damagedAble == false)
+        {
+            _invincibleDeltaTime += Time.deltaTime;
+        }
+    }
+
+    public override void TakeDamage(int dmg)
+    {
+        if(_damagedAble == false) { return; }
+
+        _invincibleDeltaTime = 0f;
+        base.TakeDamage(dmg);
     }
 }

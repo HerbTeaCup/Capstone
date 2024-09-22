@@ -9,6 +9,7 @@ public class EnemyLook : MonoBehaviour
     bool _gizmoColor = false;
 
     float _timeDelta = 0f;
+    [SerializeField] float detectionRate;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +23,7 @@ public class EnemyLook : MonoBehaviour
     {
         Collider[] temp = Physics.OverlapSphere(this.transform.position, _status.searchRadius, LayerMask.GetMask("Player"));
         RaycastHit hit;
-
+        
         distanceToPlayer = Mathf.Infinity;
         _gizmoColor = temp.Length > 0;
 
@@ -46,6 +47,7 @@ public class EnemyLook : MonoBehaviour
     }
     void StateUpdate()
     {
+        //플레이어가 감지하고 상태를 바꾸는 메소드
         float distanceToPlayer;
         bool foundPlayer = Searching(out distanceToPlayer);
 
@@ -53,11 +55,11 @@ public class EnemyLook : MonoBehaviour
         if (foundPlayer)
         {
             // 거리가 가까울수록 탐지 속도 증가
-            float detectionSpeed = _status.searchRadius / Mathf.Max(distanceToPlayer, 0.1f) * 1.2f;//1.2f는 속도를 위한 임의값
+            float detectionSpeed = _status.searchRadius / Mathf.Max(distanceToPlayer, 0.1f) * detectionRate;
             _timeDelta += Time.deltaTime * detectionSpeed;
 
-            //발각 상태가 되면 8초가 되서 3초의 유예시간을 줌
-            if (_timeDelta > 8f || _status.state == EnemyState.Capture) { _timeDelta = 8f; return; }
+            //발각 상태가 되면 10초가 되서 5초의 유예시간을 줌
+            if (_timeDelta > 10f || _status.state == EnemyState.Capture) { _timeDelta = 10f; return; }
         }
         else
         {
@@ -68,6 +70,10 @@ public class EnemyLook : MonoBehaviour
         if (_timeDelta > _status.captureTime)
         {
             _status.state = EnemyState.Capture;
+
+            //플레이어가 엄폐해버리면 별도의 변수 true
+            _status.curveNeed
+                = Physics.Raycast(this.transform.position + Vector3.up * 1.5f, this.transform.forward, 5f, 1 << 8);
         }
         else if (_timeDelta > _status.boundaryTime)
         {

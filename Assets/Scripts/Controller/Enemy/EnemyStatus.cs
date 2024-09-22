@@ -8,6 +8,7 @@ public class EnemyStatus : GenericUnit
     public EnemyState state = EnemyState.Idle;
 
     public bool isReloading = false;
+    public bool curveNeed = false;
 
     public float searchRadius = 10f;
     public float boundaryTime = 2f;
@@ -26,9 +27,6 @@ public class EnemyStatus : GenericUnit
         this.runTemp = this.runSpeed;
 
         GameManager.Stage.remainingEnemy++;
-
-        //Debug.Log(CurrentWeapon.gameObject.name);
-        Debug.Log(CurrentWeapon.isEmpty);
     }
 
     public override void TakeDamage(int dmg)

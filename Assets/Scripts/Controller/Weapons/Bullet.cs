@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
         IUnitDamageable unit;
         if (collision.transform.TryGetComponent<IUnitDamageable>(out unit))
         {
+            Debug.Log($"{collision.gameObject.name}");
             unit.TakeDamage(6);
         }
     }

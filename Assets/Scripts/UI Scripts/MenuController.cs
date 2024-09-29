@@ -196,8 +196,18 @@ public class MenuController : MonoBehaviour
         Screen.fullScreen = _isFullScreen;
 
         // 해상도를 다시 설정하여 적용 (해상도가 적용되지 않는 문제 해결)
-        Resolution currentResolution = resolutions[resolutionDropdown.value];
-        Screen.SetResolution(currentResolution.width, currentResolution.height, _isFullScreen);
+        // Check if the selected resolution is within the bounds of the resolutions array
+        if (resolutionDropdown.value < resolutions.Length)
+        {
+            // Apply selected resolution from the available resolutions
+            Resolution currentResolution = resolutions[resolutionDropdown.value];
+            Screen.SetResolution(currentResolution.width, currentResolution.height, _isFullScreen);
+        }
+        else
+        {
+            // Apply manually added custom resolution (2560x1440)
+            Screen.SetResolution(2560, 1440, _isFullScreen);
+        }
 
         StartCoroutine(ConfirmationBox());
     }

@@ -156,7 +156,7 @@ RectTransform:
   m_Father: {fileID: 2126115647}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.42857143, y: 1}
   m_AnchoredPosition: {x: -5.170044, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5483,8 +5483,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1917955724}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0.42857143, y: 0}
+  m_AnchorMax: {x: 0.42857143, y: 1}
   m_AnchoredPosition: {x: -9.009903, y: 0}
   m_SizeDelta: {x: 1.9803, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6997,6 +6997,7 @@ GameObject:
   - component: {fileID: 1177832998}
   - component: {fileID: 1177833000}
   - component: {fileID: 1177832999}
+  - component: {fileID: 1177833001}
   m_Layer: 5
   m_Name: ConfirmationImage
   m_TagString: Untagged
@@ -7043,7 +7044,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300024, guid: 0fd21678280ad9c47aa2d32baf438c5d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7061,6 +7062,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1177832997}
   m_CullTransparentMesh: 1
+--- !u!111 &1177833001
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177832997}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 7e86977513a11bc4f89297bed3d36daf, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 7e86977513a11bc4f89297bed3d36daf, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &1199194514
 GameObject:
   m_ObjectHideFlags: 0
@@ -9288,7 +9305,7 @@ GameObject:
   - component: {fileID: 1540890965}
   - component: {fileID: 1540890964}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Main Menu UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

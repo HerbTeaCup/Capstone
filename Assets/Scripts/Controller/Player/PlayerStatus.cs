@@ -27,7 +27,6 @@ public class PlayerStatus : GenericUnit
     }
     private void Update()
     {
-        Debug.Log($"Dameaged = {_damagedAble}");
         if (_damagedAble == false)
         {
             _invincibleDeltaTime += Time.deltaTime;

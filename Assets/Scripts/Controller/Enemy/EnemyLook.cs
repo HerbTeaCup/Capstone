@@ -34,8 +34,9 @@ public class EnemyLook : MonoBehaviour
 
         if (Vector3.Dot(directionToTarget, this.transform.forward) < 0.4f)
             return false;
-        if (!Physics.Raycast(this.transform.position + Vector3.up * 1.5f, directionToTarget, out hit, _status.searchRadius))
+        if (Physics.Raycast(this.transform.position + Vector3.up * 1.5f, directionToTarget, out hit, _status.searchRadius) == false)
             return false;
+        CurvedCheck(directionToTarget);
 
         Debug.DrawLine(this.transform.position + Vector3.up * 1.5f, temp[0].transform.position + Vector3.up * 1.5f);
 
@@ -50,7 +51,7 @@ public class EnemyLook : MonoBehaviour
         //플레이어가 감지하고 상태를 바꾸는 메소드
         float distanceToPlayer;
         bool foundPlayer = Searching(out distanceToPlayer);
-
+        
         _status.currentTime = _timeDelta;
         if (foundPlayer)
         {
@@ -70,10 +71,6 @@ public class EnemyLook : MonoBehaviour
         if (_timeDelta > _status.captureTime)
         {
             _status.state = EnemyState.Capture;
-
-            //플레이어가 엄폐해버리면 별도의 변수 true
-            _status.curveNeed
-                = Physics.Raycast(this.transform.position + Vector3.up * 1.5f, this.transform.forward, 5f, 1 << 8);
         }
         else if (_timeDelta > _status.boundaryTime)
         {
@@ -83,6 +80,21 @@ public class EnemyLook : MonoBehaviour
         {
             _status.state = EnemyState.Idle;
         }
+    }
+    void CurvedCheck(Vector3 dir)
+    {
+        if (_status.state != EnemyState.Capture)
+            return;
+
+        if (Physics.Raycast(this.transform.position + Vector3.up, dir, _status.searchRadius, 1 << 8))
+        {
+            _status.curveNeed = true;
+        }
+        else
+        {
+            _status.curveNeed = false;
+        }
+        Debug.Log($"Raycast =  {_status.curveNeed}");
     }
     private void OnDrawGizmos()
     {

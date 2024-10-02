@@ -21,4 +21,8 @@ public class PlayerAnimation : MonoBehaviour
         _anim.SetFloat("Speed", _status.currnetSpeed);
         _anim.SetBool("Aiming", GameManager.Input.Aiming);
     }
+    void InputParameterUpdate()
+    {
+
+    }
 }

@@ -28,6 +28,7 @@ public class PlayerAttack : MonoBehaviour
             reloadingTrigger = true;
             return;
         }
+        if (_status.CurrentWeapon.AmmoMax < 1) { return; }
 
         if (_status.CurrentWeapon.fireCurrentRate > 0f)
         {
@@ -75,6 +76,7 @@ public class PlayerAttack : MonoBehaviour
     void ReLoad()
     {
         if(reloadingTrigger == false) { return; }
+        if (_status.CurrentWeapon.AmmoMax < 1) { return; }
 
         if (_status.CurrentWeapon.ReLoadingTime > _status.CurrentWeapon.reLoadingDelta) 
         {

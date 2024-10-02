@@ -77,6 +77,7 @@ public class PlayerLook : MonoBehaviour
 
             //만약에 공격하면 카메라 흔들기
             if(_status.CurrentWeapon.fireCurrentRate < _status.CurrentWeapon.FireRate) { return; }
+            if(_status.CurrentWeapon.AmmoMax < 1) { return; }
             if (GameManager.Input.FireTrigger && _status.isReloading == false) 
             {
                 StopCoroutine(Shake(0.12f, 0.5f));

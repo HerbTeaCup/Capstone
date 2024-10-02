@@ -7,7 +7,7 @@ public class PlayerAttack : MonoBehaviour
     PlayerStatus _status;
 
     [Header("Bullet Prefab")]
-    [SerializeField] GameObject[] Bullet;
+    //[SerializeField] GameObject Bullet;
     [SerializeField] Transform target; //공격 대상 지점
     [SerializeField] Transform firePoint; //공격 시작 지점
 
@@ -28,6 +28,7 @@ public class PlayerAttack : MonoBehaviour
             reloadingTrigger = true;
             return;
         }
+        if (_status.CurrentWeapon.AmmoMax < 1) { return; }
 
         if (_status.CurrentWeapon.fireCurrentRate > 0f)
         {
@@ -53,7 +54,7 @@ public class PlayerAttack : MonoBehaviour
     void StraightShoot()
     {
         //총알 생성 및 방향 설정
-        Instantiate(Bullet[0], firePoint.position, firePoint.rotation);
+        Instantiate(WeaponExtand.Bullet, firePoint.position, firePoint.rotation);
         _status.CurrentWeapon.CurrentCapacity--;
     }
     void RadialShoot()
@@ -68,13 +69,14 @@ public class PlayerAttack : MonoBehaviour
             Quaternion rotation = firePoint.rotation * Quaternion.Euler(0, angle, 0);
 
             // 탄환 생성
-            Instantiate(Bullet[0], firePoint.position, rotation);
+            Instantiate(WeaponExtand.Bullet, firePoint.position, rotation);
         }
         temp.CurrentCapacity--;
     }
     void ReLoad()
     {
         if(reloadingTrigger == false) { return; }
+        if (_status.CurrentWeapon.AmmoMax < 1) { return; }
 
         if (_status.CurrentWeapon.ReLoadingTime > _status.CurrentWeapon.reLoadingDelta) 
         {

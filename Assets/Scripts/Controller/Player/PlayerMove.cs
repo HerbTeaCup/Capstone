@@ -45,7 +45,7 @@ public class PlayerMove : MonoBehaviour
         //카메라를 회전시킬 때 유용하나 어째서인지 굉장히 버벅거리는 현상 있음
         float targetSpeed = GameManager.Input.Sprint ? _status.runSpeed : _status.walkSpeed;
 
-        if(GameManager.Input.XZdir == Vector2.zero) { targetSpeed = 0f; }
+        if(GameManager.Input.XZdir == Vector2.zero || GameManager.Input.Aiming) { targetSpeed = 0f; }
 
         if (_status.currnetSpeed < targetSpeed - _speedOffset || _status.currnetSpeed > targetSpeed + _speedOffset)
         {
@@ -66,6 +66,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         _targetDir = (Quaternion.Euler(0, _targetRotation, 0) * Vector3.forward).normalized;
+        _status.TargetDir = _targetDir;
 
         _cc.Move(_targetDir * _speed * Time.deltaTime + new Vector3(0, _verticalSpeed, 0) * Time.deltaTime);
         _status.currnetSpeed = _speed;

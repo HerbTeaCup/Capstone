@@ -34,6 +34,7 @@ public class InputManager : MonoBehaviour, IManager
     //Action Binding
     public void OnMove(InputAction.CallbackContext context)
     {
+        //ActionMap¿¡¼­ Normalized µÊ
         if(context.started) { return; }
         XZdir = context.ReadValue<Vector2>();
     }

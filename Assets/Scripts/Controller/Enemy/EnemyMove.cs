@@ -52,7 +52,7 @@ public class EnemyMove : MonoBehaviour
         if (_status.state != EnemyState.Boundary)
             return;
 
-        _navAgent.isStopped = true;
+        _navAgent.isStopped = false;
         this.transform.LookAt(GameManager.Player.transform.position);
     }
     void CatureMove()
@@ -60,10 +60,23 @@ public class EnemyMove : MonoBehaviour
         if (_status.state != EnemyState.Capture)
             return;
 
-        _navAgent.isStopped = false;
-        _navAgent.speed = Mathf.Lerp(_navAgent.speed, _status.walkSpeed, 10 * Time.deltaTime);
+        float targetSpeed = 0f;
+        if (_navAgent.remainingDistance < 5f)
+        {
+            targetSpeed = 0f;
+        }
+        else
+        {
+            targetSpeed = 4f;
+        }
+        if (_status.curveNeed)
+        {
+            targetSpeed = 4f;
+        }
 
+        _navAgent.speed = Mathf.Lerp(_navAgent.speed, targetSpeed, 10 * Time.deltaTime);
         _navAgent.SetDestination(GameManager.Player.transform.position);
+        this.transform.LookAt(GameManager.Player.transform.position);
     }
 
     int IndexClamping(int value, int min, int max)

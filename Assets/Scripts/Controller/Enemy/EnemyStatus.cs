@@ -8,6 +8,7 @@ public class EnemyStatus : GenericUnit
     public EnemyState state = EnemyState.Idle;
 
     public bool isReloading = false;
+    public bool curveNeed = false;
 
     public float searchRadius = 10f;
     public float boundaryTime = 2f;

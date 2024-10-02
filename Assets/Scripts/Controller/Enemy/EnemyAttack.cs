@@ -7,8 +7,7 @@ public class EnemyAttack : MonoBehaviour
     EnemyStatus _status;
 
     [Header("Bullet Prefab")]
-    [SerializeField] GameObject[] Bullet;
-    [SerializeField] Transform target; //공격 대상 지점
+    //[SerializeField] GameObject Bullet;
     [SerializeField] Transform firePoint; //공격 시작 지점
 
     bool reloadingTrigger = false;
@@ -16,7 +15,10 @@ public class EnemyAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        _status = GetComponent<EnemyStatus>();
+
+        GameManager.Enemy.UpdateDelegate += ReLoad;
+        GameManager.Enemy.UpdateDelegate += Fire;
     }
 
     void Fire()
@@ -33,7 +35,9 @@ public class EnemyAttack : MonoBehaviour
             if (_status.CurrentWeapon.fireCurrentRate < 0.01f) { _status.CurrentWeapon.fireCurrentRate = 0f; }
             return;
         }
-        if (_status.state != EnemyState.Capture) { return; }
+        //포착상태 아니고 플레이어를 공격할 수 없는 상태면 리턴
+        //플레이어가 엄폐하면 공격 중지
+        if (_status.state != EnemyState.Capture || _status.curveNeed == true) { return; }
 
         _status.CurrentWeapon.fireCurrentRate = _status.CurrentWeapon.FireRate;
 
@@ -46,12 +50,11 @@ public class EnemyAttack : MonoBehaviour
                 RadialShoot();
                 break;
         }
-
     }
     void StraightShoot()
     {
         //총알 생성 및 방향 설정
-        Instantiate(Bullet[0], firePoint.position, firePoint.rotation);
+        Instantiate(WeaponExtand.Bullet, firePoint.position, firePoint.rotation);
         _status.CurrentWeapon.CurrentCapacity--;
     }
     void RadialShoot()
@@ -66,7 +69,7 @@ public class EnemyAttack : MonoBehaviour
             Quaternion rotation = firePoint.rotation * Quaternion.Euler(0, angle, 0);
 
             // 탄환 생성
-            Instantiate(Bullet[0], firePoint.position, rotation);
+            Instantiate(WeaponExtand.Bullet, firePoint.position, rotation);
         }
         temp.CurrentCapacity--;
     }
@@ -80,7 +83,6 @@ public class EnemyAttack : MonoBehaviour
             _status.CurrentWeapon.reLoadingDelta += Time.deltaTime;
             return;
         }
-        Debug.Log("Player ReLoading");
         _status.CurrentWeapon.reLoadingDelta = 0f;
 
         _status.CurrentWeapon.AmmoMax -= _status.CurrentWeapon.Magazine - _status.CurrentWeapon.CurrentCapacity;

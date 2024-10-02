@@ -5,8 +5,9 @@ using UnityEngine;
 public class Rifle : WeaponExtand
 {
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         Init(AttackType.straight, 240, 30, 1.3f, 0.1f);
     }
 }

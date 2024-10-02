@@ -46,10 +46,12 @@ public class PlayerLook : MonoBehaviour
     }
     void PointMove()
     {
+        if(GameManager.Input.Aiming == false) { return; }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 50f))
+        if (Physics.Raycast(ray, out hit, 50f, 1<<31))
         {
             float dis = Vector3.Distance(this.transform.position, new Vector3(hit.point.x, this.transform.position.y, hit.point.z));
             if (dis <= minDis)
@@ -59,7 +61,7 @@ public class PlayerLook : MonoBehaviour
             }
             else if(dis <= maxDis)
             {
-                // 오브젝트를 클릭 지점으로 이동
+                // 오브젝트를 마우스 지점으로 이동
                 TargetPoint.position = hit.point;
             }
             else
@@ -75,14 +77,13 @@ public class PlayerLook : MonoBehaviour
 
             //만약에 공격하면 카메라 흔들기
             if(_status.CurrentWeapon.fireCurrentRate < _status.CurrentWeapon.FireRate) { return; }
+            if(_status.CurrentWeapon.AmmoMax < 1) { return; }
             if (GameManager.Input.FireTrigger && _status.isReloading == false) 
             {
                 StopCoroutine(Shake(0.12f, 0.5f));
                 StartCoroutine(Shake(0.12f, 0.5f));
             }
         }
-
-        Debug.DrawLine(Camera.main.transform.position, hit.point, Color.red);
     }
     void CameraRotate()
     {

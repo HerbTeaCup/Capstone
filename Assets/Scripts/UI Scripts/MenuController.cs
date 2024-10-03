@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEditor;
 
 public class MenuController : MonoBehaviour
 {
@@ -59,17 +60,24 @@ public class MenuController : MonoBehaviour
         resolutionDropdown.ClearOptions();
 
         List<string> options = new List<string>();
+        HashSet<string> checkDuplicatedResolution = new HashSet<string>(); // 해상도 중복 체크에 사용할 HashSet
 
         int currentResolutionIndex = 0;
 
         for (int i = 0; i < resolutions.Length; i++)
         {
             string option = resolutions[i].width + " x " + resolutions[i].height;
-            options.Add(option);
-
-            if (resolutions[i].width == Screen.width && resolutions[i].height == Screen.height)
+            
+            // 해상도가 중복되지 않을 경우, 리스트에 추가
+            if (!checkDuplicatedResolution.Contains(option))
             {
-                currentResolutionIndex = i;
+                options.Add(option);
+                checkDuplicatedResolution.Add(option);
+
+                if (resolutions[i].width == Screen.width && resolutions[i].height == Screen.height)
+                {
+                    currentResolutionIndex = options.Count - 1;
+                }
             }
         }
 

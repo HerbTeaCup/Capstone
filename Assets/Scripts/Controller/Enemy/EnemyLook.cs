@@ -10,6 +10,7 @@ public class EnemyLook : MonoBehaviour
 
     float _timeDelta = 0f;
     [SerializeField] float detectionRate;
+    
     // Detection UI
     [SerializeField] GameObject weakDetectionUI; // '?', player find
     [SerializeField] GameObject strongDetectionUI; // '!', player find, and after a certain period of time
@@ -150,6 +151,7 @@ public class EnemyLook : MonoBehaviour
             // Nothing, hide entire UIs.
             weakDetectionUI.SetActive(false);
             strongDetectionUI.SetActive(false);
+
         }
     }
     void CurvedCheck(Vector3 dir)

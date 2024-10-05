@@ -5,10 +5,12 @@ using UnityEngine;
 public class EnemyStatus : GenericUnit
 {
     [Header("EnemeyStatus")]
+    public Transform player = null;
     public EnemyState state = EnemyState.Idle;
 
     public bool isReloading = false;
     public bool curveNeed = false;
+    public bool _attraction = false; //true면 유인 당하는 중
 
     public float searchRadius = 10f;
     public float boundaryTime = 2f;

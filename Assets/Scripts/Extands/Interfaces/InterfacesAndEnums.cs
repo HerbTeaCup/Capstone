@@ -11,6 +11,14 @@ public enum EnemyState
     Capture
 }
 
+public interface IinteractableObj
+{
+    public bool interactable { get; set; }
+    public bool calling { get; }
+
+    public void Interaction();
+}
+
 public interface IManager
 {
     public void Clear();

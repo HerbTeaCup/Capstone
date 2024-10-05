@@ -21,7 +21,7 @@ public class EnemyLook : MonoBehaviour
 
     bool Searching(out float distanceToPlayer)
     {
-        Collider[] temp = Physics.OverlapSphere(this.transform.position, _status.searchRadius, LayerMask.GetMask("Player"));
+        Collider[] temp = Physics.OverlapSphere(this.transform.position, _status.searchRadius, LayerMask.GetMask("Player", "Trap"));
         RaycastHit hit;
         
         distanceToPlayer = Mathf.Infinity;
@@ -30,20 +30,54 @@ public class EnemyLook : MonoBehaviour
         if (temp.Length == 0)
             return false;
 
-        Vector3 directionToTarget = (temp[0].transform.position - this.transform.position).normalized;
+        //범위내에 여러 방해 오브젝트가 있을 수 있으므로 동적배열로 선언
+        List<IinteractableObj> interactiveObjArray = new List<IinteractableObj>();
 
+        foreach (Collider item in temp)
+        {
+            IinteractableObj objTemp = item.GetComponent<IinteractableObj>();
+            if (objTemp != null)
+            {
+                interactiveObjArray.Add(objTemp);
+                continue; //Player면서 상호작용오브제일 수는 없으므로 null 아니면 바로 break
+            }
+
+            //아래부터는 obj가 아니라는 것이 확실하므로
+            _status.player = item.transform;
+        }
+
+        //false로 설정해도 조건을 만족하면 알아서 true로 바뀜
+        _status._attraction = false;
+        foreach (IinteractableObj item in interactiveObjArray)
+        {
+            //만약 배열이 없다면 실행되지 않을 것
+            if (item.calling)
+                _status._attraction = true;
+        }
+
+        //플레이어가 범위내에 없으면 못찾으니까 false 반환
+        if(_status.player == null) { return false; }
+        //간단한 방향 벡터 구하기
+        Vector3 directionToTarget = (_status.player.position - this.transform.position).normalized;
+
+        //내적해서 각도 계산
         if (Vector3.Dot(directionToTarget, this.transform.forward) < 0.4f)
             return false;
+        //내적값 통과하면 Raycast해서 사이에 별도의 오브젝트 있는지 체크
         if (Physics.Raycast(this.transform.position + Vector3.up * 1.5f, directionToTarget, out hit, _status.searchRadius) == false)
             return false;
+
+        //돌아야 하는지 체크
         CurvedCheck(directionToTarget);
 
-        Debug.DrawLine(this.transform.position + Vector3.up * 1.5f, temp[0].transform.position + Vector3.up * 1.5f);
+        Debug.DrawLine(this.transform.position + Vector3.up * 1.5f, _status.player.position + Vector3.up * 1.5f);
 
         if (hit.transform.gameObject.layer != LayerMask.NameToLayer("Player"))
             return false; // 레이어가 Player가 아니면 false 반환
 
-        distanceToPlayer = Vector3.Distance(this.transform.position, temp[0].transform.position);
+        distanceToPlayer = Vector3.Distance(this.transform.position, _status.player.position);
+
+        //모든 조건을 통과했으므로 true 반환
         return true;
     }
     void StateUpdate()

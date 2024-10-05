@@ -22,10 +22,12 @@ public class EnemyMove : MonoBehaviour
         GameManager.Enemy.UpdateDelegate += IdleMove;
         GameManager.Enemy.UpdateDelegate += BoundaryMove;
         GameManager.Enemy.UpdateDelegate += CatureMove;
+        GameManager.Enemy.UpdateDelegate += Attraction;
     }
 
     void IdleMove()
     {
+        if (_status._attraction) { return; }
         if (_status.state != EnemyState.Idle)
             return;
 
@@ -77,6 +79,15 @@ public class EnemyMove : MonoBehaviour
         _navAgent.speed = Mathf.Lerp(_navAgent.speed, targetSpeed, 10 * Time.deltaTime);
         _navAgent.SetDestination(GameManager.Player.transform.position);
         this.transform.LookAt(GameManager.Player.transform.position);
+    }
+    void Attraction()
+    {
+        if (_status.state == EnemyState.Boundary || _status.state == EnemyState.Capture)
+            return;
+        if (_status._attraction == false) { return; }
+
+        _navAgent.SetDestination(transform.position);
+        _navAgent.speed = Mathf.Lerp(_navAgent.speed, this._status.walkSpeed, 10 * Time.deltaTime);
     }
 
     int IndexClamping(int value, int min, int max)

@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour, IManager
 
     public Vector2 XZdir { get; private set; }
     public bool FireTrigger { get; private set; }
+    public bool InteractionTrigger { get; private set; }
     public bool Aiming { get; private set; }
     public bool Sprint { get; private set; }
     public float ViewMove { get; private set; }
@@ -18,6 +19,8 @@ public class InputManager : MonoBehaviour, IManager
     public void Updater()
     {
         if(InputDelegate != null) { InputDelegate(); }
+
+        InteractionTrigger = false;
     }
     public void LateUpdater()
     {
@@ -61,5 +64,9 @@ public class InputManager : MonoBehaviour, IManager
             ViewMove = context.ReadValue<float>(); 
         }
         else if (context.canceled) { ViewMove = 0f; }
+    }
+    public void OnIntertive(InputAction.CallbackContext context)
+    {
+        if (context.canceled) { InteractionTrigger = true; }
     }
 }

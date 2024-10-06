@@ -23,6 +23,7 @@ public class EnemyAttack : MonoBehaviour
 
     void Fire()
     {
+        if (_status.IsAlive == false || _status.executing) { return; }
         if (_status.CurrentWeapon.isEmpty)
         {
             reloadingTrigger = true;
@@ -75,6 +76,7 @@ public class EnemyAttack : MonoBehaviour
     }
     void ReLoad()
     {
+        if (_status.IsAlive == false || _status.executing) { return; }
         if (reloadingTrigger == false) { return; }
 
         if (_status.CurrentWeapon.ReLoadingTime > _status.CurrentWeapon.reLoadingDelta)

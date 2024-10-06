@@ -41,6 +41,7 @@ public class PlayerMove : MonoBehaviour
 
     void RelativeMove()
     {
+        if (_status.IsAlive == false || _status.excuting) { return; }
         //카메라 기준 이동 메소드
         //카메라를 회전시킬 때 유용하나 어째서인지 굉장히 버벅거리는 현상 있음
         float targetSpeed = GameManager.Input.Sprint ? _status.runSpeed : _status.walkSpeed;
@@ -75,7 +76,7 @@ public class PlayerMove : MonoBehaviour
         {
             this.transform.LookAt(new Vector3(TargetPos.position.x, this.transform.position.y, TargetPos.position.z));
         }
-        else
+        else if(_status.excuting == false)
         {
             this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.Euler(0, _targetRotation, 0),
                 _status.trunSpeedBlend * Time.deltaTime);
@@ -83,6 +84,7 @@ public class PlayerMove : MonoBehaviour
     }
     void Gravity()
     {
+        if (_status.IsAlive == false) { return; }
         if (_status.isGrounded)
         {
             if (_verticalSpeed < 0f)

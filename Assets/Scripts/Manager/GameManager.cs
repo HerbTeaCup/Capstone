@@ -17,8 +17,6 @@ public class GameManager : MonoBehaviour, IManager
     public static EnemyManager Enemy { get { return Instance._enemy; } }
     public static StageManager Stage { get { return Instance._stage; } }
 
-    public static GameObject Player { get; set; }
-
 
     // Start is called before the first frame update
     void Start()
@@ -56,7 +54,6 @@ public class GameManager : MonoBehaviour, IManager
     }
     public void Clear()
     {
-        Player = null;
         Input.Clear();
         Cam.Clear();
         Enemy.Clear();

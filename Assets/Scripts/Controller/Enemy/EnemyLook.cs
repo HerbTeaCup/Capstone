@@ -46,13 +46,17 @@ public class EnemyLook : MonoBehaviour
             _status.player = item.transform;
         }
 
-        //false로 설정해도 조건을 만족하면 알아서 true로 바뀜
-        _status._attraction = false;
+        //조건을 만족하면 알아서 바뀜
+        _status.attraction = false;
+        _status.trapTransform = null;
         foreach (IinteractableObj item in interactiveObjArray)
         {
             //만약 배열이 없다면 실행되지 않을 것
             if (item.calling)
-                _status._attraction = true;
+            {
+                _status.attraction = true;
+                _status.trapTransform = ((MonoBehaviour)item).transform;
+            }
         }
 
         //플레이어가 범위내에 없으면 못찾으니까 false 반환
@@ -62,7 +66,15 @@ public class EnemyLook : MonoBehaviour
 
         //내적해서 각도 계산
         if (Vector3.Dot(directionToTarget, this.transform.forward) < 0.4f)
+        {
+            //만약 조건 미달이면 플레이어가 뒤쯤 있다는 것이므로 처형가능
+            _status.executable = true;
             return false;
+        }
+        else
+        {
+            _status.executable = false;
+        }
         //내적값 통과하면 Raycast해서 사이에 별도의 오브젝트 있는지 체크
         if (Physics.Raycast(this.transform.position + Vector3.up * 1.5f, directionToTarget, out hit, _status.searchRadius) == false)
             return false;
@@ -83,6 +95,8 @@ public class EnemyLook : MonoBehaviour
     void StateUpdate()
     {
         //플레이어가 감지하고 상태를 바꾸는 메소드
+        if (_status.IsAlive == false || _status.executing) { return; }
+
         float distanceToPlayer;
         bool foundPlayer = Searching(out distanceToPlayer);
         
@@ -117,6 +131,7 @@ public class EnemyLook : MonoBehaviour
     }
     void CurvedCheck(Vector3 dir)
     {
+        if (_status.IsAlive == false || _status.executing) { return; }
         if (_status.state != EnemyState.Capture)
             return;
 

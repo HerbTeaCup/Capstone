@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class NoiseGenerator : InteractableObjExtand
 {
+    AudioSource _audio;
+
     [Header("Sound")]
     [SerializeField] AudioClip Sound;
 
     [Header("Setting")]
     [SerializeField] float _workingTime;
     float _timeDelta = 0f;
+
+    private void Start()
+    {
+        _audio = this.GetComponent<AudioSource>();
+    }
 
     private void Update()
     {
@@ -18,8 +25,6 @@ public class NoiseGenerator : InteractableObjExtand
 
         if (_timeDelta >= _workingTime)
             calling = false;
-
-        Debug.Log($"calling = {calling}");
     }
     public override void Interaction()
     {
@@ -27,6 +32,7 @@ public class NoiseGenerator : InteractableObjExtand
 
         base.Interaction();
         if(Sound == null) { Debug.Log($"Sound of {this.gameObject.name} is null"); }
+        else { }
 
         interactable = false;
         calling = true;

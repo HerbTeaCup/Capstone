@@ -11,7 +11,7 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] Transform CameraPoint;
 
     float maxDis = 10f;
-    float minDis = 3f;
+    float minDis = 1.2f;
 
     //camera
     float _targetPitch = 0f;
@@ -29,6 +29,7 @@ public class PlayerLook : MonoBehaviour
     }
     void GetPoint()
     {
+        if (_status.IsAlive == false) { return; }
         if (CameraPoint != null) { return; }
 
         foreach (Transform child in this.transform)
@@ -46,7 +47,8 @@ public class PlayerLook : MonoBehaviour
     }
     void PointMove()
     {
-        if(GameManager.Input.Aiming == false) { return; }
+        if (_status.IsAlive == false) { return; }
+        if (GameManager.Input.Aiming == false) { return; }
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -87,6 +89,7 @@ public class PlayerLook : MonoBehaviour
     }
     void CameraRotate()
     {
+        if (_status.IsAlive == false) { return; }
         if (GameManager.Input.ViewMove != 0f)
         {
             _targetPitch += GameManager.Input.ViewMove * _status.viewSensitivity;
@@ -123,6 +126,7 @@ public class PlayerLook : MonoBehaviour
     }
     void AimCamera()
     {
+        if (_status.IsAlive == false) { return; }
         if (GameManager.Input.Aiming)
         {
             GameManager.Cam.SetHighestPriority("AimingCam");

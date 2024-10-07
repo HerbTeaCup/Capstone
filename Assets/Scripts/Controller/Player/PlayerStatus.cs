@@ -18,6 +18,7 @@ public class PlayerStatus : GenericUnit
     public bool isGrounded = false;
     public bool excuting = false;
     public LayerMask GroundLayer;
+    [HideInInspector] public Transform ExcuteTransform;
     [HideInInspector] public Vector3 TargetDir;
 
     protected override void Start()

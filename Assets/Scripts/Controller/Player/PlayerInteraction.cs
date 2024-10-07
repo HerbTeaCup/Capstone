@@ -52,6 +52,7 @@ public class PlayerInteraction : MonoBehaviour
         if (((MonoBehaviour)obj).GetComponent<EnemyInteractive>() != null && _status.excuting == false)
         {
             _status.excuting = true;
+            _status.ExcuteTransform = ((MonoBehaviour)obj).transform;
             StartCoroutine(Excuting());
         }
     }

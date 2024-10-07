@@ -1723,10 +1723,6 @@ PrefabInstance:
       propertyPath: weapons.Array.data[0]
       value: 
       objectReference: {fileID: 985753191}
-    - target: {fileID: 6304800920787567338, guid: e43df4c9892c466479e55a050fde4741, type: 3}
-      propertyPath: interactionRadius
-      value: 1.25
-      objectReference: {fileID: 0}
     - target: {fileID: 7206242841187001958, guid: e43df4c9892c466479e55a050fde4741, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.55471396

@@ -143,7 +143,6 @@ public class EnemyLook : MonoBehaviour
         {
             _status.curveNeed = false;
         }
-        Debug.Log($"Raycast =  {_status.curveNeed}");
     }
     private void OnDrawGizmos()
     {

@@ -30,13 +30,20 @@ public class PlayerMove : MonoBehaviour
         _cc = GetComponent<CharacterController>();
         _status = GetComponent<PlayerStatus>();
 
-        GameManager.Input.InputDelegate += GroundCheck;
-        GameManager.Input.InputDelegate += RelativeMove;
-        GameManager.Input.InputDelegate += Gravity;
+        //GameManager.Input.InputDelegate += GroundCheck;
+        //GameManager.Input.InputDelegate += RelativeMove;
+        //GameManager.Input.InputDelegate += Gravity;
         //GameManager.Input.InputDelegate += Rotate;
         //GameManager.Input.InputDelegate += WorldMove;
 
         _radius = _cc.radius;
+    }
+    private void Update()
+    {
+        GroundCheck();
+        RelativeMove();
+        Gravity();
+        ExcuteTransformMove(_status.ExcuteTransform);
     }
 
     void RelativeMove()
@@ -81,6 +88,21 @@ public class PlayerMove : MonoBehaviour
             this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.Euler(0, _targetRotation, 0),
                 _status.trunSpeedBlend * Time.deltaTime);
         }
+    }
+    void ExcuteTransformMove(Transform targetTrans)
+    {
+        if (_status.excuting == false)
+            return;
+        if (_status.ExcuteTransform == null)
+        {
+            Debug.Log("ExcuteTransform is null");
+            return;
+        }
+
+        Debug.Log("ExcuteTransformMove Working");
+
+        Vector3 moveDirection = (targetTrans.position - this.transform.position).normalized;
+        _cc.Move(targetTrans.position);
     }
     void Gravity()
     {

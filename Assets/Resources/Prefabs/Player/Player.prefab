@@ -1455,6 +1455,7 @@ MonoBehaviour:
   trunSpeedBlend: 20
   viewSensitivity: 1
   isGrounded: 0
+  excuting: 0
   GroundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
@@ -1526,7 +1527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89645297d0d1919419a1e1e1ee5ff5e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionRadius: 0
+  interactionRadius: 1.25
 --- !u!1 &3980580196009089361
 GameObject:
   m_ObjectHideFlags: 0

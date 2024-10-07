@@ -32,7 +32,6 @@ public class EnemyInteractive : InteractableObjExtand
 
         // LookAt 대신 y축만을 고려한 회전 적용
         _status.player.transform.LookAt(targetPosition);
-
         this.transform.rotation = Quaternion.LookRotation(_status.player.transform.forward);
     }
 }

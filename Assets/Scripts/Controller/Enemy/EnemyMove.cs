@@ -22,10 +22,13 @@ public class EnemyMove : MonoBehaviour
         GameManager.Enemy.UpdateDelegate += IdleMove;
         GameManager.Enemy.UpdateDelegate += BoundaryMove;
         GameManager.Enemy.UpdateDelegate += CatureMove;
+        GameManager.Enemy.UpdateDelegate += Attraction;
     }
 
     void IdleMove()
     {
+        if (_status.IsAlive == false || _status.executing) { return; }
+        if (_status.attraction) { return; }
         if (_status.state != EnemyState.Idle)
             return;
 
@@ -49,14 +52,16 @@ public class EnemyMove : MonoBehaviour
     }
     void BoundaryMove()
     {
+        if (_status.IsAlive == false || _status.executing) { return; }
         if (_status.state != EnemyState.Boundary)
             return;
 
         _navAgent.isStopped = false;
-        this.transform.LookAt(GameManager.Player.transform.position);
+        this.transform.LookAt(_status.player.transform.position);
     }
     void CatureMove()
     {
+        if (_status.IsAlive == false || _status.executing) { return; }
         if (_status.state != EnemyState.Capture)
             return;
 
@@ -75,8 +80,19 @@ public class EnemyMove : MonoBehaviour
         }
 
         _navAgent.speed = Mathf.Lerp(_navAgent.speed, targetSpeed, 10 * Time.deltaTime);
-        _navAgent.SetDestination(GameManager.Player.transform.position);
-        this.transform.LookAt(GameManager.Player.transform.position);
+        _navAgent.SetDestination(_status.player.transform.position);
+        this.transform.LookAt(_status.player.transform.position);
+    }
+    void Attraction()
+    {
+        if (_status.IsAlive == false || _status.executing) { return; }
+        if (_status.state == EnemyState.Boundary || _status.state == EnemyState.Capture)
+            return;
+        if (_status.attraction == false) { return; }
+        if(_status.trapTransform == null) { Debug.Log($"trapTransform is null"); return; }
+
+        _navAgent.SetDestination(_status.trapTransform.position);
+        _navAgent.speed = Mathf.Lerp(_navAgent.speed, this._status.walkSpeed, 10 * Time.deltaTime);
     }
 
     int IndexClamping(int value, int min, int max)

@@ -23,6 +23,7 @@ public class PlayerAttack : MonoBehaviour
     }
     void Fire()
     {
+        if (_status.IsAlive == false) { return; }
         if (_status.CurrentWeapon.isEmpty)
         {
             reloadingTrigger = true;

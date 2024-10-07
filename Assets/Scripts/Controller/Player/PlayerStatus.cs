@@ -16,14 +16,14 @@ public class PlayerStatus : GenericUnit
     public float trunSpeedBlend = 20f;
     public float viewSensitivity = 1f;
     public bool isGrounded = false;
+    public bool excuting = false;
     public LayerMask GroundLayer;
+    [HideInInspector] public Transform ExcuteTransform;
     [HideInInspector] public Vector3 TargetDir;
 
     protected override void Start()
     {
         base.Start();
-
-        GameManager.Player = this.gameObject;
     }
     private void Update()
     {

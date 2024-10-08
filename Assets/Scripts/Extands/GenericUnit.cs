@@ -34,6 +34,13 @@ public class GenericUnit : MonoBehaviour, IUnitDamageable
     }
     void StatUIInit()
     {
+        // hpSlider가 null인지 확인
+        if (hpSlider == null)
+        {
+            Debug.LogWarning("hpSlider is not assigned in the inspector!");
+            return;
+        }
+
         hpSlider.minValue = 0; // hp바의 최솟값 설정
         hpSlider.maxValue = MaxHP; // hp바의 최댓값 설정
         hpSlider.value = Hp; // hp바의 현재 값을 체력값으로 설정
@@ -45,6 +52,6 @@ public class GenericUnit : MonoBehaviour, IUnitDamageable
             
         Hp -= dmg;
 
-        Debug.Log("Dameged");
+        Debug.Log("Damaged");
     }
 }

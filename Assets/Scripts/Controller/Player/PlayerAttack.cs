@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class PlayerAttack : MonoBehaviour
 
     bool reloadingTrigger = false;
 
+    public Text ammoText; // ÃÑ¾Ë °¹¼ö UI
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +23,8 @@ public class PlayerAttack : MonoBehaviour
 
         GameManager.Input.InputDelegate += Fire;
         GameManager.Input.InputDelegate += ReLoad;
+   
+        UpdateAmmoUI(); // ÃÑ¾Ë °¹¼ö ÃÊ±âÈ­
     }
     void Fire()
     {
@@ -50,7 +55,7 @@ public class PlayerAttack : MonoBehaviour
                 RadialShoot();
                 break;
         }
-
+        UpdateAmmoUI(); // ÃÑ¾Ë °¹¼ö ÃÊ±âÈ­
     }
     void StraightShoot()
     {
@@ -93,6 +98,17 @@ public class PlayerAttack : MonoBehaviour
 
         _status.isReloading = false;
         reloadingTrigger = false;
+
+        UpdateAmmoUI(); // ÃÑ¾Ë °¹¼ö ÃÊ±âÈ­
+    }
+
+    // ÃÑ¾Ë °¹¼ö UI ¾÷µ¥ÀÌÆ® ÇÔ¼ö
+    void UpdateAmmoUI()
+    {
+        if (ammoText != null && _status.CurrentWeapon != null)
+        {
+            ammoText.text = $"{_status.CurrentWeapon.CurrentCapacity} / {_status.CurrentWeapon.Magazine} (Max: {_status.CurrentWeapon.AmmoMax})";
+        }
     }
 
     public void Clear()

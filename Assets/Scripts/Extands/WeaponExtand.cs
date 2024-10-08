@@ -33,4 +33,5 @@ public abstract class WeaponExtand : MonoBehaviour, IWeaponGun
         this.ReLoadingTime = ReLoadingTime;
         this.FireRate = fireRate;
     }
+
 }

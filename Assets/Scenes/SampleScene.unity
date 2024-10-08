@@ -11367,7 +11367,7 @@ GameObject:
   - component: {fileID: 386927891}
   - component: {fileID: 386927890}
   m_Layer: 0
-  m_Name: Bullet Number
+  m_Name: Ammo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22457,6 +22457,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 29941370}
     m_Modifications:
+    - target: {fileID: 231794822313639345, guid: e43df4c9892c466479e55a050fde4741, type: 3}
+      propertyPath: ammoText
+      value: 
+      objectReference: {fileID: 386927890}
     - target: {fileID: 3889103368893456808, guid: e43df4c9892c466479e55a050fde4741, type: 3}
       propertyPath: m_Name
       value: Player

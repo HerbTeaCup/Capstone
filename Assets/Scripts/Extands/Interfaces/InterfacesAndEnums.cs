@@ -4,6 +4,13 @@ public enum AttackType
     straight,
     Radial
 }
+public enum GameState // 게임 상태
+{
+    Ready,
+    Run,
+    Pause,
+    GameOver
+}
 public enum EnemyState
 {
     Idle,

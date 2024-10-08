@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStatus : GenericUnit
@@ -31,13 +32,31 @@ public class PlayerStatus : GenericUnit
         {
             _invincibleDeltaTime += Time.deltaTime;
         }
+        // 테스트용도 지울 예정
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TakeDamage(10); // 스페이스바를 누르면 10만큼 체력 감소
+        }
     }
 
     public override void TakeDamage(int dmg)
     {
-        if(_damagedAble == false) { return; }
+        if (IsAlive == false)
+        {
+            OptionManager.gameText.text = "Mission Failed!";
+            OptionManager.gameText.color = new Color32(0, 0, 0, 255);
+
+            return;
+        }
+
+        if (_damagedAble == false) { return; }
 
         _invincibleDeltaTime = 0f;
         base.TakeDamage(dmg);
+
+        base.hpSlider.value = base.Hp; // HP바의 값을 현재 HP로 설정
+        // base.hpText.text = base.Hp + " / " + base.MaxHP;
+        base.hpText.text = (float)base.Hp / (float)base.MaxHP * 100.0 + "%";
     }
+
 }

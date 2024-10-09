@@ -8,6 +8,7 @@ public class NoiseGenerator : InteractableObjExtand
 
     [Header("Sound")]
     [SerializeField] AudioClip Sound;
+    [SerializeField] GameObject testGameobj;
 
     [Header("Setting")]
     [SerializeField] float _workingTime;
@@ -25,6 +26,24 @@ public class NoiseGenerator : InteractableObjExtand
 
         if (_timeDelta >= _workingTime)
             calling = false;
+
+        UIShow();
+        ui_Show = false;
+    }
+
+    void UIShow()
+    {
+        if (ui_Show == false)
+        {
+            //예시
+            testGameobj.SetActive(false);
+            return;
+        }
+
+        //밑에서부터 작업시작
+        Debug.Log($"UIShow Logic is Working");
+        //예시
+        testGameobj.SetActive(true);
     }
     public override void Interaction()
     {
@@ -32,7 +51,6 @@ public class NoiseGenerator : InteractableObjExtand
 
         base.Interaction();
         if(Sound == null) { Debug.Log($"Sound of {this.gameObject.name} is null"); }
-        else { }
 
         interactable = false;
         calling = true;

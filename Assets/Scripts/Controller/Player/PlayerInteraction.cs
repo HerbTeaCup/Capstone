@@ -34,6 +34,11 @@ public class PlayerInteraction : MonoBehaviour
                 obj = null;
             }
         }
+
+        if (obj != null)
+        {
+            obj.ui_Show = true;
+        }
     }
     private void OnDrawGizmos()
     {

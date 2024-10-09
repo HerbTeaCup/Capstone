@@ -15,6 +15,7 @@ public interface IinteractableObj
 {
     public bool interactable { get; set; }
     public bool calling { get; }
+    public bool ui_Show { get; set; }
 
     public void Interaction();
 }

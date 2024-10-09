@@ -6,6 +6,7 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField] Transform CameraArm;
     [SerializeField] Transform TargetPos;
+    [SerializeField] float offsetDistance = 0.3f;
 
     CharacterController _cc;
     PlayerStatus _status;
@@ -101,8 +102,10 @@ public class PlayerMove : MonoBehaviour
 
         Debug.Log("ExcuteTransformMove Working");
 
-        Vector3 moveDirection = (targetTrans.position - this.transform.position).normalized;
-        _cc.Move(targetTrans.position);
+        Vector3 targetPosition = targetTrans.position - targetTrans.forward * offsetDistance;
+
+        Vector3 moveDirection = targetTrans.position - this.transform.position;
+        _cc.Move(moveDirection);
     }
     void Gravity()
     {

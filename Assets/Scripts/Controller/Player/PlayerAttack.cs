@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
 
 public class PlayerAttack : MonoBehaviour
@@ -14,12 +15,16 @@ public class PlayerAttack : MonoBehaviour
     
     bool reloadingTrigger = false;
 
+    public Text ammoText; // Bullet Text UI
+
     void Start()
     {
         _status = GetComponent<PlayerStatus>();
 
         GameManager.Input.InputDelegate += Fire;
         GameManager.Input.InputDelegate += ReLoad;
+
+        UpdateAmmoUI();
     }
 
     void Fire()
@@ -30,6 +35,7 @@ public class PlayerAttack : MonoBehaviour
             reloadingTrigger = true;
             return;
         }
+        UpdateAmmoUI(); // 초기 bullet 업데이트
         if (_status.CurrentWeapon.AmmoMax < 1) { return; }
 
         if (_status.CurrentWeapon.fireCurrentRate > 0f)
@@ -51,7 +57,7 @@ public class PlayerAttack : MonoBehaviour
                 RadialShoot();
                 break;
         }
-
+        UpdateAmmoUI(); // 업데이트 해야지 총알이 0개 남아도 정상적으로 출력
     }
     void StraightShoot()
     {
@@ -94,6 +100,14 @@ public class PlayerAttack : MonoBehaviour
 
         _status.isReloading = false;
         reloadingTrigger = false;
+    }
+
+    void UpdateAmmoUI()
+    {
+        if (ammoText != null & _status.CurrentWeapon != null)
+        {
+            ammoText.text = $"{_status.CurrentWeapon.CurrentCapacity} / {_status.CurrentWeapon.Magazine}";
+        }
     }
 
     public void Clear()

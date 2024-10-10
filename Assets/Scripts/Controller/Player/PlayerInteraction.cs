@@ -10,6 +10,8 @@ public class PlayerInteraction : MonoBehaviour
     IinteractableObj obj;
     PlayerStatus _status;
 
+    [SerializeField] GameObject stealthUI;
+
     private void Start()
     {
         _status = this.GetComponent<PlayerStatus>();
@@ -28,17 +30,21 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (item.TryGetComponent<IinteractableObj>(out obj))
             {
-                break;
-            }
-            else
-            {
-                obj = null;
-            }
-        }
+                if (obj is EnemyInteractive)
+                {
+                    obj.ui_Show = true;
+                    obj.ShowInteractionUI(stealthUI);
 
-        if (obj != null)
-        {
-            obj.ui_Show = true;
+                    break;
+                }
+            }
+
+            // 상호작용할 오브젝트가 없으면 UI 숨김
+            if (obj == null || !(obj is EnemyInteractive))
+            {
+                stealthUI.SetActive(false); // UI 숨기기
+            }
+
         }
     }
     private void OnDrawGizmos()
@@ -49,10 +55,13 @@ public class PlayerInteraction : MonoBehaviour
     void WorkingObj()
     {
         if (_status.IsAlive == false) { return; }
+
         //입력 없거나 상호작용할 오브젝트 없으면 리턴
         if (GameManager.Input.InteractionTrigger == false || obj == null) { return; }
 
         obj.Interaction();
+        obj.ui_Show = false;
+        obj.ShowInteractionUI(stealthUI);
 
         if (((MonoBehaviour)obj).GetComponent<EnemyInteractive>() != null && _status.excuting == false)
         {

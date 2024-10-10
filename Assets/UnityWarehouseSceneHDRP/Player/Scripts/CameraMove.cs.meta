@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/UnityWarehouseSceneHDRP/Player/Scripts/CameraMove.cs.meta
 guid: beb685f111f6b5343aab18051f33bdef
+========
+guid: 6a25c5b6a3fd74a209f57bf624abc7e4
+>>>>>>>> UI:Assets/UI Assets/Free UI build package/Script/Slide.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

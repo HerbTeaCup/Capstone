@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GenericUnit : MonoBehaviour, IUnitDamageable
 {
     [Header("Generic Unit")]
     public int Hp;
     public int MaxHP;
+    public Slider hpSlider; // hp slider UI
+    public Text hpText; // hp text UI
     public int weaponIndex = 0;
 
     public bool IsAlive { get { return Hp > 0; } }
@@ -22,12 +25,21 @@ public class GenericUnit : MonoBehaviour, IUnitDamageable
     protected virtual void Start()
     {
         StatInit();
+        StatUIInit();
     }
 
     void StatInit()
     {
         Hp = MaxHP;
     }
+
+    void StatUIInit() // Status UI 초기화
+    {
+        hpSlider.minValue = 0; // hp 최솟값
+        hpSlider.maxValue = MaxHP; // hp 최댓값
+        hpSlider.value = Hp; // hp 현재 값
+    }
+
     public virtual void TakeDamage(int dmg)
     {
         if (IsAlive == false)

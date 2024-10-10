@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStatus : GenericUnit
@@ -39,5 +40,9 @@ public class PlayerStatus : GenericUnit
 
         _invincibleDeltaTime = 0f;
         base.TakeDamage(dmg);
+
+        base.hpSlider.value = base.Hp;
+        // base.hpText.text = base.Hp + " / " + base.MaxHp;
+        base.hpText.text = (float)base.Hp / (float)base.MaxHP * 100.0 + "%";
     }
 }

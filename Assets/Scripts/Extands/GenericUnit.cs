@@ -35,6 +35,12 @@ public class GenericUnit : MonoBehaviour, IUnitDamageable
 
     void StatUIInit() // Status UI 초기화
     {
+        // hpSlider가 할당되지 않았을 경우
+        if (hpSlider == null)
+        {
+            Debug.LogWarning("The hpSlider is not assigned in the Inspector!");
+            return;
+        }
         hpSlider.minValue = 0; // hp 최솟값
         hpSlider.maxValue = MaxHP; // hp 최댓값
         hpSlider.value = Hp; // hp 현재 값
@@ -47,6 +53,6 @@ public class GenericUnit : MonoBehaviour, IUnitDamageable
 
         Hp -= dmg;
 
-        Debug.Log("Dameged");
+        Debug.Log("Damaged");
     }
 }

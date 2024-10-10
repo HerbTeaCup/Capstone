@@ -41,8 +41,9 @@ public class PlayerStatus : GenericUnit
         _invincibleDeltaTime = 0f;
         base.TakeDamage(dmg);
 
-        base.hpSlider.value = base.Hp;
+        // hpSlider와 hpText가 null이 아닐 경우에 UI 넣기
+        if (base.hpSlider != null) base.hpSlider.value = base.Hp;
+        if (base.hpText != null) base.hpText.text = (float)base.Hp / (float)base.MaxHP * 100.0 + "%";
         // base.hpText.text = base.Hp + " / " + base.MaxHp;
-        base.hpText.text = (float)base.Hp / (float)base.MaxHP * 100.0 + "%";
     }
 }

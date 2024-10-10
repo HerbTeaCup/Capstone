@@ -51491,11 +51491,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c27b8ae4d1b3cd5428b7fb53f8dfbfef, type: 3}
---- !u!1 &1515351394 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2735256948075920616, guid: c27b8ae4d1b3cd5428b7fb53f8dfbfef, type: 3}
-  m_PrefabInstance: {fileID: 1515351393}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1515351395 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2735256948075920617, guid: c27b8ae4d1b3cd5428b7fb53f8dfbfef, type: 3}
@@ -51506,7 +51501,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8215204737122213909, guid: c27b8ae4d1b3cd5428b7fb53f8dfbfef, type: 3}
   m_PrefabInstance: {fileID: 1515351393}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1515351394}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -56913,10 +56908,6 @@ MonoBehaviour:
     panelObject: {fileID: 588872230}
     panelButton: {fileID: 3542644418334889818}
     defaultSelected: {fileID: 1607878154}
-  - panelName: Load Save
-    panelObject: {fileID: 2071578994}
-    panelButton: {fileID: 1515351394}
-    defaultSelected: {fileID: 1655063936}
   settingsHelper: 0
   instantInOnEnable: 0
   currentPanelIndex: 0

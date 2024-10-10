@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerInteraction : MonoBehaviour
 {
     //항상 인스펙터 확인해볼 것.
-    [SerializeField] float interactionRadius;
+    [SerializeField] float interactionRadius; // 상호작용 반경
 
     IinteractableObj obj;
     PlayerStatus _status;
@@ -18,6 +18,7 @@ public class PlayerInteraction : MonoBehaviour
         GameManager.Input.InputDelegate += WorkingObj;
     }
 
+    // 상호작용 가능한 오브젝트 서치
     void ObjFounding()
     {
         if (_status.IsAlive == false) { return; }
@@ -43,7 +44,6 @@ public class PlayerInteraction : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-
         Gizmos.DrawWireSphere(this.transform.position, interactionRadius);
     }
     void WorkingObj()
@@ -58,6 +58,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             _status.excuting = true;
             _status.ExcuteTransform = ((MonoBehaviour)obj).transform;
+
             StartCoroutine(Excuting());
         }
     }

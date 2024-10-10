@@ -11,20 +11,12 @@ public class EnemyLook : MonoBehaviour
     float _timeDelta = 0f;
     [SerializeField] float detectionRate;
     
-    // Detection UI
-    [SerializeField] GameObject weakDetectionUI; // '?', player find
-    [SerializeField] GameObject strongDetectionUI; // '!', player find, and after a certain period of time
-
     // Start is called before the first frame update
     void Start()
     {
         _status = GetComponent<EnemyStatus>();
 
         GameManager.Enemy.UpdateDelegate += StateUpdate;
-
-        // Deactivate detection UI
-        weakDetectionUI.SetActive(false);
-        strongDetectionUI.SetActive(false);
     }
 
     bool Searching(out float distanceToPlayer)
@@ -117,10 +109,6 @@ public class EnemyLook : MonoBehaviour
 
             //발각 상태가 되면 10초가 되서 5초의 유예시간을 줌
             if (_timeDelta > 10f || _status.state == EnemyState.Capture) { _timeDelta = 10f; return; }
-
-            // Mark the '?', when the enemy found the player
-            weakDetectionUI.SetActive(true);
-            strongDetectionUI.SetActive(false);
         }
         else
         {
@@ -131,27 +119,14 @@ public class EnemyLook : MonoBehaviour
         if (_timeDelta > _status.captureTime)
         {
             _status.state = EnemyState.Capture;
-
-            // Mark the '!', when the enemy completely found the player
-            weakDetectionUI.SetActive(false);
-            strongDetectionUI.SetActive(true);
         }
         else if (_timeDelta > _status.boundaryTime)
         {
             _status.state = EnemyState.Boundary;
-
-            // Mark the '?', when the detection state is maintained
-            weakDetectionUI.SetActive(true);
-            strongDetectionUI.SetActive(false);
         }
         else
         {
             _status.state = EnemyState.Idle;
-
-            // Nothing, hide entire UIs.
-            weakDetectionUI.SetActive(false);
-            strongDetectionUI.SetActive(false);
-
         }
     }
     void CurvedCheck(Vector3 dir)

@@ -29,9 +29,6 @@ public class EnemyInteractive : InteractableObjExtand
     {
         //if(_status.player == null) { return; }
         //Debug.Log(_status.player.transform.position);
-        UpdateUIPosition();
-        UIShow();
-        ui_Show = false;
 
         UpdateUI();
     }

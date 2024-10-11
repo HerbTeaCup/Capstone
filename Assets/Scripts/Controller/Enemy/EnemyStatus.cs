@@ -15,6 +15,9 @@ public class EnemyStatus : GenericUnit
     public bool executable = false; //true 일 때만 플레이어가 처형 가능
     public bool executing = false; //true면 처형당하는 중
 
+    public bool weakDetecting = false;
+    public bool strongDetecting = false;
+
     public float searchRadius = 10f;
     public float boundaryTime = 2f;
     public float captureTime = 5f;

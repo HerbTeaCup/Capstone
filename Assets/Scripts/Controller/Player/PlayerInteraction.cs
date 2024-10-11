@@ -1,16 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    //Ç×»ó ÀÎ½ºÆåÅÍ È®ÀÎÇØº¼ °Í.
-    [SerializeField] float interactionRadius; // »óÈ£ÀÛ¿ë ¹İ°æ
+    //í•­ìƒ ì¸ìŠ¤í™í„° í™•ì¸í•´ë³¼ ê²ƒ.
+    [SerializeField] float interactionRadius;
 
     IinteractableObj obj;
     PlayerStatus _status;
-
-    [SerializeField] GameObject stealthUI;
 
     private void Start()
     {
@@ -20,7 +19,6 @@ public class PlayerInteraction : MonoBehaviour
         GameManager.Input.InputDelegate += WorkingObj;
     }
 
-    // »óÈ£ÀÛ¿ë °¡´ÉÇÑ ¿ÀºêÁ§Æ® ¼­Ä¡
     void ObjFounding()
     {
         if (_status.IsAlive == false) { return; }
@@ -46,13 +44,13 @@ public class PlayerInteraction : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
+
         Gizmos.DrawWireSphere(this.transform.position, interactionRadius);
     }
     void WorkingObj()
     {
         if (_status.IsAlive == false) { return; }
-
-        //ÀÔ·Â ¾ø°Å³ª »óÈ£ÀÛ¿ëÇÒ ¿ÀºêÁ§Æ® ¾øÀ¸¸é ¸®ÅÏ
+        //ì…ë ¥ ì—†ê±°ë‚˜ ìƒí˜¸ì‘ìš©í•  ì˜¤ë¸Œì íŠ¸ ì—†ìœ¼ë©´ ë¦¬í„´
         if (GameManager.Input.InteractionTrigger == false || obj == null) { return; }
 
         obj.Interaction();
@@ -61,7 +59,6 @@ public class PlayerInteraction : MonoBehaviour
         if (((MonoBehaviour)obj).TryGetComponent<EnemyInteractive>(out enemy) && _status.excuting == false)
         {
             _status.excuting = true;
-
             StartCoroutine(Excuting());
         }
     }
@@ -74,4 +71,5 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(1.2f);
         _status.excuting = false;
     }
+
 }

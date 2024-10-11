@@ -116,6 +116,10 @@ public class EnemyLook : MonoBehaviour
 
             //발각 상태가 되면 10초가 되서 5초의 유예시간을 줌
             if (_timeDelta > 10f || _status.state == EnemyState.Capture) { _timeDelta = 10f; return; }
+
+            // 약한 감지
+            _status.weakDetecting = true;
+            _status.strongDetecting = false;
         }
         else
         {
@@ -126,14 +130,26 @@ public class EnemyLook : MonoBehaviour
         if (_timeDelta > _status.captureTime)
         {
             _status.state = EnemyState.Capture;
+
+            // 강한 감지
+            _status.weakDetecting = false;
+            _status.strongDetecting = true;
         }
         else if (_timeDelta > _status.boundaryTime)
         {
             _status.state = EnemyState.Boundary;
+
+            // 약한 감지
+            _status.weakDetecting = true;
+            _status.strongDetecting = false;
         }
         else
         {
             _status.state = EnemyState.Idle;
+
+            // Nothing, hide entire UIs.
+            _status.weakDetecting = false;
+            _status.strongDetecting = false;
         }
     }
     void CurvedCheck(Vector3 dir)

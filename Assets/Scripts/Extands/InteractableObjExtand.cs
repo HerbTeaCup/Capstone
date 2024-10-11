@@ -12,12 +12,4 @@ public class InteractableObjExtand : MonoBehaviour, IinteractableObj
     {
 
     }
-
-    public virtual void ShowInteractionUI(GameObject UI)
-    {
-        if (UI != null)
-        {
-            UI.SetActive(ui_Show); // ui_Show ÇÃ·¡±×¿¡ µû¶ó UI Ç¥½Ã/¼û±è
-        }
-    }
 }

@@ -30,21 +30,17 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (item.TryGetComponent<IinteractableObj>(out obj))
             {
-                if (obj is EnemyInteractive)
-                {
-                    obj.ui_Show = true;
-                    obj.ShowInteractionUI(stealthUI);
-
-                    break;
-                }
+                break;
             }
-
-            // 상호작용할 오브젝트가 없으면 UI 숨김
-            if (obj == null || !(obj is EnemyInteractive))
+            else
             {
-                stealthUI.SetActive(false); // UI 숨기기
+                obj = null;
             }
+        }
 
+        if (obj != null)
+        {
+            obj.ui_Show = true;
         }
     }
     private void OnDrawGizmos()
@@ -60,8 +56,6 @@ public class PlayerInteraction : MonoBehaviour
         if (GameManager.Input.InteractionTrigger == false || obj == null) { return; }
 
         obj.Interaction();
-        obj.ui_Show = false;
-        obj.ShowInteractionUI(stealthUI);
 
         if (((MonoBehaviour)obj).GetComponent<EnemyInteractive>() != null && _status.excuting == false)
         {

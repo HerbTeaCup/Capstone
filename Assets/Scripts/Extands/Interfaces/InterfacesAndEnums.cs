@@ -20,7 +20,6 @@ public interface IinteractableObj
     public bool ui_Show { get; set; }
 
     public void Interaction();
-    public void ShowInteractionUI(GameObject obj);
 }
 
 public interface IManager

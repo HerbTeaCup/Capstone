@@ -55,7 +55,7 @@ public class EnemyInteractive : InteractableObjExtand
             UIHide(strongDetectionUI);
         }
 
-        if (!ui_Show)
+        if (!ui_Show || _status.IsAlive == false)
         {
             UIHide(weakDetectionUI);
             UIHide(strongDetectionUI);

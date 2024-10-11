@@ -14,6 +14,9 @@ public class NoiseGenerator : InteractableObjExtand
     [SerializeField] float _workingTime;
     float _timeDelta = 0f;
 
+    [Header("UI")]
+    [SerializeField] GameObject interactionUI;
+
     private void Start()
     {
         _audio = this.GetComponent<AudioSource>();
@@ -37,6 +40,7 @@ public class NoiseGenerator : InteractableObjExtand
         {
             //예시
             testGameobj.SetActive(false);
+            interactionUI.SetActive(false);
             return;
         }
 
@@ -44,6 +48,7 @@ public class NoiseGenerator : InteractableObjExtand
         Debug.Log($"UIShow Logic is Working");
         //예시
         testGameobj.SetActive(true);
+        interactionUI.SetActive(true);
     }
     public override void Interaction()
     {

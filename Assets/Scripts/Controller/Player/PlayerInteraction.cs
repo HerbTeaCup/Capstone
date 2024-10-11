@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    //Ç×»ó ÀÎ½ºÆåÅÍ È®ÀÎÇØº¼ °Í.
+    //í•­ìƒ ì¸ìŠ¤í™í„° í™•ì¸í•´ë³¼ ê²ƒ.
     [SerializeField] float interactionRadius;
 
     IinteractableObj obj;
@@ -50,22 +50,25 @@ public class PlayerInteraction : MonoBehaviour
     void WorkingObj()
     {
         if (_status.IsAlive == false) { return; }
-        //ÀÔ·Â ¾ø°Å³ª »óÈ£ÀÛ¿ëÇÒ ¿ÀºêÁ§Æ® ¾øÀ¸¸é ¸®ÅÏ
+        //ì…ë ¥ ì—†ê±°ë‚˜ ìƒí˜¸ì‘ìš©í•  ì˜¤ë¸Œì íŠ¸ ì—†ìœ¼ë©´ ë¦¬í„´
         if (GameManager.Input.InteractionTrigger == false || obj == null) { return; }
 
         obj.Interaction();
+        EnemyInteractive enemy;
 
-        if (((MonoBehaviour)obj).GetComponent<EnemyInteractive>() != null && _status.excuting == false)
+        if (((MonoBehaviour)obj).TryGetComponent<EnemyInteractive>(out enemy) && _status.excuting == false)
         {
             _status.excuting = true;
-            _status.ExcuteTransform = ((MonoBehaviour)obj).transform;
             StartCoroutine(Excuting());
         }
     }
 
     IEnumerator Excuting()
     {
-        yield return new WaitForSeconds(3.2f);
+        _status.ExcuteTransform = ((MonoBehaviour)obj).transform;
+        yield return new WaitForSeconds(2.0f);
+        _status.ExcuteTransform = this.transform;
+        yield return new WaitForSeconds(1.2f);
         _status.excuting = false;
     }
 

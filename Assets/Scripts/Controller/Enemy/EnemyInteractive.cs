@@ -9,16 +9,16 @@ public class EnemyInteractive : InteractableObjExtand
     EnemyStatus _status;
 
     [Header("Detection UI")]
-    [SerializeField] GameObject weakDetectionUI; // '?', ÇÃ·¹ÀÌ¾î ¹ß°ß
-    [SerializeField] GameObject strongDetectionUI; // '!', ÇÃ·¹ÀÌ¾î ¿ÏÀüÈ÷ Å½Áö
+    [SerializeField] GameObject weakDetectionUI; // '?', í”Œë ˆì´ì–´ ë°œê²¬
+    [SerializeField] GameObject strongDetectionUI; // '!', í”Œë ˆì´ì–´ ì™„ì „íˆ íƒì§€
 
     [Header("Stealth UI")]
     [SerializeField] GameObject stealthUI;
 
     [Header("UI Settings")]
-    [SerializeField] Vector3 uiOffset = new Vector3(0, 2f, 0); // ¸Ó¸® À§·Î UI¸¦ ¿Ã¸®±â À§ÇÑ ¿ÀÇÁ¼Â °ª
-    [SerializeField] float stealthAngleThreshold = 60f; // ÇÃ·¹ÀÌ¾î°¡ ÀûÀÇ µî µÚ¿¡ ÀÖ¾î¾ß ÇÏ´Â °¢µµ
-    [SerializeField] float maxStealthDistance = 2.5f; // ÇÃ·¹ÀÌ¾î¿Í Àû »çÀÌÀÇ ÃÖ´ë ½ºÅÚ½º »óÈ£ÀÛ¿ë °Å¸®
+    [SerializeField] Vector3 uiOffset = new Vector3(0, 2f, 0); // ë¨¸ë¦¬ ìœ„ë¡œ UIë¥¼ ì˜¬ë¦¬ê¸° ìœ„í•œ ì˜¤í”„ì…‹ ê°’
+    [SerializeField] float stealthAngleThreshold = 60f; // í”Œë ˆì´ì–´ê°€ ì ì˜ ë“± ë’¤ì— ìˆì–´ì•¼ í•˜ëŠ” ê°ë„
+    [SerializeField] float maxStealthDistance = 2.5f; // í”Œë ˆì´ì–´ì™€ ì  ì‚¬ì´ì˜ ìµœëŒ€ ìŠ¤í…”ìŠ¤ ìƒí˜¸ì‘ìš© ê±°ë¦¬
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +29,9 @@ public class EnemyInteractive : InteractableObjExtand
     {
         //if(_status.player == null) { return; }
         //Debug.Log(_status.player.transform.position);
+        UpdateUIPosition();
+        UIShow();
+        ui_Show = false;
 
         UpdateUI();
     }
@@ -80,26 +83,30 @@ public class EnemyInteractive : InteractableObjExtand
     {
         if (_status.IsAlive == false || _status.executable == false || !IsPlayerInStealthRange())
             return;
-        
+
+        _status.Hp = -1;
         base.Interaction();
         ui_Show = false;
 
-        _status.executing = true; // Ã³Çü´çÇÏ´Â Áß
+        _status.executing = true; // ì²˜í˜•ë‹¹í•˜ëŠ” ì¤‘
 
-        // ÇöÀç ÇÃ·¹ÀÌ¾î¿Í ÀÌ ¿ÀºêÁ§Æ®ÀÇ À§Ä¡¸¦ »ç¿ëÇØ yÃà È¸Àü¸¸ Àû¿ë
+        // í˜„ì¬ í”Œë ˆì´ì–´ì™€ ì´ ì˜¤ë¸Œì íŠ¸ì˜ ìœ„ì¹˜ë¥¼ ì‚¬ìš©í•´ yì¶• íšŒì „ë§Œ ì ìš©
         Vector3 targetPosition = this.transform.position;
-        targetPosition.y = _status.player.transform.position.y; // y Ãà °íÁ¤
+        targetPosition.y = _status.player.transform.position.y; // y ì¶• ê³ ì •
 
-        // LookAt ´ë½Å yÃà¸¸À» °í·ÁÇÑ È¸Àü Àû¿ë
+        // LookAt ëŒ€ì‹  yì¶•ë§Œì„ ê³ ë ¤í•œ íšŒì „ ì ìš©
         _status.player.transform.LookAt(targetPosition);
         this.transform.rotation = Quaternion.LookRotation(_status.player.transform.forward);
+
+        Destroy(this.GetComponent<CapsuleCollider>());
     }
 
     void UIShow(GameObject obj)
     {
+        //if (ui_Show == false || _status.IsAlive == false)
         if (obj != null && !obj.activeSelf)
         {
-            obj.SetActive(true);  // UI°¡ ²¨Á® ÀÖÀ¸¸é ÄÑ±â
+            obj.SetActive(true);  // UIê°€ êº¼ì ¸ ìˆìœ¼ë©´ ì¼œê¸°
             Debug.Log($"UI {obj.name} activated");
         }
 
@@ -108,14 +115,16 @@ public class EnemyInteractive : InteractableObjExtand
     {
         if (obj != null && obj.activeSelf)
         {
-            obj.SetActive(false);  // UI°¡ ÄÑÁ® ÀÖÀ¸¸é ²ô±â
+            obj.SetActive(false);  // UIê°€ ì¼œì ¸ ìˆìœ¼ë©´ ë„ê¸°
             Debug.Log($"UI {obj.name} deactivated");
         }
 
     }
 
-    void UpdateUIPosition(GameObject obj) // UI ÀûÀÇ ¸Ó¸® À§·Î ÀÌµ¿
+    void UpdateUIPosition(GameObject obj) // UI ì ì˜ ë¨¸ë¦¬ ìœ„ë¡œ ì´ë™
     {
+        if (_status.player == null)
+            return;
         if (obj != null)
         {
             obj.transform.position = _status.transform.position + uiOffset;
@@ -126,20 +135,20 @@ public class EnemyInteractive : InteractableObjExtand
     {
         if (_status.player == null) return false;
 
-        // 1. ÇÃ·¹ÀÌ¾î¿Í Àû »çÀÌÀÇ °Å¸® °è»ê
+        // 1. í”Œë ˆì´ì–´ì™€ ì  ì‚¬ì´ì˜ ê±°ë¦¬ ê³„ì‚°
         float distanceToPlayer = Vector3.Distance(_status.player.transform.position, transform.position);
-        if (distanceToPlayer > maxStealthDistance) return false; // °Å¸®°¡ ³Ê¹« ¸Ö¸é false
+        if (distanceToPlayer > maxStealthDistance) return false; // ê±°ë¦¬ê°€ ë„ˆë¬´ ë©€ë©´ false
 
-        // 2. ÇÃ·¹ÀÌ¾î°¡ ÀûÀÇ µÚ¿¡ ÀÖ´ÂÁö È®ÀÎ
-        Vector3 toPlayer = _status.player.transform.position - transform.position; // Àû¿¡¼­ ÇÃ·¹ÀÌ¾î±îÁöÀÇ º¤ÅÍ
-        toPlayer.y = 0; // YÃà °ª ¹«½Ã (¼öÆò ¹æÇâ¸¸ °è»ê)
+        // 2. í”Œë ˆì´ì–´ê°€ ì ì˜ ë’¤ì— ìˆëŠ”ì§€ í™•ì¸
+        Vector3 toPlayer = _status.player.transform.position - transform.position; // ì ì—ì„œ í”Œë ˆì´ì–´ê¹Œì§€ì˜ ë²¡í„°
+        toPlayer.y = 0; // Yì¶• ê°’ ë¬´ì‹œ (ìˆ˜í‰ ë°©í–¥ë§Œ ê³„ì‚°)
 
-        Vector3 forward = transform.forward; // ÀûÀÇ Àü¹æ ¹æÇâ
-        forward.y = 0; // YÃà °ª ¹«½Ã (¼öÆò ¹æÇâ¸¸ °è»ê)
+        Vector3 forward = transform.forward; // ì ì˜ ì „ë°© ë°©í–¥
+        forward.y = 0; // Yì¶• ê°’ ë¬´ì‹œ (ìˆ˜í‰ ë°©í–¥ë§Œ ê³„ì‚°)
 
-        float angle = Vector3.Angle(forward, toPlayer); // µÎ º¤ÅÍ »çÀÌÀÇ °¢µµ °è»ê
+        float angle = Vector3.Angle(forward, toPlayer); // ë‘ ë²¡í„° ì‚¬ì´ì˜ ê°ë„ ê³„ì‚°
 
-        // ÇÃ·¹ÀÌ¾î°¡ ÀûÀÇ µî µÚ¿¡ ÀÖ´ÂÁö È®ÀÎ (stealthAngleThreshold ³»¿¡ ÀÖÀ» °æ¿ì)
+        // í”Œë ˆì´ì–´ê°€ ì ì˜ ë“± ë’¤ì— ìˆëŠ”ì§€ í™•ì¸ (stealthAngleThreshold ë‚´ì— ìˆì„ ê²½ìš°)
         return angle > 180f - stealthAngleThreshold / 2f && angle < 180f + stealthAngleThreshold / 2f;
     }
 }

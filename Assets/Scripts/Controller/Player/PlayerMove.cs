@@ -104,8 +104,11 @@ public class PlayerMove : MonoBehaviour
 
         Vector3 targetPosition = targetTrans.position - targetTrans.forward * offsetDistance;
 
-        Vector3 moveDirection = targetTrans.position - this.transform.position;
-        _cc.Move(moveDirection);
+        // 타겟 위치와 현재 위치의 차이 벡터 계산
+        Vector3 moveDirection = targetPosition - this.transform.position;
+
+        // 시간 기반으로 이동 처리
+        _cc.Move(moveDirection * Time.deltaTime);
     }
     void Gravity()
     {

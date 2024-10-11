@@ -1443,6 +1443,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hp: 30
   MaxHP: 30
+  hpSlider: {fileID: 0}
+  hpText: {fileID: 0}
   weaponIndex: 0
   walkSpeed: 2
   runSpeed: 5
@@ -1459,6 +1461,7 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 2147483648
+  ExcuteTransform: {fileID: 0}
   TargetDir: {x: 0, y: 0, z: 0}
 --- !u!114 &231794822313639345
 MonoBehaviour:
@@ -1474,6 +1477,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1193582002463635413}
   firePoint: {fileID: 7492237235015011897}
+  ammoText: {fileID: 0}
 --- !u!114 &5201372347689042926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1503,6 +1507,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CameraArm: {fileID: 7853358760094596272}
   TargetPos: {fileID: 1193582002463635413}
+  offsetDistance: 0.1
 --- !u!114 &1137771878469487514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1528,6 +1533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionRadius: 1.25
+  stealthUI: {fileID: 0}
 --- !u!1 &3980580196009089361
 GameObject:
   m_ObjectHideFlags: 0

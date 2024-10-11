@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyInteractive : InteractableObjExtand
 {
     EnemyStatus _status;
 
-    [Header("UI")]
-    [SerializeField] GameObject stealthUI;
+    
+
+    [Header("Detection UI")]
+    [SerializeField] GameObject weakDetectionUI; // '?', 플레이어 발견
+    [SerializeField] GameObject strongDetectionUI; // '!', 플레이어 완전히 탐지
+
+    [Header("UI Settings")]
     [SerializeField] Vector3 uiOffset = new Vector3(0, 2f, 0); // 머리 위로 UI를 올리기 위한 오프셋 값
 
     // Start is called before the first frame update
@@ -19,12 +26,40 @@ public class EnemyInteractive : InteractableObjExtand
     {
         //if(_status.player == null) { return; }
         //Debug.Log(_status.player.transform.position);
-        if (_status.executable == true && _status.executing == false)
+
+        UpdateUI();
+    }
+
+    void UpdateUI()
+    {
+
+        if (_status.weakDetecting == true)
         {
-            UpdateUIPosition();
-            UIShow();
+            ui_Show = true;
+            UpdateUIPosition(weakDetectionUI);
+            UIShow(weakDetectionUI);
         }
-        ui_Show = false;
+        else
+        {
+            UIHide(weakDetectionUI);
+        }
+        
+        if (_status.strongDetecting == true)
+        {
+            ui_Show = true;
+            UpdateUIPosition(strongDetectionUI);
+            UIShow(strongDetectionUI);
+        }
+        else
+        {
+            UIHide(strongDetectionUI);
+        }
+
+        if (!ui_Show)
+        {
+            UIHide(weakDetectionUI);
+            UIHide(strongDetectionUI);
+        }
     }
 
     public override void Interaction()
@@ -46,24 +81,30 @@ public class EnemyInteractive : InteractableObjExtand
         this.transform.rotation = Quaternion.LookRotation(_status.player.transform.forward);
     }
 
-    void UIShow()
+    void UIShow(GameObject obj)
     {
-        if (ui_Show == false)
+        if (obj != null && !obj.activeSelf)
         {
-            stealthUI.SetActive(false);
-            return;
+            obj.SetActive(true);  // UI가 꺼져 있으면 켜기
+            Debug.Log($"UI {obj.name} activated");
         }
 
-        Debug.Log($"UIShow Logic is Working");
+    }
+    void UIHide(GameObject obj)
+    {
+        if (obj != null && obj.activeSelf)
+        {
+            obj.SetActive(false);  // UI가 켜져 있으면 끄기
+            Debug.Log($"UI {obj.name} deactivated");
+        }
 
-        stealthUI.SetActive(true);
     }
 
-    void UpdateUIPosition() // UI 플레이어 머리 위로 이동
+    void UpdateUIPosition(GameObject obj) // UI 적의 머리 위로 이동
     {
-        if (stealthUI != null)
+        if (obj != null)
         {
-            stealthUI.transform.position = _status.player.transform.position + uiOffset;
+            obj.transform.position = _status.transform.position + uiOffset;
         }
     }
 }

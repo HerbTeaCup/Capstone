@@ -8,14 +8,17 @@ public class EnemyInteractive : InteractableObjExtand
 {
     EnemyStatus _status;
 
-    
-
     [Header("Detection UI")]
     [SerializeField] GameObject weakDetectionUI; // '?', 플레이어 발견
     [SerializeField] GameObject strongDetectionUI; // '!', 플레이어 완전히 탐지
 
+    [Header("Stealth UI")]
+    [SerializeField] GameObject stealthUI;
+
     [Header("UI Settings")]
     [SerializeField] Vector3 uiOffset = new Vector3(0, 2f, 0); // 머리 위로 UI를 올리기 위한 오프셋 값
+    [SerializeField] float stealthAngleThreshold = 60f; // 플레이어가 적의 등 뒤에 있어야 하는 각도
+    [SerializeField] float maxStealthDistance = 2.5f; // 플레이어와 적 사이의 최대 스텔스 상호작용 거리
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +35,16 @@ public class EnemyInteractive : InteractableObjExtand
 
     void UpdateUI()
     {
+        if (_status.IsAlive == true && _status.executable == true && _status.executing == false && IsPlayerInStealthRange())
+        {
+            ui_Show = true;
+            UpdateUIPosition(stealthUI);
+            UIShow(stealthUI);
+        }
+        else
+        {
+            UIHide(stealthUI);
+        }
 
         if (_status.weakDetecting == true)
         {
@@ -57,6 +70,7 @@ public class EnemyInteractive : InteractableObjExtand
 
         if (!ui_Show || _status.IsAlive == false)
         {
+            UIHide(stealthUI);
             UIHide(weakDetectionUI);
             UIHide(strongDetectionUI);
         }
@@ -64,7 +78,7 @@ public class EnemyInteractive : InteractableObjExtand
 
     public override void Interaction()
     {
-        if (_status.IsAlive == false || _status.executable == false)
+        if (_status.IsAlive == false || _status.executable == false || !IsPlayerInStealthRange())
             return;
         
         base.Interaction();
@@ -106,5 +120,26 @@ public class EnemyInteractive : InteractableObjExtand
         {
             obj.transform.position = _status.transform.position + uiOffset;
         }
+    }
+
+    bool IsPlayerInStealthRange()
+    {
+        if (_status.player == null) return false;
+
+        // 1. 플레이어와 적 사이의 거리 계산
+        float distanceToPlayer = Vector3.Distance(_status.player.transform.position, transform.position);
+        if (distanceToPlayer > maxStealthDistance) return false; // 거리가 너무 멀면 false
+
+        // 2. 플레이어가 적의 뒤에 있는지 확인
+        Vector3 toPlayer = _status.player.transform.position - transform.position; // 적에서 플레이어까지의 벡터
+        toPlayer.y = 0; // Y축 값 무시 (수평 방향만 계산)
+
+        Vector3 forward = transform.forward; // 적의 전방 방향
+        forward.y = 0; // Y축 값 무시 (수평 방향만 계산)
+
+        float angle = Vector3.Angle(forward, toPlayer); // 두 벡터 사이의 각도 계산
+
+        // 플레이어가 적의 등 뒤에 있는지 확인 (stealthAngleThreshold 내에 있을 경우)
+        return angle > 180f - stealthAngleThreshold / 2f && angle < 180f + stealthAngleThreshold / 2f;
     }
 }

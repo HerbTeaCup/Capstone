@@ -27,7 +27,7 @@ public class EnemyMove : MonoBehaviour
 
     void IdleMove()
     {
-        if (_status.IsAlive == false || _status.executing) { return; }
+        if (_status.IsAlive == false || _status.executing) { _navAgent.isStopped = true; return; }
         if (_status.attraction) { return; }
         if (_status.state != EnemyState.Idle)
             return;
@@ -52,7 +52,7 @@ public class EnemyMove : MonoBehaviour
     }
     void BoundaryMove()
     {
-        if (_status.IsAlive == false || _status.executing) { return; }
+        if (_status.IsAlive == false || _status.executing) { _navAgent.isStopped = true; return; }
         if (_status.state != EnemyState.Boundary)
             return;
 
@@ -61,7 +61,7 @@ public class EnemyMove : MonoBehaviour
     }
     void CatureMove()
     {
-        if (_status.IsAlive == false || _status.executing) { return; }
+        if (_status.IsAlive == false || _status.executing) { _navAgent.isStopped = true; return; }
         if (_status.state != EnemyState.Capture)
             return;
 
@@ -85,7 +85,7 @@ public class EnemyMove : MonoBehaviour
     }
     void Attraction()
     {
-        if (_status.IsAlive == false || _status.executing) { return; }
+        if (_status.IsAlive == false || _status.executing) { _navAgent.isStopped = true; return; }
         if (_status.state == EnemyState.Boundary || _status.state == EnemyState.Capture)
             return;
         if (_status.attraction == false) { return; }

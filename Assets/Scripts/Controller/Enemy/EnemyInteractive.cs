@@ -19,11 +19,8 @@ public class EnemyInteractive : InteractableObjExtand
     {
         //if(_status.player == null) { return; }
         //Debug.Log(_status.player.transform.position);
-        if (_status.executable == true && _status.executing == false)
-        {
-            UpdateUIPosition();
-            UIShow();
-        }
+        UpdateUIPosition();
+        UIShow();
         ui_Show = false;
     }
 
@@ -31,7 +28,8 @@ public class EnemyInteractive : InteractableObjExtand
     {
         if (_status.IsAlive == false || _status.executable == false)
             return;
-        
+
+        _status.Hp = -1;
         base.Interaction();
         ui_Show = false;
 
@@ -44,11 +42,13 @@ public class EnemyInteractive : InteractableObjExtand
         // LookAt 대신 y축만을 고려한 회전 적용
         _status.player.transform.LookAt(targetPosition);
         this.transform.rotation = Quaternion.LookRotation(_status.player.transform.forward);
+
+        Destroy(this.GetComponent<CapsuleCollider>());
     }
 
     void UIShow()
     {
-        if (ui_Show == false)
+        if (ui_Show == false || _status.IsAlive == false)
         {
             stealthUI.SetActive(false);
             return;
@@ -61,6 +61,9 @@ public class EnemyInteractive : InteractableObjExtand
 
     void UpdateUIPosition() // UI 플레이어 머리 위로 이동
     {
+        if (_status.player == null)
+            return;
+
         if (stealthUI != null)
         {
             stealthUI.transform.position = _status.player.transform.position + uiOffset;

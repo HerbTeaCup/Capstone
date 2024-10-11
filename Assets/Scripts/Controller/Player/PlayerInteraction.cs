@@ -56,11 +56,11 @@ public class PlayerInteraction : MonoBehaviour
         if (GameManager.Input.InteractionTrigger == false || obj == null) { return; }
 
         obj.Interaction();
+        EnemyInteractive enemy;
 
-        if (((MonoBehaviour)obj).GetComponent<EnemyInteractive>() != null && _status.excuting == false)
+        if (((MonoBehaviour)obj).TryGetComponent<EnemyInteractive>(out enemy) && _status.excuting == false)
         {
             _status.excuting = true;
-            _status.ExcuteTransform = ((MonoBehaviour)obj).transform;
 
             StartCoroutine(Excuting());
         }
@@ -68,7 +68,10 @@ public class PlayerInteraction : MonoBehaviour
 
     IEnumerator Excuting()
     {
-        yield return new WaitForSeconds(3.2f);
+        _status.ExcuteTransform = ((MonoBehaviour)obj).transform;
+        yield return new WaitForSeconds(2.0f);
+        _status.ExcuteTransform = this.transform;
+        yield return new WaitForSeconds(1.2f);
         _status.excuting = false;
     }
 }

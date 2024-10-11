@@ -18,6 +18,13 @@ public class EnemyLook : MonoBehaviour
 
         GameManager.Enemy.UpdateDelegate += StateUpdate;
     }
+    public void LookFor(Vector3 Dir)
+    {
+        //피격시 총이 날아온 방향의 반대를 바라볼 메소드
+        Dir.y = this.transform.position.y;
+
+        this.transform.LookAt(this.transform.position + Dir * -10);
+    }
 
     bool Searching(out float distanceToPlayer)
     {
@@ -42,7 +49,7 @@ public class EnemyLook : MonoBehaviour
                 continue; //Player면서 상호작용오브제일 수는 없으므로 null 아니면 바로 break
             }
 
-            //아래부터는 obj가 아니라는 것이 확실하므로
+            //아래부터는 플레이어라는 것이 확실하므로
             _status.player = item.transform;
         }
 

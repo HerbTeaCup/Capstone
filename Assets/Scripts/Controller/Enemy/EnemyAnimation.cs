@@ -6,6 +6,8 @@ public class EnemyAnimation : MonoBehaviour
 {
     EnemyStatus _status;
     Animator _anim;
+
+    bool _dead = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +15,14 @@ public class EnemyAnimation : MonoBehaviour
         _anim = GetComponent<Animator>();
 
         GameManager.Enemy.UpdateDelegate += Excute;
+    }
+    private void Update()
+    {
+        if (_status.IsAlive == false && _dead == false)
+        {
+            _anim.SetTrigger("Dying");
+            _dead = true;
+        }
     }
 
     void Excute()

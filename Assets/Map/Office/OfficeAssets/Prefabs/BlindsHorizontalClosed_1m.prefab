@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33103340795317318}
   - component: {fileID: 23099280137771212}
   - component: {fileID: 65890382750355682}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BlindsHorizontalClosed_1m
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 8335364456569476594}
   - component: {fileID: 1519883074990773641}
   - component: {fileID: 4219225278585512879}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

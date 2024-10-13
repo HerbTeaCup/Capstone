@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33661897383783748}
   - component: {fileID: 23663458880925124}
   - component: {fileID: 64625656801661508}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wall_3m_doorElevator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 88135b5b42357484b93d3ecf2ce00d75, type: 2}
+  - {fileID: 2100000, guid: 7386f83ee0e65e44abce92684a5c69e7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 4618446629242145606}
   - component: {fileID: 4915982568809993219}
   - component: {fileID: 3410158058920419384}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 147147722205535109}
   - component: {fileID: 112276497729612702}
   - component: {fileID: 8043992585535812449}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -331,7 +331,7 @@ GameObject:
   - component: {fileID: 7154882943864901810}
   - component: {fileID: 4528476935814999549}
   - component: {fileID: 413900213517843464}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

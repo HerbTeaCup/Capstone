@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33145011657245778}
   - component: {fileID: 23520876108754934}
   - component: {fileID: 64471745036977158}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wall_corner_outside
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 1263131005459428950}
   - component: {fileID: 5902103426935901274}
   - component: {fileID: 7159781443367628594}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 1159820377685003751}
   - component: {fileID: 3615280334168901687}
   - component: {fileID: 7334304485266707961}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

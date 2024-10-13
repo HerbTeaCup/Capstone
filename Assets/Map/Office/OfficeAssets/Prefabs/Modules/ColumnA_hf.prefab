@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33900008476537322}
   - component: {fileID: 23467229304452756}
   - component: {fileID: 65124609844327604}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ColumnA_hf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 446da16ba6fe8dd428b82bd61210def5, type: 2}
+  - {fileID: 2100000, guid: 88135b5b42357484b93d3ecf2ce00d75, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 6029112130280605267}
   - component: {fileID: 54645098591761271}
   - component: {fileID: 8416882783299431391}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

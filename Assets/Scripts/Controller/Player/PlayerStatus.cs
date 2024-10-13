@@ -22,6 +22,7 @@ public class PlayerStatus : GenericUnit
     [HideInInspector] public Transform ExcuteTransform;
     [HideInInspector] public Vector3 TargetDir;
 
+
     protected override void Start()
     {
         base.Start();

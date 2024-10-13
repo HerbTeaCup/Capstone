@@ -38,6 +38,8 @@ public class PlayerMove : MonoBehaviour
         //GameManager.Input.InputDelegate += WorldMove;
 
         _radius = _cc.radius;
+
+        _targetRotation = this.transform.rotation.eulerAngles.y;
     }
     private void Update()
     {

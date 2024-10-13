@@ -377,19 +377,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400154, guid: 765e2fde8c84f094e99304c6198491ea, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400154, guid: 765e2fde8c84f094e99304c6198491ea, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400154, guid: 765e2fde8c84f094e99304c6198491ea, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400154, guid: 765e2fde8c84f094e99304c6198491ea, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400154, guid: 765e2fde8c84f094e99304c6198491ea, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -397,7 +397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400154, guid: 765e2fde8c84f094e99304c6198491ea, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 400154, guid: 765e2fde8c84f094e99304c6198491ea, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -546,6 +546,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hp: 10
   MaxHP: 10
+  hpSlider: {fileID: 0}
+  hpText: {fileID: 0}
   weaponIndex: 0
   walkSpeed: 2
   runSpeed: 5
@@ -560,6 +562,8 @@ MonoBehaviour:
   attraction: 0
   executable: 0
   executing: 0
+  weakDetecting: 0
+  strongDetecting: 0
   searchRadius: 10
   boundaryTime: 2
   captureTime: 5
@@ -615,6 +619,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 502f8138bc10de149937c1038ade51c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weakDetectionUIPrefab: {fileID: 138861854564572293, guid: e8c4a5b2aad98ee4184402839126ebdb, type: 3}
+  strongDetectionUIPrefab: {fileID: 1658531697941432533, guid: 0b4c1d3f89a2ae84282a498b2aadc29d, type: 3}
+  stealthUIPrefab: {fileID: 5244232115903904935, guid: c6cf631377b48b64790b48cd9a4dbc9f, type: 3}
+  uiOffset: {x: 0, y: 2, z: 0}
+  stealthAngleThreshold: 60
+  maxStealthDistance: 2.5
 --- !u!114 &6866196442634182497
 MonoBehaviour:
   m_ObjectHideFlags: 0

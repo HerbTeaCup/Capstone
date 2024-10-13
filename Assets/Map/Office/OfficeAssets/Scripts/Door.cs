@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Door : MonoBehaviour {
 	private Animation anim;
-	public float OpenSpeed = 1;
-	public float CloseSpeed = 1;
+	public float OpenSpeed = 3;
+	public float CloseSpeed = 3;
 	public bool isAutomatic = false;
 	public bool AutoClose = false;
 	public bool DoubleSidesOpen = false;
@@ -51,22 +51,30 @@ public class Door : MonoBehaviour {
 		anim.Play (_animName);
 	}
 
-	void OnTriggerEnter(Collider other){
-		if(other.GetComponent<Collider>().tag == PlayerHeadTag){
-			if(DoubleSidesOpen){
-			relativePos = gameObject.transform.InverseTransformPoint (other.transform.position);
-			if (relativePos.z > 0) {
+	void OnTriggerEnter(Collider other)
+	{
+		//if(other.GetComponent<Collider>().tag == PlayerHeadTag)
+		//{
+
+		//}
+		if (DoubleSidesOpen)
+		{
+			relativePos = gameObject.transform.InverseTransformPoint(other.transform.position);
+			if (relativePos.z > 0)
+			{
 				_animName = OpenForwardAnimName;
-			} else {
+			}
+			else
+			{
 				_animName = OpenBackwardAnimName;
 			}
-			}
-			if (isAutomatic) {
-				OpenDoor ();
-			}
-
-			inTrigger = true;
 		}
+		if (isAutomatic)
+		{
+			OpenDoor();
+		}
+
+		inTrigger = true;
 	}
 	void OnTriggerExit(Collider other){
 		if(other.GetComponent<Collider>().tag == PlayerHeadTag){

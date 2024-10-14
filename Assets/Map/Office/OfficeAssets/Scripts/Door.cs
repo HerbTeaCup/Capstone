@@ -8,11 +8,11 @@ public class Door : MonoBehaviour {
 	public bool isAutomatic = false;
 	public bool AutoClose = false;
 	public bool DoubleSidesOpen = false;
-	public string PlayerHeadTag = "MainCamera";
 	public string OpenForwardAnimName = "Door_anim";
 	public string OpenBackwardAnimName = "DoorBack_anim";
 	private string _animName;
 	private bool inTrigger = false;
+	[SerializeField] bool notOpen;
 	private bool isOpen = false;
 	private Vector3 relativePos;
 	// Use this for initialization
@@ -20,28 +20,22 @@ public class Door : MonoBehaviour {
 		anim = GetComponent<Animation> ();
 		_animName = anim.clip.name;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (inTrigger == true) {
-			if(Input.GetKeyDown(KeyCode.E) && !isAutomatic){
-				if (!isOpen) {
-					isOpen = true;
-					OpenDoor ();
-				} else {
-					isOpen = false;
-					CloseDoor ();
-				}
-			}
+	void OpenDoor()
+	{
+		if (notOpen)
+		{
+			return;
 		}
-	}
-	void OpenDoor(){
 		anim [_animName].speed = 1 * OpenSpeed;
 		anim [_animName].normalizedTime = 0;
 		anim.Play (_animName);
 
 	}
 	void CloseDoor(){
+		if (notOpen)
+		{
+			return;
+		}
 		anim [_animName].speed = -1 * CloseSpeed;
 		if (anim [_animName].normalizedTime > 0) {
 			anim [_animName].normalizedTime = anim [_animName].normalizedTime;
@@ -57,6 +51,10 @@ public class Door : MonoBehaviour {
 		//{
 
 		//}
+		if (notOpen)
+        {
+			return;
+        }
 		if (DoubleSidesOpen)
 		{
 			relativePos = gameObject.transform.InverseTransformPoint(other.transform.position);
@@ -77,17 +75,28 @@ public class Door : MonoBehaviour {
 		inTrigger = true;
 	}
 	void OnTriggerExit(Collider other){
-		if(other.GetComponent<Collider>().tag == PlayerHeadTag){
-			if (isAutomatic) {
-				CloseDoor ();
-			} else {
-				inTrigger = false;
-			}
-			if (AutoClose && isOpen) {
-				CloseDoor ();
-				inTrigger = false;
-				isOpen = false;
-			}
+		if (notOpen)
+        {
+			return;
+        }
+
+		//if(other.GetComponent<Collider>().tag == PlayerHeadTag)
+		//{
+			
+		//}
+		if (isAutomatic)
+		{
+			CloseDoor();
+		}
+		else
+		{
+			inTrigger = false;
+		}
+		if (AutoClose && isOpen)
+		{
+			CloseDoor();
+			inTrigger = false;
+			isOpen = false;
 		}
 	}
 }

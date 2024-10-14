@@ -171,6 +171,6 @@ public class EnemyLook : MonoBehaviour
     {
         Gizmos.color = _gizmoColor ? Color.green : Color.red;
 
-        Gizmos.DrawWireSphere(this.transform.position, 10f);
+        Gizmos.DrawWireSphere(this.transform.position, 7.5f);
     }
 }

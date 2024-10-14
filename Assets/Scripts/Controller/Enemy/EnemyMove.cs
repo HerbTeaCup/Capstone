@@ -36,7 +36,7 @@ public class EnemyMove : MonoBehaviour
             return;
 
         _navAgent.isStopped = false;
-        _navAgent.speed = Mathf.Lerp(_navAgent.speed, _status.runSpeed, 10 * Time.deltaTime);
+        _navAgent.speed = Mathf.Lerp(_navAgent.speed, _status.walkSpeed, 10 * Time.deltaTime);
 
         if (_navAgent.remainingDistance - _navAgent.stoppingDistance < 0.1f)
         {
@@ -56,7 +56,7 @@ public class EnemyMove : MonoBehaviour
         if (_status.state != EnemyState.Boundary)
             return;
 
-        _navAgent.isStopped = false;
+        _navAgent.isStopped = true;
         this.transform.LookAt(_status.player.transform.position);
     }
     void CatureMove()
@@ -65,6 +65,8 @@ public class EnemyMove : MonoBehaviour
         if (_status.state != EnemyState.Capture)
             return;
 
+        _navAgent.isStopped = false;
+
         float targetSpeed = 0f;
         if (_navAgent.remainingDistance < 5f)
         {
@@ -72,11 +74,11 @@ public class EnemyMove : MonoBehaviour
         }
         else
         {
-            targetSpeed = 4f;
+            targetSpeed = _status.runSpeed;
         }
         if (_status.curveNeed)
         {
-            targetSpeed = 4f;
+            targetSpeed = _status.walkSpeed;
         }
 
         _navAgent.speed = Mathf.Lerp(_navAgent.speed, targetSpeed, 10 * Time.deltaTime);

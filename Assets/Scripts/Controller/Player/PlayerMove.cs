@@ -38,6 +38,8 @@ public class PlayerMove : MonoBehaviour
         //GameManager.Input.InputDelegate += WorldMove;
 
         _radius = _cc.radius;
+
+        _targetRotation = this.transform.rotation.eulerAngles.y;
     }
     private void Update()
     {
@@ -72,6 +74,13 @@ public class PlayerMove : MonoBehaviour
             _Dir.z = GameManager.Input.XZdir.y;
 
             _targetRotation = Mathf.Atan2(_Dir.x, _Dir.z) * Mathf.Rad2Deg + CameraArm.transform.eulerAngles.y;
+        }
+        if (GameManager.Input.Aiming)
+        {
+            this.transform.rotation = Quaternion.LookRotation(this.transform.forward);
+
+            _targetRotation = this.transform.rotation.eulerAngles.y;
+            
         }
 
         _targetDir = (Quaternion.Euler(0, _targetRotation, 0) * Vector3.forward).normalized;

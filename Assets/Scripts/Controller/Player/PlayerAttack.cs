@@ -26,6 +26,10 @@ public class PlayerAttack : MonoBehaviour
 
         UpdateAmmoUI();
     }
+    private void Update()
+    {
+        _status.CurrentWeapon.gameObject.SetActive(GameManager.Input.Aiming);
+    }
 
     void Fire()
     {

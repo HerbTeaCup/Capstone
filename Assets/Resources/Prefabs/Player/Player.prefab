@@ -1452,6 +1452,7 @@ MonoBehaviour:
   weapons:
   - {fileID: 831683473545504885}
   isReloading: 0
+  _powerOverwheming: 1
   _invincibleTime: 1
   speedBlend: 10
   trunSpeedBlend: 20
@@ -2013,7 +2014,7 @@ GameObject:
   - component: {fileID: 1193582002463635413}
   - component: {fileID: 8346029347085237697}
   - component: {fileID: 5019103440030769858}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: TargetPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2443,7 +2444,7 @@ GameObject:
   - component: {fileID: 4878895003819443246}
   - component: {fileID: 3727452183554380100}
   - component: {fileID: 9211689439126757917}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: CameraPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}

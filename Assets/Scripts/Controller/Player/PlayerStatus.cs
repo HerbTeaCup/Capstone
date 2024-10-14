@@ -7,6 +7,7 @@ public class PlayerStatus : GenericUnit
 {
     [Header("Battle")]
     public bool isReloading = false;
+    [SerializeField] bool _powerOverwheming;
     [SerializeField] float _invincibleTime = 1.0f;
 
     float _invincibleDeltaTime = 0f;
@@ -37,6 +38,7 @@ public class PlayerStatus : GenericUnit
 
     public override void TakeDamage(int dmg)
     {
+        if (_powerOverwheming) { return; }
         if(_damagedAble == false) { return; }
 
         _invincibleDeltaTime = 0f;

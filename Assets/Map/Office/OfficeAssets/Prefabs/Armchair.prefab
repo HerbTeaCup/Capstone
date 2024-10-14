@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 33476028616528666}
   - component: {fileID: 23713129567583518}
   - component: {fileID: 5488699249246901541}
-  - component: {fileID: 4727327950886656708}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Armchair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,21 +103,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0400006, y: 0.7899999, z: 0.8200003}
+  m_Size: {x: 1.0400006, y: 3, z: 0.8200003}
   m_Center: {x: 0, y: 0.39500037, z: -0.0000007599592}
---- !u!208 &4727327950886656708
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451103470038554}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.52000004, y: 0.395, z: 0.41000003}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0.395, z: 0}
-  m_TimeToStationary: 0.5

@@ -100,7 +100,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -206,7 +206,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 111567387890822264}
   - component: {fileID: 65306453502913582}
   - component: {fileID: 114464585977995504}
+  - component: {fileID: 8825255073107796843}
   m_Layer: 0
   m_Name: DoorGlass
   m_TagString: Untagged
@@ -359,6 +360,19 @@ MonoBehaviour:
   PlayerHeadTag: MainCamera
   OpenForwardAnimName: DoorDouble_forward
   OpenBackwardAnimName: DoorDouble_backward
+--- !u!114 &8825255073107796843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197366628067548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1191b3e4a287ee7744bb43c03a8f4848, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AnimSpeed: 1
 --- !u!1 &6188959241166198781
 GameObject:
   m_ObjectHideFlags: 0

@@ -120,8 +120,6 @@ GameObject:
   - component: {fileID: 111326451257458030}
   - component: {fileID: 65018053396766674}
   - component: {fileID: 114537572265854260}
-  - component: {fileID: 6296283628279575527}
-  - component: {fileID: 559544874106546094}
   m_Layer: 0
   m_Name: DoorGlassDecor
   m_TagString: Untagged
@@ -252,35 +250,9 @@ MonoBehaviour:
   isAutomatic: 0
   AutoClose: 1
   DoubleSidesOpen: 1
-  PlayerHeadTag: MainCamera
   OpenForwardAnimName: DoorDouble_forward
   OpenBackwardAnimName: DoorDouble_backward
---- !u!114 &6296283628279575527
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1336128374007992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1191b3e4a287ee7744bb43c03a8f4848, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AnimSpeed: 1
---- !u!114 &559544874106546094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1336128374007992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1191b3e4a287ee7744bb43c03a8f4848, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AnimSpeed: 1
+  notOpen: 0
 --- !u!1 &1411324007916140
 GameObject:
   m_ObjectHideFlags: 0

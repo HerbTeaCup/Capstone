@@ -17,21 +17,20 @@ public class QAParking_Door : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other){
-		if(other.GetComponent<Collider>().tag == "Player"){
-			anim [_animName].speed = 1 * AnimSpeed;
-			anim [_animName].normalizedTime = 0;
-			anim.Play ();
-		}
+		anim[_animName].speed = 1 * AnimSpeed;
+		anim[_animName].normalizedTime = 0;
+		anim.Play();
 	}
 	void OnTriggerExit(Collider other){
-		if(other.GetComponent<Collider>().tag == "Player"){
-			anim [_animName].speed = -1 * AnimSpeed;
-			if (anim [_animName].normalizedTime > 0) {
-				anim [_animName].normalizedTime = anim [_animName].normalizedTime;
-			} else {
-				anim [_animName].normalizedTime = 1;
-			}
-			anim.Play ();
+		anim[_animName].speed = -1 * AnimSpeed;
+		if (anim[_animName].normalizedTime > 0)
+		{
+			anim[_animName].normalizedTime = anim[_animName].normalizedTime;
 		}
+		else
+		{
+			anim[_animName].normalizedTime = 1;
+		}
+		anim.Play();
 	}
 }

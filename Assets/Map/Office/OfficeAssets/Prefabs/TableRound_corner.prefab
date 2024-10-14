@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4699915796830948}
   - component: {fileID: 33232848714668034}
   - component: {fileID: 23725632366696470}
-  - component: {fileID: 64974277596124776}
+  - component: {fileID: 5733399413838801322}
   m_Layer: 8
   m_Name: TableRound_corner
   m_TagString: Untagged
@@ -84,8 +84,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64974277596124776
-MeshCollider:
+--- !u!65 &5733399413838801322
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -102,7 +102,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 706f63401e1bf1844ac44e3e9e4d785f, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 1.2500001, y: 4, z: 1.2500006}
+  m_Center: {x: 7.104805e-16, y: 0.37499976, z: 0.0000002682209}

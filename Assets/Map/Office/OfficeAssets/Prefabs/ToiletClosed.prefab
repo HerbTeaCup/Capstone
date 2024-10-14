@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4045696251316024}
   - component: {fileID: 33128921858235222}
   - component: {fileID: 23618779580829264}
-  - component: {fileID: 64578050212288688}
+  - component: {fileID: 8656572149215906954}
   m_Layer: 0
   m_Name: ToiletClosed_LOD0
   m_TagString: Untagged
@@ -84,8 +84,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64578050212288688
-MeshCollider:
+--- !u!65 &8656572149215906954
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -102,10 +102,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300002, guid: 2f35323ca02609843b924ae65f4b484b, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 0.36008143, y: 0.9992796, z: 0.5601534}
+  m_Center: {x: 0.00000002980233, y: 0.4996405, z: 0.2797906}
 --- !u!1 &1334458708334416
 GameObject:
   m_ObjectHideFlags: 0

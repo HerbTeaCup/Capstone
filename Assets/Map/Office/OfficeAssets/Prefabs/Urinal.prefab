@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4907079763918880}
   - component: {fileID: 33811242176285352}
   - component: {fileID: 23891097021589950}
-  - component: {fileID: 64601855335752356}
+  - component: {fileID: 93285956599808481}
   m_Layer: 0
   m_Name: Urinal_LOD0
   m_TagString: Untagged
@@ -84,8 +84,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64601855335752356
-MeshCollider:
+--- !u!65 &93285956599808481
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -102,10 +102,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300004, guid: ccbc13a65b910d84da6b039d907a45f9, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 0.3499999, y: 1.0109692, z: 0.39974}
+  m_Center: {x: 0.0000009164214, y: 0.50548595, z: 0.199854}
 --- !u!1 &1731686336089182
 GameObject:
   m_ObjectHideFlags: 0

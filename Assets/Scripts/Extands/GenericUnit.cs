@@ -6,10 +6,11 @@ using UnityEngine.UI;
 public class GenericUnit : MonoBehaviour, IUnitDamageable
 {
     [Header("Generic Unit")]
-    public int Hp;
-    public int MaxHP;
-    public Slider hpSlider; // hp slider UI
-    public Text hpText; // hp text UI
+    public float Hp;
+    public float MaxHP;
+    /*public Slider hpSlider; // hp slider UI
+    public Text hpText; // hp text UI*/
+    public ImgsFillDynamic hpGauge;
     public int weaponIndex = 0;
 
     public bool IsAlive { get { return Hp > 0; } }
@@ -25,25 +26,12 @@ public class GenericUnit : MonoBehaviour, IUnitDamageable
     protected virtual void Start()
     {
         StatInit();
-        StatUIInit();
+        UpdateHPGauge();
     }
 
     void StatInit()
     {
         Hp = MaxHP;
-    }
-
-    void StatUIInit() // Status UI 초기화
-    {
-        // hpSlider가 할당되지 않았을 경우
-        if (hpSlider == null)
-        {
-            Debug.LogWarning("The hpSlider is not assigned in the Inspector!");
-            return;
-        }
-        hpSlider.minValue = 0; // hp 최솟값
-        hpSlider.maxValue = MaxHP; // hp 최댓값
-        hpSlider.value = Hp; // hp 현재 값
     }
 
     public virtual void TakeDamage(int dmg)
@@ -52,7 +40,18 @@ public class GenericUnit : MonoBehaviour, IUnitDamageable
             return;
 
         Hp -= dmg;
+        Hp = Mathf.Clamp(Hp, 0, MaxHP); // HP가 0 미만으로 내려가지 않도록 제한
+        UpdateHPGauge(); // HP 변경 시 게이지 업데이트
 
         Debug.Log("Damaged");
+    }
+
+    void UpdateHPGauge()
+    {
+        if (hpGauge != null)
+        {
+            float hpRatio = Hp / MaxHP; // 현재 HP 비율 계산
+            hpGauge.SetValue(hpRatio); // Simple Round Gauge에 비율 적용
+        }
     }
 }

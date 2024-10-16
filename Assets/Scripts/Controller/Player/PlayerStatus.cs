@@ -39,14 +39,25 @@ public class PlayerStatus : GenericUnit
     public override void TakeDamage(int dmg)
     {
         if (_powerOverwheming) { return; }
-        if(_damagedAble == false) { return; }
+        if (_damagedAble == false) { return; }
 
         _invincibleDeltaTime = 0f;
         base.TakeDamage(dmg);
 
         // hpSlider와 hpText가 null이 아닐 경우에 UI 넣기
-        if (base.hpSlider != null) base.hpSlider.value = base.Hp;
-        if (base.hpText != null) base.hpText.text = (float)base.Hp / (float)base.MaxHP * 100.0 + "%";
+        /*if (base.hpSlider != null) base.hpSlider.value = base.Hp;
+        if (base.hpText != null) base.hpText.text = (float)base.Hp / (float)base.MaxHP * 100.0 + "%";*/
         // base.hpText.text = base.Hp + " / " + base.MaxHp;
+
+        UpdateHPGauge();
+    }
+
+    void UpdateHPGauge()
+    {
+        if (base.hpGauge != null)
+        {
+            float hpRatio = base.Hp / base.MaxHP; // HP 비율 계산
+            base.hpGauge.SetValue(hpRatio); // Simple Round Gauge 업데이트
+        }
     }
 }

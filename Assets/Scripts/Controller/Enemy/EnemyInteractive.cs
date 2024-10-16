@@ -123,11 +123,26 @@ public class EnemyInteractive : InteractableObjExtand
 
     void UpdateUIPosition(GameObject obj) // UI 적의 머리 위로 이동
     {
-/*        if (_status.player == null)
-            return;*/
-        if (obj != null)
+        /*        if (_status.player == null)
+                    return;*/
+        
+        /*if (obj != null)
         {
             obj.transform.position = this.transform.position + uiOffset;
+        }*/
+
+        if (obj != null)
+        {
+            // 카메라의 위치와 방향을 기준으로 UI 위치 업데이트
+            Vector3 uiPosition = this.transform.position + uiOffset;
+            uiPosition.y += Mathf.Sin(Time.time) * 0.1f; // 약간의 흔들림 효과
+            obj.transform.position = uiPosition;
+
+            // UI를 반전시켜 보이게 함
+            obj.transform.localScale = new Vector3(-1f, 1f, 1f); // X축 반전
+
+            // 카메라의 방향을 고려하여 UI가 항상 카메라를 바라보도록 설정
+            obj.transform.LookAt(Camera.main.transform);
         }
     }
 

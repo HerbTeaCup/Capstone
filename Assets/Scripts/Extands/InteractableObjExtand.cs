@@ -12,4 +12,9 @@ public class InteractableObjExtand : MonoBehaviour, IinteractableObj
     {
 
     }
+
+    public virtual void UpdateUIPosition(Camera camera)
+    {
+
+    }
 }

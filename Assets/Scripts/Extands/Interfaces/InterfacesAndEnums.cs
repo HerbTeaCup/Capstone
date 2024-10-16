@@ -20,6 +20,7 @@ public interface IinteractableObj
     public bool ui_Show { get; set; }
 
     public void Interaction();
+    public void UpdateUIPosition(Camera camera);
 }
 
 public interface IManager

@@ -58,7 +58,7 @@ public class NoiseGenerator : InteractableObjExtand
         testGameobj.SetActive(true); // 테스트 obj
 
         // UI 활성화 및 위치 업데이트
-        UpdateUIPosition();
+        UpdateUIPosition(Camera.main);
         interactionUI.SetActive(true);
     }
     public override void Interaction()
@@ -73,11 +73,20 @@ public class NoiseGenerator : InteractableObjExtand
     }
 
     // UI를 오브젝트 위치 근처로 이동
-    void UpdateUIPosition()
+    void UpdateUIPosition(Camera camera)
     {
         if (interactionUI != null)
         {
-            interactionUI.transform.position = transform.position + uiOffset;
+            // UI의 위치 계산
+            Vector3 worldPosition = transform.position + uiOffset;
+            interactionUI.transform.position = worldPosition;
+
+            // UI를 반전시켜 보이게 함
+            interactionUI.transform.localScale = new Vector3(-1f, 1f, 1f); // X축 반전
+
+            // 카메라의 방향을 고려하여 UI가 항상 카메라를 바라보도록 설정
+            interactionUI.transform.LookAt(camera.transform);
+            interactionUI.transform.Rotate(0, 180f, 0); // UI를 반전된 방향으로 회전
         }
     }
 }

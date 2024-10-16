@@ -10,10 +10,12 @@ public class PlayerInteraction : MonoBehaviour
 
     IinteractableObj obj;
     PlayerStatus _status;
+    private Camera mainCamera;
 
     private void Start()
     {
         _status = this.GetComponent<PlayerStatus>();
+        mainCamera = Camera.main;
 
         GameManager.Input.InputDelegate += ObjFounding;
         GameManager.Input.InputDelegate += WorkingObj;
@@ -39,6 +41,7 @@ public class PlayerInteraction : MonoBehaviour
         if (obj != null)
         {
             obj.ui_Show = true;
+            obj.UpdateUIPosition(mainCamera);
         }
     }
     private void OnDrawGizmos()

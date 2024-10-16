@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StageManager : IManager
 {
-    public byte detectionDegree = 0;
+    public int detectionDegree = 0;
     public int remainingEnemy = 0;
     public bool targetEliminated = false;
 

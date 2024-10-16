@@ -10,14 +10,16 @@ public class GameManager : MonoBehaviour, IManager
     CameraManager _cam = new CameraManager();
     EnemyManager _enemy = new EnemyManager();
     StageManager _stage = new StageManager();
-    UIManager _ui = new UIManager();
+
+    //Monobehavior
+    UIManager _ui; 
 
     public static GameManager Instance { get { Init(); return _ins; } }
     public static InputManager Input { get { return Instance._input; } }
     public static CameraManager Cam { get { return Instance._cam; } }
     public static EnemyManager Enemy { get { return Instance._enemy; } }
     public static StageManager Stage { get { return Instance._stage; } }
-    public static UIManager UI { get {  return Instance._ui; } }
+    public static UIManager UI { get { return Instance._ui; } set { Instance._ui = value; } }
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +51,7 @@ public class GameManager : MonoBehaviour, IManager
 
             temp.TryGetComponent<GameManager>(out _ins);
             if (_ins == null) { _ins = temp.AddComponent<GameManager>(); }
+
             temp.TryGetComponent<InputManager>(out _ins._input);
             if (_ins._input == null) { _ins._input = temp.AddComponent<InputManager>(); }
         }

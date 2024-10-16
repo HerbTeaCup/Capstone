@@ -5,32 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour, IManager
 {
-    static UIManager _instance = null;
-
-    public static UIManager Instance { get { Init(); return _instance; } }
-
     public GameObject[] uiElementToHide; // 숨길 UI 배열
     public GameObject[] otherUIElements; // 숨기지 않을 UI 배열
 
-    // 초기화 메소드
-    static void Init()
-    {
-        if (_instance == null)
-        {
-            GameObject temp = GameObject.Find("@UIManager");
-
-            if (temp == null)
-            {
-                temp = new GameObject("@UIManager");
-            }
-
-            temp.TryGetComponent<UIManager>(out _instance);
-            if (_instance == null) { _instance = temp.AddComponent<UIManager>(); }
-        }
-    }
-
     void Awake()
     {
+        
+    }
+    private void Start()
+    {
+        GameManager.UI = this;
+
         ResetUI();
         HideUI();
         ShowUI();

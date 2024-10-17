@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour, IManager
     StageManager _stage = new StageManager();
 
     //Monobehavior
-    UIManager _ui; 
+    UIManager _ui;
+    LoadingSceneManager _loadingScene;
 
     public static GameManager Instance { get { Init(); return _ins; } }
     public static InputManager Input { get { return Instance._input; } }
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour, IManager
     public static EnemyManager Enemy { get { return Instance._enemy; } }
     public static StageManager Stage { get { return Instance._stage; } }
     public static UIManager UI { get { return Instance._ui; } set { Instance._ui = value; } }
+    public static LoadingSceneManager LoadingScene { get { return Instance._loadingScene; } set { Instance._loadingScene = value; } }
 
     // Start is called before the first frame update
     void Start()
@@ -63,5 +65,6 @@ public class GameManager : MonoBehaviour, IManager
         Enemy.Clear();
         Stage.Clear();
         UI.Clear();
+        LoadingScene.Clear();
     }
 }

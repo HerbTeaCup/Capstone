@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4665185030206567927}
   - component: {fileID: 7942317722822640451}
   - component: {fileID: 3613220126096680497}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Weak Detection UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}

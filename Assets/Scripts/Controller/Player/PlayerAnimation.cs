@@ -10,6 +10,7 @@ public class PlayerAnimation : MonoBehaviour
 
     bool _shootDelta = false;
     bool _isExecuting = false;
+
     // Start is called before the first frame update
     void Start()
     {

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5967819510731567116}
   - component: {fileID: 4208429318588200607}
   - component: {fileID: 6441477890615508403}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 330083110932575334}
   - component: {fileID: 7448535770812025544}
   - component: {fileID: 7906501901110582915}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Stealth UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -324,7 +324,7 @@ GameObject:
   - component: {fileID: 8586214992456074465}
   - component: {fileID: 6482012219552862365}
   - component: {fileID: 8486291969955611264}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}

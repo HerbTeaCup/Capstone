@@ -19,6 +19,7 @@ public class GenericUnit : MonoBehaviour, IUnitDamageable
     public float runSpeed;
     public float currnetSpeed = 0f; //오타있는데 수정안함
 
+
     public List<WeaponExtand> weapons = new List<WeaponExtand>();
     public WeaponExtand CurrentWeapon { get { return weapons[weaponIndex]; } }
 

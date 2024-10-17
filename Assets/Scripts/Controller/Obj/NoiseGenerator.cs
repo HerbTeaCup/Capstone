@@ -73,7 +73,7 @@ public class NoiseGenerator : InteractableObjExtand
     }
 
     // UI를 오브젝트 위치 근처로 이동
-    void UpdateUIPosition(Camera camera)
+    public override void UpdateUIPosition(Camera camera)
     {
         if (interactionUI != null)
         {

@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour, IManager
             if (temp == null)
             {
                 temp = new GameObject("@GameManager");
+                DontDestroyOnLoad(temp);
             }
 
             temp.TryGetComponent<GameManager>(out _ins);
@@ -56,6 +57,18 @@ public class GameManager : MonoBehaviour, IManager
 
             temp.TryGetComponent<InputManager>(out _ins._input);
             if (_ins._input == null) { _ins._input = temp.AddComponent<InputManager>(); }
+
+            // LoadingSceneManager 확인 및 추가
+            if (_ins._loadingScene == null)
+            {
+                _ins._loadingScene = FindObjectOfType<LoadingSceneManager>();
+                if (_ins._loadingScene == null)
+                {
+                    GameObject loadingObj = new GameObject("LoadingSceneManager");
+                    _ins._loadingScene = loadingObj.AddComponent<LoadingSceneManager>();
+                    DontDestroyOnLoad(loadingObj);
+                }
+            }
         }
     }
     public void Clear()

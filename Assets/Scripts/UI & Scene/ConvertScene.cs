@@ -17,7 +17,15 @@ public class ConvertScene : MonoBehaviour
     private void Start()
     {
         // 로딩 매니저 컴포넌트 찾기
-        loadingManager = FindObjectOfType<LoadingSceneManager>();
+        loadingManager = GameManager.LoadingScene;
+        if (loadingManager == null)
+        {
+            Debug.LogError("LoadingSceneManager가 존재하지 않습니다.");
+        }
+        else
+        {
+            Debug.Log("LoadingSceneManager가 정상적으로 연결되었습니다.");
+        }
 
         // 버튼에 클릭 이벤트 연결
         if (mainMenu != null) mainMenu.onClick.AddListener(() => OnButtonClicked(0));
@@ -33,7 +41,12 @@ public class ConvertScene : MonoBehaviour
         // 로딩 매니저를 통해 씬 로드
         if (loadingManager != null)
         {
+            Debug.Log($"LoadScene({sceneIndex}) 호출됨");
             loadingManager.LoadScene(sceneIndex);
+        }
+        else
+        {
+            Debug.LogError("LoadingSceneManager가 연결되지 않았습니다.");
         }
     }
 }

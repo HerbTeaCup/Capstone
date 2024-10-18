@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour, IManager
     // GameManager가 이미 존재하면 새로 생성되지 않도록 수정
     static void Init()
     {
-        if (_ins == null && SceneManager.GetActiveScene().buildIndex != 0)
+        if (_ins == null)
         {
             GameObject temp = GameObject.Find("@GameManager");
 

@@ -33,6 +33,7 @@ public class EnemyLook : MonoBehaviour
         
         distanceToPlayer = Mathf.Infinity;
         _gizmoColor = temp.Length > 0;
+        _status.player = null;
 
         if (temp.Length == 0)
             return false;
@@ -86,13 +87,17 @@ public class EnemyLook : MonoBehaviour
         if (Physics.Raycast(this.transform.position + Vector3.up * 1.5f, directionToTarget, out hit, _status.searchRadius) == false)
             return false;
 
-        //돌아야 하는지 체크
-        CurvedCheck(directionToTarget);
-
         Debug.DrawLine(this.transform.position + Vector3.up * 1.5f, _status.player.position + Vector3.up * 1.5f);
 
         if (hit.transform.gameObject.layer != LayerMask.NameToLayer("Player"))
-            return false; // 레이어가 Player가 아니면 false 반환
+        {
+            _status.curveNeed = true;
+            return false;
+        }
+        else
+        {
+            _status.curveNeed = false;
+        }
 
         distanceToPlayer = Vector3.Distance(this.transform.position, _status.player.position);
 
@@ -150,21 +155,6 @@ public class EnemyLook : MonoBehaviour
             // Nothing, hide entire UIs.
             _status.weakDetecting = false;
             _status.strongDetecting = false;
-        }
-    }
-    void CurvedCheck(Vector3 dir)
-    {
-        if (_status.IsAlive == false || _status.executing) { return; }
-        if (_status.state != EnemyState.Capture)
-            return;
-
-        if (Physics.Raycast(this.transform.position + Vector3.up, dir, _status.searchRadius, 1 << 8))
-        {
-            _status.curveNeed = true;
-        }
-        else
-        {
-            _status.curveNeed = false;
         }
     }
     private void OnDrawGizmos()

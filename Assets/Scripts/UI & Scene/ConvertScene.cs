@@ -38,11 +38,13 @@ public class ConvertScene : MonoBehaviour
 
     void OnButtonClicked(int sceneIndex)
     {
+        Time.timeScale = 1; // 씬 전환 전 시간 초기화
         // 로딩 매니저를 통해 씬 로드
         if (loadingManager != null)
         {
             Debug.Log($"LoadScene({sceneIndex}) 호출됨");
             loadingManager.LoadScene(sceneIndex);
+            // loadingManager.LoadSceneWithInit(sceneIndex);
         }
         else
         {

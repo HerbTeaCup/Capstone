@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour, IManager
 {
@@ -11,7 +12,7 @@ public class GameManager : MonoBehaviour, IManager
     EnemyManager _enemy = new EnemyManager();
     StageManager _stage = new StageManager();
 
-    //Monobehavior
+    // MonoBehaviour
     UIManager _ui;
     LoadingSceneManager _loadingScene;
 
@@ -40,6 +41,8 @@ public class GameManager : MonoBehaviour, IManager
         Input.LateUpdater();
         Enemy.LateUpdater();
     }
+
+    // GameManager가 이미 존재하면 새로 생성되지 않도록 수정
     static void Init()
     {
         if (_ins == null)
@@ -71,13 +74,37 @@ public class GameManager : MonoBehaviour, IManager
             }
         }
     }
+
+    // PlayerInput 유지: 씬 전환 후 PlayerInput 초기화 방지
+    public void PreservePlayerInput()
+    {
+        var playerInput = FindObjectOfType<PlayerInput>();
+        if (playerInput != null)
+        {
+            DontDestroyOnLoad(playerInput.gameObject);
+            Debug.Log("PlayerInput이 유지되었습니다.");
+        }
+        else
+        {
+            Debug.LogError("PlayerInput을 찾을 수 없습니다.");
+        }
+    }
+
     public void Clear()
     {
-        Input.Clear();
-        Cam.Clear();
-        Enemy.Clear();
-        Stage.Clear();
-        UI.Clear();
-        LoadingScene.Clear();
+        Debug.Log("Clearing Camera...");
+        if (Cam != null) Cam.Clear();
+
+        Debug.Log("Clearing Enemies...");
+        if (Enemy != null) Enemy.Clear();
+
+        Debug.Log("Clearing Stage...");
+        if (Stage != null) Stage.Clear();
+
+        Debug.Log("Clearing UI...");
+        if (UI != null) UI.Clear();
+
+        Debug.Log("Clearing Loading Scene...");
+        if (LoadingScene != null) LoadingScene.Clear();
     }
 }

@@ -1,22 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
-public class LoadingSceneManager : MonoBehaviour, IManager
+public class LoadingSceneManager : MonoBehaviour
 {
     [Header("Loading UI")]
     public GameObject loadingScreen;  // 로딩 화면 오브젝트
-    public Slider progressSlider; // 로딩 진행 바
-    public Text progressText; // 퍼센티지 텍스트
+    public Slider progressSlider;     // 로딩 진행 바
+    public Text progressText;         // 퍼센티지 텍스트
 
     private static LoadingSceneManager _instance;
 
     private void Start()
     {
-        // 싱글톤 패턴 적용으로 중복 생성 방지
+        // 중복 생성 방지
         if (_instance == null)
         {
             _instance = this;
@@ -62,6 +62,79 @@ public class LoadingSceneManager : MonoBehaviour, IManager
 
         StartCoroutine(LoadAsynchronously(sceneIndex));
     }
+
+    public void LoadSceneWithInit(int sceneIndex)
+    {
+        if (SceneManager.GetActiveScene().buildIndex == sceneIndex)
+        {
+            Debug.LogWarning("이미 활성화된 씬입니다.");
+            return;
+        }
+        StartCoroutine(InitializeAndLoadScene(sceneIndex));
+    }
+
+    private IEnumerator InitializeAndLoadScene(int sceneIndex)
+    {
+        // 씬 전환 전 Time.timeScale을 복구
+        Time.timeScale = 1;
+
+        // 현재 씬의 오브젝트들 초기화 및 정리
+        yield return StartCoroutine(CleanupCurrentScene());
+
+        // 로딩 시작
+        if (loadingScreen != null)
+        {
+            loadingScreen.SetActive(true);
+        }
+        yield return StartCoroutine(LoadAsynchronously(sceneIndex));
+
+        // 씬이 로드된 후 플레이어 관련 초기화 (입력 관련 콜백 등)
+        var player = GameObject.FindWithTag("Player");
+
+        if (player != null)
+        {
+            var playerInput = player.GetComponent<PlayerInput>();
+            if (playerInput != null)
+            {
+                // 액션 맵 활성화 전에 InputActionAsset에 "Gameplay"가 있는지 확인
+                if (playerInput.actions.FindActionMap("Gameplay") != null)
+                {
+                    playerInput.SwitchCurrentActionMap("Gameplay");  // 액션 맵 활성화
+                    Debug.Log("Gameplay 액션 맵으로 전환되었습니다.");
+                }
+                else
+                {
+                    Debug.LogError("Gameplay 액션 맵을 찾을 수 없습니다.");
+                }
+            }
+            else
+            {
+                Debug.LogError("PlayerInput이 연결되지 않았습니다.");
+            }
+        }
+    }
+
+    // 현재 씬의 활성화된 모든 오브젝트를 초기화 및 정리
+    private IEnumerator CleanupCurrentScene()
+    {
+        Debug.Log("씬 초기화 중...");
+        GameManager.Instance.Clear(); // 모든 매니저의 Clear 메서드 호출
+
+        GameObject player = GameObject.FindWithTag("Player");
+        var playerInput = FindObjectOfType<PlayerInput>();
+
+        // 씬의 루트 오브젝트 비활성화
+        var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
+        foreach (var obj in rootGameObjects)
+        {
+            if (obj != gameObject && obj != player && obj != playerInput) // LoadingSceneManager는 제외
+            {
+                obj.SetActive(false); // 필요에 따라 오브젝트를 비활성화
+            }
+        }
+        yield return new WaitForSeconds(0.5f); // 잠시 대기
+    }
+
 
     private void EnsureUIComponents()
     {
@@ -114,7 +187,7 @@ public class LoadingSceneManager : MonoBehaviour, IManager
         operation.allowSceneActivation = true;  // 씬 활성화 허용
 
         while (!operation.isDone)
-        { 
+        {
             yield return null;
         }
 

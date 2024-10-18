@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour, IManager
 {
@@ -45,7 +46,7 @@ public class GameManager : MonoBehaviour, IManager
     // GameManager가 이미 존재하면 새로 생성되지 않도록 수정
     static void Init()
     {
-        if (_ins == null)
+        if (_ins == null && SceneManager.GetActiveScene().buildIndex != 0)
         {
             GameObject temp = GameObject.Find("@GameManager");
 
@@ -67,9 +68,19 @@ public class GameManager : MonoBehaviour, IManager
                 _ins._loadingScene = FindObjectOfType<LoadingSceneManager>();
                 if (_ins._loadingScene == null)
                 {
-                    GameObject loadingObj = new GameObject("LoadingSceneManager");
-                    _ins._loadingScene = loadingObj.AddComponent<LoadingSceneManager>();
-                    DontDestroyOnLoad(loadingObj);
+                    // 여기에서 새로운 오브젝트를 만들지 않고 기존 오브젝트 확인
+                    GameObject loadingSceneObj = GameObject.Find("@LoadingSceneManager");
+                    if (loadingSceneObj == null)
+                    {
+                        // LoadingSceneManager가 없을 때만 새로 생성
+                        loadingSceneObj = new GameObject("@LoadingSceneManager");
+                        _ins._loadingScene = loadingSceneObj.AddComponent<LoadingSceneManager>();
+                    }
+                    else
+                    {
+                        // 이미 존재하는 경우 찾기
+                        _ins._loadingScene = loadingSceneObj.GetComponent<LoadingSceneManager>();
+                    }
                 }
             }
         }
@@ -103,8 +114,5 @@ public class GameManager : MonoBehaviour, IManager
 
         Debug.Log("Clearing UI...");
         if (UI != null) UI.Clear();
-
-        Debug.Log("Clearing Loading Scene...");
-        if (LoadingScene != null) LoadingScene.Clear();
     }
 }

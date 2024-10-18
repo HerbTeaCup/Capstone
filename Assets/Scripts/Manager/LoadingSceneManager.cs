@@ -12,7 +12,7 @@ public class LoadingSceneManager : MonoBehaviour
     public Slider progressSlider;     // 로딩 진행 바
     public Text progressText;         // 퍼센티지 텍스트
 
-    private static LoadingSceneManager _instance;
+    private static LoadingSceneManager _instance = GameManager.LoadingScene;
 
     private void Start()
     {
@@ -20,15 +20,16 @@ public class LoadingSceneManager : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
-            GameManager.LoadingScene = this;
+            //GameManager.LoadingScene = this;
             DontDestroyOnLoad(gameObject);
             EnsureUIComponents();
             Debug.Log("LoadingSceneManager 인스턴스가 생성되었습니다.");
         }
-        else
+        else if (!_instance != this)
         {
             Destroy(gameObject);  // 중복된 인스턴스는 삭제
             Debug.LogWarning("LoadingSceneManager 중복 생성이 감지되어 파괴되었습니다.");
+            return;
         }
 
         // 처음에는 로딩 화면 비활성화
@@ -121,17 +122,17 @@ public class LoadingSceneManager : MonoBehaviour
         GameManager.Instance.Clear(); // 모든 매니저의 Clear 메서드 호출
 
         GameObject player = GameObject.FindWithTag("Player");
-        var playerInput = FindObjectOfType<PlayerInput>();
 
         // 씬의 루트 오브젝트 비활성화
         var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
         foreach (var obj in rootGameObjects)
         {
-            if (obj != gameObject && obj != player && obj != playerInput) // LoadingSceneManager는 제외
+            if (obj != gameObject && obj != player) // LoadingSceneManager는 제외
             {
-                obj.SetActive(false); // 필요에 따라 오브젝트를 비활성화
+                obj.SetActive(false);
             }
         }
+
         yield return new WaitForSeconds(0.5f); // 잠시 대기
     }
 
@@ -141,7 +142,7 @@ public class LoadingSceneManager : MonoBehaviour
         // 로딩 화면을 찾고, 없으면 Resources에서 로드
         if (loadingScreen == null)
         {
-            GameObject loadingPrefab = Resources.Load<GameObject>("Prefabs/UI/Loading Screen");
+            GameObject loadingPrefab = Resources.Load<GameObject>("Prefabs/UI/Loading Screen"); // ResourceManager 사용해야 함
             if (loadingPrefab != null)
             {
                 loadingScreen = Instantiate(loadingPrefab);

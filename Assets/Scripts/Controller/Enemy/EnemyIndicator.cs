@@ -20,9 +20,21 @@ public class EnemyIndicator : MonoBehaviour
     private Image targetImage;  // 동적 로드 UI 이미지
     private Text targetDistanceText;  // 동적 로드 거리 텍스트
     private RectTransform imageRect; // UI 이미지의 RectTransform
+    private RectTransform textRect; // UI 텍스트의 RectTransform
 
     void Start()
     {
+        // Main Camera 자동 설정
+        if (mainCamera == null)
+        {
+            mainCamera = Camera.main;
+            if (mainCamera == null)
+            {
+                Debug.LogError("Main Camera를 찾을 수 없습니다. 메인 카메라를 설정해주세요.");
+                return;
+            }
+        }
+
         _status = GetComponent<EnemyStatus>();
         LoadUI();
         GameManager.Enemy.UpdateDelegate += UpdateUI;
@@ -63,6 +75,7 @@ public class EnemyIndicator : MonoBehaviour
 
         if (targetDistanceText != null)
         {
+            textRect = targetDistanceText.GetComponent<RectTransform>();
             targetDistanceText.enabled = false;  // 초기에는 비활성화
         }
     }
@@ -106,6 +119,7 @@ public class EnemyIndicator : MonoBehaviour
 
         // UI 이미지의 위치를 갱신
         imageRect.anchoredPosition = new Vector2(screenPos.x - Screen.width / 2, screenPos.y - Screen.height / 2);
+        textRect.anchoredPosition = new Vector2(screenPos.x - Screen.width / 2, screenPos.y - Screen.height / 2);
 
         // 화면 밖으로 나갔을 경우, 경계에 붙이기
         if (screenPos.z < 0 || screenPos.x < 0 || screenPos.x > Screen.width || screenPos.y < 0 || screenPos.y > Screen.height)
@@ -123,11 +137,17 @@ public class EnemyIndicator : MonoBehaviour
             else if (clampedPosition.y == Screen.height) clampedPosition.y = Screen.height - 30; // 아래쪽 경계에서 약간 떨어지게
 
             imageRect.anchoredPosition = clampedPosition - new Vector2(Screen.width / 2, Screen.height / 2);
+            textRect.anchoredPosition = clampedPosition - new Vector2(Screen.width / 2, Screen.height / 2);
         }
 
-        // 회전 처리: 이미지는 회전하고, 텍스트는 회전하지 않음
-        targetImage.transform.rotation = Quaternion.Euler(0, 0, 0); // 이미지 회전
-        targetDistanceText.transform.rotation = Quaternion.Euler(0, 0, 0); // 텍스트는 회전하지 않음
-        targetDistanceText.text = $"{Mathf.Floor(distanceToPlayer)}m"; // 거리 텍스트 업데이트
+        // 회전 처리: UI 이미지가 적과 플레이어의 상대적인 위치를 가리키도록 회전
+        Vector3 directionToEnemy = (transform.position - player.position).normalized;
+        Vector3 cameraForward = mainCamera.transform.forward;
+        float angle = Mathf.Atan2(Vector3.Dot(cameraForward, Vector3.Cross(Vector3.up, directionToEnemy)), Vector3.Dot(cameraForward, directionToEnemy)) * Mathf.Rad2Deg;
+        targetImage.transform.rotation = Quaternion.Euler(0, 0, angle+90);
+
+
+        // 거리 텍스트 업데이트
+        targetDistanceText.text = $"{Mathf.Floor(distanceToPlayer)}m";
     }
 }

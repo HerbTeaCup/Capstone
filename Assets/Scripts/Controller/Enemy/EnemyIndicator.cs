@@ -5,22 +5,36 @@ using UnityEngine.UI;
 
 public class EnemyIndicator : MonoBehaviour
 {
+    EnemyStatus _status;
+
     [Header("Main Camera")]
     [SerializeField] Camera mainCamera; // 메인 카메라
 
     [Header("Target(Enemy) UI")]
-    [SerializeField] string targetCanvasPrefabPath = "Prefabs/UI/TargetIndicator/Target Enemy UI";  // 캔버스 프리팹 경로
+    [SerializeField] string targetCanvasPrefabPath = "Prefabs/UI/TargetIndicator/Target Enemy Canvas";  // 캔버스 프리팹 경로
+    [SerializeField] string missionCanvasPrefabPath= "Prefabs/UI/TargetIndicator/Mission Canvas";  // 캔버스 프리팹 경로
 
     [Header("Target Distance Settings")]
     [SerializeField] float activationDistance = 20f; // 목표 활성화 거리
     [SerializeField] float deactivationDistance = 20f; // 목표 비활성화 거리
 
-    EnemyStatus _status;
+    [Header("Enemy UI Settings")]
+    [SerializeField] Transform enemyUIPanel; // 모든 적의 UI를 표시할 패널
+
+    // 동적 로드 UI
+    private Image targetImage;  // 목표 위치 가시성 이미지
+    private Text targetDistanceText;  // 목표 위치 텍스트
+    private Image missionCompletedImage; // 미션 완수 이미지
+    private Text missionCompletedText; // 미션 완수 텍스트
+
     private Transform player; // 플레이어의 Transform
-    private Image targetImage;  // 동적 로드 UI 이미지
-    private Text targetDistanceText;  // 동적 로드 거리 텍스트
     private RectTransform imageRect; // UI 이미지의 RectTransform
     private RectTransform textRect; // UI 텍스트의 RectTransform
+    private RectTransform missionImageRect; // UI 이미지의 RectTransform
+    private RectTransform missionTextRect; // UI 텍스트의 RectTransform
+
+    private GameObject targetCanvas; // 목표 위치 Canvas
+    private GameObject missionCanvas; // 미션 Canvas
 
     void Start()
     {
@@ -36,36 +50,33 @@ public class EnemyIndicator : MonoBehaviour
         }
 
         _status = GetComponent<EnemyStatus>();
-        LoadUI();
+        
+        TargetLoadUI();
+        MissionLoadUI();
+
         GameManager.Enemy.UpdateDelegate += UpdateUI;
     }
 
+
+    #region UI 프리팹 로드 및 추가 메서드
     // UI 프리팹 로드 및 추가
-    void LoadUI()
+    void TargetLoadUI()
     {
         // 리소스 경로에서 캔버스 프리팹 로드
         GameObject targetCanvasPrefab = ResourceManager.Load<GameObject>(targetCanvasPrefabPath);
-        if (targetCanvasPrefab == null)
-        {
-            Debug.LogError($"Target Canvas 프리팹을 {targetCanvasPrefabPath} 경로에서 로드할 수 없습니다.");
-            return;
-        }
+        CheckPrefabLoad(targetCanvasPrefab); // 프리팹 로드 에러 체크
 
         // 동적으로 캔버스 생성 및 EnemyIndicator에 추가
-        GameObject targetCanvas = Instantiate(targetCanvasPrefab, transform);
+        targetCanvas = Instantiate(targetCanvasPrefab, transform);
 
         // 자식 오브젝트에서 이미지와 텍스트를 찾아 설정
         targetImage = targetCanvas.transform.Find("Position Image")?.GetComponent<Image>();
-        if (targetImage == null)
-        {
-            Debug.LogError("Position Image 오브젝트를 찾을 수 없거나 Image 컴포넌트가 없습니다.");
-        }
-
         targetDistanceText = targetCanvas.transform.Find("Distance Text")?.GetComponent<Text>();
-        if (targetDistanceText == null)
-        {
-            Debug.LogError("Distance Text 오브젝트를 찾을 수 없거나 Text 컴포넌트가 없습니다.");
-        }
+        #region Image 및 Text 컴포넌트 에러 확인
+        CheckImage(targetImage);
+        CheckText(targetDistanceText);
+        #endregion
+
 
         if (targetImage != null)
         {
@@ -79,12 +90,57 @@ public class EnemyIndicator : MonoBehaviour
             targetDistanceText.enabled = false;  // 초기에는 비활성화
         }
     }
+    void MissionLoadUI()
+    {
+        // 리소스 경로에서 캔버스 프리팹 로드
+        GameObject missionCanvasPrefab = ResourceManager.Load<GameObject>(missionCanvasPrefabPath);
+        CheckPrefabLoad(missionCanvasPrefab); // 프리팹 로드 에러 체크
+
+        // 동적으로 캔버스 생성 및 EnemyIndicator에 추가
+        missionCanvas = Instantiate(missionCanvasPrefab, transform);
+
+        // enemyUIPanel 자동 설정 (missionCanvas의 자식으로 찾기)
+        if (enemyUIPanel == null && missionCanvas != null)
+        {
+            enemyUIPanel = missionCanvas.transform.Find("EnemyUIPanel");
+            if (enemyUIPanel == null)
+            {
+                Debug.LogError("EnemyUIPanel을 찾을 수 없습니다. EnemyUIPanel을 설정해주세요.");
+                return;
+            }
+        }
+
+        // 자식 오브젝트에서 이미지와 텍스트를 찾아 설정
+        missionCompletedImage = missionCanvas.transform.Find("MissionCompleted Image")?.GetComponent<Image>();
+        missionCompletedText = missionCanvas.transform.Find("MissionCompleted Text")?.GetComponent<Text>();
+        #region Image 및 Text 컴포넌트 에러 확인
+        CheckImage(missionCompletedImage);
+        CheckText(missionCompletedText);
+        #endregion
+
+
+        if (missionCompletedImage != null)
+        {
+            missionImageRect = missionCompletedImage.GetComponent<RectTransform>();
+            missionCompletedImage.enabled = false;  // 초기에는 비활성화
+        }
+
+        if (missionCompletedText != null)
+        {
+            missionTextRect = missionCompletedText.GetComponent<RectTransform>();
+            missionCompletedText.enabled = false;  // 초기에는 비활성화
+        }
+    }
+    #endregion 
 
     // 목표 탐지 및 UI 업데이트
     void UpdateUI()
     {
         // 적의 상태 업데이트
-        if (_status.IsAlive == false || _status.executing) { return; }
+        if (_status.IsAlive == false || _status.executing) {
+            MarkEnemyAsDefeated(); 
+            return;
+        }
 
         if (player == null)
         {
@@ -150,4 +206,40 @@ public class EnemyIndicator : MonoBehaviour
         // 거리 텍스트 업데이트
         targetDistanceText.text = $"{Mathf.Floor(distanceToPlayer)}m";
     }
+
+    // 적을 잡았을 때 UI에 표시
+    void MarkEnemyAsDefeated()
+    {
+        if (missionCanvas != null)
+        {
+            // 적을 죽였다는 표시
+            missionCompletedImage.color = Color.gray;
+            missionCompletedText.text = "<s color='gray'>Mission Completed!</s>";
+        }
+    }
+
+    #region 에러 체크 메서드
+    void CheckPrefabLoad(GameObject prefab)
+    {
+        if (prefab == null)
+        {
+            Debug.LogError($"프리팹을 {prefab} 경로에서 로드할 수 없습니다.");
+            return;
+        }
+    }
+    void CheckImage(Image img)
+    {
+        if (img == null)
+        {
+            Debug.LogError("Image 오브젝트를 찾을 수 없거나 Image 컴포넌트가 없습니다.");
+        }
+    }
+    void CheckText(Text text)
+    {
+        if (text == null)
+        {
+            Debug.LogError("Text 오브젝트를 찾을 수 없거나 Text 컴포넌트가 없습니다.");
+        }
+    }
+    #endregion
 }

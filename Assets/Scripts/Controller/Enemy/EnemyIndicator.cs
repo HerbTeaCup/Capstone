@@ -12,11 +12,10 @@ public class EnemyIndicator : MonoBehaviour
     [SerializeField] string targetCanvasPrefabPath = "Prefabs/UI/TargetIndicator/Target Enemy UI";  // 캔버스 프리팹 경로
 
     [Header("Target Distance Settings")]
-    [SerializeField] float activationDistance = 10f; // 목표 활성화 거리
+    [SerializeField] float activationDistance = 20f; // 목표 활성화 거리
     [SerializeField] float deactivationDistance = 20f; // 목표 비활성화 거리
 
     EnemyStatus _status;
-
     private Transform player; // 플레이어의 Transform
     private Image targetImage;  // 동적 로드 UI 이미지
     private Text targetDistanceText;  // 동적 로드 거리 텍스트
@@ -98,6 +97,14 @@ public class EnemyIndicator : MonoBehaviour
         // 적의 위치를 화면 좌표로 변환
         Vector3 screenPos = mainCamera.WorldToScreenPoint(this.transform.position);
 
+        // 적이 카메라 뒤에 있을 때 화면 밖으로 보내지 않도록 처리
+        if (screenPos.z < 0)
+        {
+            screenPos.x = Screen.width - screenPos.x;
+            screenPos.y = Screen.height - screenPos.y;
+        }
+
+        // UI 이미지의 위치를 갱신
         imageRect.anchoredPosition = new Vector2(screenPos.x - Screen.width / 2, screenPos.y - Screen.height / 2);
 
         // 화면 밖으로 나갔을 경우, 경계에 붙이기
@@ -108,22 +115,18 @@ public class EnemyIndicator : MonoBehaviour
                 Mathf.Clamp(screenPos.y, 0, Screen.height)
             );
 
-            // UI 위치를 화면 가장자리로 조정
-            if (clampedPosition.x == 0)
-                clampedPosition.x = 30; // 왼쪽 경계에서 약간 떨어지게
-            else if (clampedPosition.x == Screen.width)
-                clampedPosition.x = Screen.width - 30; // 오른쪽 경계에서 약간 떨어지게
+            // UI 위치 조정 (왼쪽, 오른쪽, 위쪽, 아래쪽)
+            if (clampedPosition.x == 0) clampedPosition.x = 30; // 왼쪽 경계에서 약간 떨어지게
+            else if (clampedPosition.x == Screen.width) clampedPosition.x = Screen.width - 30; // 오른쪽 경계에서 약간 떨어지게
 
-            if (clampedPosition.y == 0)
-                clampedPosition.y = 30; // 위쪽 경계에서 약간 떨어지게
-            else if (clampedPosition.y == Screen.height)
-                clampedPosition.y = Screen.height - 30; // 아래쪽 경계에서 약간 떨어지게
+            if (clampedPosition.y == 0) clampedPosition.y = 30; // 위쪽 경계에서 약간 떨어지게
+            else if (clampedPosition.y == Screen.height) clampedPosition.y = Screen.height - 30; // 아래쪽 경계에서 약간 떨어지게
 
             imageRect.anchoredPosition = clampedPosition - new Vector2(Screen.width / 2, Screen.height / 2);
         }
 
-        // 회전 처리
-        targetImage.transform.rotation = Quaternion.Euler(0, 0, 0); // 항상 정면을 가리키게 하기 위해 0으로 초기화
+        // 회전 처리: 이미지는 회전하고, 텍스트는 회전하지 않음
+        targetImage.transform.rotation = Quaternion.Euler(0, 0, 0); // 이미지 회전
         targetDistanceText.transform.rotation = Quaternion.Euler(0, 0, 0); // 텍스트는 회전하지 않음
         targetDistanceText.text = $"{Mathf.Floor(distanceToPlayer)}m"; // 거리 텍스트 업데이트
     }

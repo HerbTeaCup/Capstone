@@ -23,7 +23,7 @@ public class EnemyAttack : MonoBehaviour
 
     void Fire()
     {
-        if (_status.IsAlive == false || _status.executing) { return; }
+        if (_status.IsAlive == false || _status.executing || _status.currnetSpeed > 2f) { return; }
         if (_status.CurrentWeapon.isEmpty)
         {
             reloadingTrigger = true;

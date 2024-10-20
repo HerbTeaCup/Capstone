@@ -33,8 +33,6 @@ public class EnemyStatus : GenericUnit
 
         this.walkTemp = this.walkSpeed;
         this.runTemp = this.runSpeed;
-
-        GameManager.Stage.remainingEnemy++;
     }
 
     public override void TakeDamage(int dmg)

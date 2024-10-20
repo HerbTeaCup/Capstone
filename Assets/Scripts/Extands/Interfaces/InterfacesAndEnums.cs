@@ -4,7 +4,8 @@ using UnityEngine;
 public enum AttackType
 {
     straight,
-    Radial
+    Radial,
+    Dotted
 }
 public enum EnemyState
 {

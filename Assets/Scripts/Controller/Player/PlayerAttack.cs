@@ -40,7 +40,7 @@ public class PlayerAttack : MonoBehaviour
             return;
         }
         UpdateAmmoUI(); // 초기 bullet 업데이트
-        if (_status.CurrentWeapon.AmmoMax < 1) { return; }
+        if (_status.CurrentWeapon.Magazine < 1) { return; }
 
         if (_status.CurrentWeapon.fireCurrentRate > 0f)
         {

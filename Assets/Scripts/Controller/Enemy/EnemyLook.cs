@@ -33,7 +33,6 @@ public class EnemyLook : MonoBehaviour
         
         distanceToPlayer = Mathf.Infinity;
         _gizmoColor = temp.Length > 0;
-        _status.player = null;
 
         if (temp.Length == 0)
             return false;
@@ -71,6 +70,7 @@ public class EnemyLook : MonoBehaviour
         if(_status.player == null) { return false; }
         //간단한 방향 벡터 구하기
         Vector3 directionToTarget = (_status.player.position - this.transform.position).normalized;
+        float distance = Vector3.Distance(_status.player.position, this.transform.position);
 
         //내적해서 각도 계산
         if (Vector3.Dot(directionToTarget, this.transform.forward) < 0.4f)
@@ -84,20 +84,16 @@ public class EnemyLook : MonoBehaviour
             _status.executable = false;
         }
         //내적값 통과하면 Raycast해서 사이에 별도의 오브젝트 있는지 체크
-        if (Physics.Raycast(this.transform.position + Vector3.up * 1.5f, directionToTarget, out hit, _status.searchRadius) == false)
+        if (Physics.Raycast(this.transform.position + Vector3.up * 1.5f, directionToTarget, out hit, distance) == false)
             return false;
+
+        //돌아야 하는지 체크
+        CurvedCheck(directionToTarget, distance);
 
         Debug.DrawLine(this.transform.position + Vector3.up * 1.5f, _status.player.position + Vector3.up * 1.5f);
 
         if (hit.transform.gameObject.layer != LayerMask.NameToLayer("Player"))
-        {
-            _status.curveNeed = true;
             return false;
-        }
-        else
-        {
-            _status.curveNeed = false;
-        }
 
         distanceToPlayer = Vector3.Distance(this.transform.position, _status.player.position);
 
@@ -113,14 +109,14 @@ public class EnemyLook : MonoBehaviour
         bool foundPlayer = Searching(out distanceToPlayer);
         
         _status.currentTime = _timeDelta;
+
         if (foundPlayer)
         {
             // 거리가 가까울수록 탐지 속도 증가
             float detectionSpeed = _status.searchRadius / Mathf.Max(distanceToPlayer, 0.1f) * detectionRate;
             _timeDelta += Time.deltaTime * detectionSpeed;
 
-            //발각 상태가 되면 10초가 되서 5초의 유예시간을 줌
-            if (_timeDelta > 10f || _status.state == EnemyState.Capture) { _timeDelta = 10f; return; }
+            if (_timeDelta > 4.5f || _status.state == EnemyState.Capture) { _timeDelta = 10f; }
 
             // 약한 감지
             _status.weakDetecting = true;
@@ -162,5 +158,21 @@ public class EnemyLook : MonoBehaviour
         Gizmos.color = _gizmoColor ? Color.green : Color.red;
 
         Gizmos.DrawWireSphere(this.transform.position, 7.5f);
+    }
+
+    void CurvedCheck(Vector3 dir, float distance)
+    {
+        if (_status.IsAlive == false || _status.executing) { return; }
+        if (_status.state != EnemyState.Capture)
+            return;
+
+        if (Physics.Raycast(this.transform.position + Vector3.up, dir, distance, 1 << 8))
+        {
+            _status.curveNeed = true;
+        }
+        else
+        {
+            _status.curveNeed = false;
+        }
     }
 }

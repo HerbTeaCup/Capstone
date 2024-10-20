@@ -18,11 +18,18 @@ public class EnemyAnimation : MonoBehaviour
     }
     private void Update()
     {
+        UpdateParameter();
+    }
+
+    void UpdateParameter()
+    {
         if (_status.IsAlive == false && _dead == false)
         {
             _anim.SetTrigger("Dying");
             _dead = true;
         }
+
+        _anim.SetFloat("Speed", _status.currnetSpeed);
     }
 
     void Excute()

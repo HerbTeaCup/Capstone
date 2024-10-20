@@ -49,6 +49,8 @@ public class EnemyMove : MonoBehaviour
             _indexCashe = _patrolIndex;
             _navAgent.SetDestination(PatrolPoints[_patrolIndex].position);
         }
+
+        _status.currnetSpeed = _navAgent.speed;
     }
     void BoundaryMove()
     {
@@ -61,29 +63,83 @@ public class EnemyMove : MonoBehaviour
     }
     void CatureMove()
     {
-        if (_status.IsAlive == false || _status.executing) { _navAgent.isStopped = true; return; }
+        //if (_status.IsAlive == false || _status.executing) { _navAgent.isStopped = true; return; }
+        //if (_status.state != EnemyState.Capture)
+        //    return;
+
+        //_navAgent.isStopped = false;
+
+        //float targetSpeed = 0f;
+        //if (_navAgent.remainingDistance < 5f)
+        //{
+        //    _navAgent.isStopped = true;
+        //    targetSpeed = 0f;
+        //    _status.currnetSpeed = 0f;
+        //}
+        //else
+        //{
+        //    _navAgent.isStopped = false;
+        //    targetSpeed = _status.runSpeed;
+        //}
+        //if (_status.curveNeed)
+        //{
+        //    _navAgent.isStopped = false;
+        //    targetSpeed = _status.runSpeed;
+        //}
+
+        //Debug.Log(_navAgent.remainingDistance);
+
+        //_navAgent.speed = Mathf.Lerp(_navAgent.speed, targetSpeed, 10 * Time.deltaTime);
+        //_navAgent.SetDestination(_status.player.transform.position);
+        //this.transform.LookAt(_status.player.transform.position);
+
+        //_status.currnetSpeed = _navAgent.speed;
+
+        if (_status.IsAlive == false || _status.executing)
+        {
+            _navAgent.isStopped = true;
+            return;
+        }
         if (_status.state != EnemyState.Capture)
             return;
 
         _navAgent.isStopped = false;
 
         float targetSpeed = 0f;
+
+        // 플레이어와의 거리가 5f 미만일 때
         if (_navAgent.remainingDistance < 5f)
         {
-            targetSpeed = 0f;
+            if (_status.curveNeed)
+            {
+                _navAgent.isStopped = true;
+                targetSpeed = _status.runSpeed;
+            }
+            else
+            {
+                _navAgent.isStopped = false;
+                targetSpeed = 0f;
+                _status.currnetSpeed = 0f;
+            }
         }
         else
         {
+            // 5f 이상일 때 플레이어 추적
+            _navAgent.isStopped = false;
             targetSpeed = _status.runSpeed;
         }
-        if (_status.curveNeed)
-        {
-            targetSpeed = _status.walkSpeed;
-        }
 
+        // 속도를 자연스럽게 변경
         _navAgent.speed = Mathf.Lerp(_navAgent.speed, targetSpeed, 10 * Time.deltaTime);
+
+        // 목적지를 플레이어의 위치로 설정
         _navAgent.SetDestination(_status.player.transform.position);
+
+        // 플레이어 쪽으로 회전
         this.transform.LookAt(_status.player.transform.position);
+
+        // 현재 속도 업데이트
+        _status.currnetSpeed = _navAgent.speed;
     }
     void Attraction()
     {
@@ -95,6 +151,8 @@ public class EnemyMove : MonoBehaviour
 
         _navAgent.SetDestination(_status.trapTransform.position);
         _navAgent.speed = Mathf.Lerp(_navAgent.speed, this._status.walkSpeed, 10 * Time.deltaTime);
+
+        _status.currnetSpeed = _navAgent.speed;
     }
 
     int IndexClamping(int value, int min, int max)

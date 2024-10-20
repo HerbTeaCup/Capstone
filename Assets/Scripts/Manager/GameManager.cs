@@ -6,16 +6,15 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour, IManager
 {
+    // MonoBehaviour
     static GameManager _ins = null;
     InputManager _input = null;
+    UIManager _ui;
+    LoadingSceneManager _loadingScene;
 
     CameraManager _cam = new CameraManager();
     EnemyManager _enemy = new EnemyManager();
     StageManager _stage = new StageManager();
-
-    // MonoBehaviour
-    UIManager _ui;
-    LoadingSceneManager _loadingScene;
 
     public static GameManager Instance { get { Init(); return _ins; } }
     public static InputManager Input { get { return Instance._input; } }

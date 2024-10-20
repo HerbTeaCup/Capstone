@@ -31,7 +31,7 @@ public class PlayerAnimation : MonoBehaviour
     }
     void InputParameterUpdate()
     {
-        if (_status.CurrentWeapon.AmmoMax > 0 && GameManager.Input.FireTrigger && GameManager.Input.Aiming && _shootDelta == false && _status.isReloading == false)
+        if (_status.CurrentWeapon.Magazine > 0 && GameManager.Input.FireTrigger && GameManager.Input.Aiming && _shootDelta == false && _status.isReloading == false)
         {
             _shootDelta = true;
             _anim.SetTrigger("Shoot");

@@ -21,6 +21,10 @@ public class EnemyIndicator : MonoBehaviour
     [Header("Enemy UI Settings")]
     [SerializeField] Transform enemyUIPanel; // 모든 적의 UI를 표시할 패널
 
+    [Header("Mission UI Settings")]
+    [SerializeField] GameObject missionFailedPanel; // 미션 실패 UI
+    [SerializeField] GameObject missionCompletedPanel; // 미션 완료 UI
+
     private Transform player; // 플레이어의 Transform
 
     public bool isMissionCompleted = false;
@@ -260,7 +264,6 @@ public class EnemyIndicator : MonoBehaviour
             missionCompletedText.text = "- Escape Here";
         }
     }
-
 
     #region 에러 체크 메서드
     bool CheckPrefabLoad(GameObject prefab)

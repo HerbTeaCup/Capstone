@@ -12,7 +12,7 @@ public class EnemyIndicator : MonoBehaviour
 
     [Header("Target(Enemy) UI")]
     [SerializeField] string targetCanvasPrefabPath = "Prefabs/UI/TargetIndicator/Target Enemy Canvas";  // 캔버스 프리팹 경로
-    [SerializeField] string missionCanvasPrefabPath= "Prefabs/UI/TargetIndicator/Mission Canvas";  // 캔버스 프리팹 경로
+    [SerializeField] string missionCanvasPrefabPath = "Prefabs/UI/TargetIndicator/Mission Canvas";  // 캔버스 프리팹 경로
 
     [Header("Target Distance Settings")]
     [SerializeField] float activationDistance = 20f; // 목표 활성화 거리
@@ -21,13 +21,17 @@ public class EnemyIndicator : MonoBehaviour
     [Header("Enemy UI Settings")]
     [SerializeField] Transform enemyUIPanel; // 모든 적의 UI를 표시할 패널
 
+    private Transform player; // 플레이어의 Transform
+
+    public bool isMissionCompleted = false;
+    public bool hasConvertText = false;
+
     // 동적 로드 UI
     private Image targetImage;  // 목표 위치 가시성 이미지
     private Text targetDistanceText;  // 목표 위치 텍스트
     private Image missionCompletedImage; // 미션 완수 이미지
     private Text missionCompletedText; // 미션 완수 텍스트
 
-    private Transform player; // 플레이어의 Transform
     private RectTransform imageRect; // UI 이미지의 RectTransform
     private RectTransform textRect; // UI 텍스트의 RectTransform
     private RectTransform missionImageRect; // UI 이미지의 RectTransform
@@ -50,7 +54,7 @@ public class EnemyIndicator : MonoBehaviour
         }
 
         _status = GetComponent<EnemyStatus>();
-        
+
         TargetLoadUI();
         MissionLoadUI();
 
@@ -73,8 +77,8 @@ public class EnemyIndicator : MonoBehaviour
         targetImage = targetCanvas.transform.Find("Position Image")?.GetComponent<Image>();
         targetDistanceText = targetCanvas.transform.Find("Distance Text")?.GetComponent<Text>();
         #region Image 및 Text 컴포넌트 에러 확인
-        CheckImage(targetImage);
-        CheckText(targetDistanceText);
+        if (CheckImage(targetImage) == false) Debug.Log(":Position Image");
+        if (CheckText(targetDistanceText) == false) Debug.Log(":Distance Text");
         #endregion
 
 
@@ -97,7 +101,7 @@ public class EnemyIndicator : MonoBehaviour
         CheckPrefabLoad(missionCanvasPrefab); // 프리팹 로드 에러 체크
 
         // 동적으로 캔버스 생성 및 EnemyIndicator에 추가
-        missionCanvas = Instantiate(missionCanvasPrefab, transform);
+        missionCanvas = Instantiate(missionCanvasPrefab, enemyUIPanel);
 
         // enemyUIPanel 자동 설정 (missionCanvas의 자식으로 찾기)
         if (enemyUIPanel == null && missionCanvas != null)
@@ -111,24 +115,23 @@ public class EnemyIndicator : MonoBehaviour
         }
 
         // 자식 오브젝트에서 이미지와 텍스트를 찾아 설정
-        missionCompletedImage = missionCanvas.transform.Find("MissionCompleted Image")?.GetComponent<Image>();
-        missionCompletedText = missionCanvas.transform.Find("MissionCompleted Text")?.GetComponent<Text>();
+        missionCompletedImage = missionCanvas.transform.Find("EnemyUIPanel/MissionCompleted Image")?.GetComponent<Image>();
+        missionCompletedText = missionCanvas.transform.Find("EnemyUIPanel/MissionCompleted Text")?.GetComponent<Text>();
         #region Image 및 Text 컴포넌트 에러 확인
-        CheckImage(missionCompletedImage);
-        CheckText(missionCompletedText);
+        if (CheckImage(missionCompletedImage) == false) Debug.Log(":MissionCompleted Image");
+        if (CheckText(missionCompletedText) == false) Debug.Log(":MissionCompleted Text");
         #endregion
-
 
         if (missionCompletedImage != null)
         {
             missionImageRect = missionCompletedImage.GetComponent<RectTransform>();
-            missionCompletedImage.enabled = false;  // 초기에는 비활성화
+            missionCompletedImage.enabled = true;  // 초기에는 활성화
         }
 
         if (missionCompletedText != null)
         {
             missionTextRect = missionCompletedText.GetComponent<RectTransform>();
-            missionCompletedText.enabled = false;  // 초기에는 비활성화
+            missionCompletedText.enabled = true;  // 초기에는 활성화
         }
     }
     #endregion 
@@ -137,8 +140,12 @@ public class EnemyIndicator : MonoBehaviour
     void UpdateUI()
     {
         // 적의 상태 업데이트
-        if (_status.IsAlive == false || _status.executing) {
-            MarkEnemyAsDefeated(); 
+        if (_status.IsAlive == false || _status.executing)
+        {
+            if (!isMissionCompleted)
+            {
+                MarkEnemyAsDefeated();
+            }
             return;
         }
 
@@ -200,7 +207,7 @@ public class EnemyIndicator : MonoBehaviour
         Vector3 directionToEnemy = (transform.position - player.position).normalized;
         Vector3 cameraForward = mainCamera.transform.forward;
         float angle = Mathf.Atan2(Vector3.Dot(cameraForward, Vector3.Cross(Vector3.up, directionToEnemy)), Vector3.Dot(cameraForward, directionToEnemy)) * Mathf.Rad2Deg;
-        targetImage.transform.rotation = Quaternion.Euler(0, 0, angle+90);
+        targetImage.transform.rotation = Quaternion.Euler(0, 0, angle + 90);
 
 
         // 거리 텍스트 업데이트
@@ -210,36 +217,78 @@ public class EnemyIndicator : MonoBehaviour
     // 적을 잡았을 때 UI에 표시
     void MarkEnemyAsDefeated()
     {
+        isMissionCompleted = true; // 미션 완료 상태로 설정
+
         if (missionCanvas != null)
         {
+            if (missionCompletedImage == null)
+            {
+                Debug.LogError("missionCompletedImage가 null입니다. 프리팹 구조를 확인하세요.");
+                return;
+            }
+
+            if (missionCompletedText == null)
+            {
+                Debug.LogError("missionCompletedText가 null입니다. 프리팹 구조를 확인하세요.");
+                return;
+            }
+
+            if (targetCanvas != null)
+            {
+                Destroy(targetCanvas); // 목표가 죽었을 경우에는 화살표 이미지 및 텍스트 제거
+                targetCanvas = null; // 참조를 null로 설정하여 접근 방지
+            }
+
             // 적을 죽였다는 표시
             missionCompletedImage.color = Color.gray;
-            missionCompletedText.text = "<s color='gray'>Mission Completed!</s>";
+            missionCompletedText.text = "<b>- Mission Accomplished!</b>";
+
+            // 일정 시간 후 텍스트 변경
+            if (!hasConvertText)
+            {
+                hasConvertText = true;
+                StartCoroutine(ChangeMissionTextAfterDelay(3f)); // 3초 후 텍스트 변경
+            }
+        }
+    }
+    IEnumerator ChangeMissionTextAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (isMissionCompleted)
+        {
+            missionCompletedText.text = "- Escape Here";
         }
     }
 
+
     #region 에러 체크 메서드
-    void CheckPrefabLoad(GameObject prefab)
+    bool CheckPrefabLoad(GameObject prefab)
     {
         if (prefab == null)
         {
             Debug.LogError($"프리팹을 {prefab} 경로에서 로드할 수 없습니다.");
-            return;
+            return false;
         }
+        return true;
     }
-    void CheckImage(Image img)
+    bool CheckImage(Image img)
     {
         if (img == null)
         {
             Debug.LogError("Image 오브젝트를 찾을 수 없거나 Image 컴포넌트가 없습니다.");
+            return false;
         }
+        return true;
     }
-    void CheckText(Text text)
+    bool CheckText(Text text)
     {
         if (text == null)
         {
             Debug.LogError("Text 오브젝트를 찾을 수 없거나 Text 컴포넌트가 없습니다.");
+            return false;
         }
+        return true;
     }
     #endregion
 }

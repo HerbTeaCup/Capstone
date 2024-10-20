@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/_Game Scene/Office.unity
     guid: 5f999225bdecfd64c947deef554f845d
   - enabled: 1
-    path: Assets/Scenes/_Game Scene/Office 1.unity
-    guid: 788c18a600d87a74ba03ca39abe289de
-  - enabled: 1
-    path: Assets/Scenes/_Game Scene/Office 2.unity
-    guid: 9dacf194fcc7243408bd6c74b9f1a22a
+    path: Assets/Scenes/_Game Scene/Office_Background.unity
+    guid: 3c34b1455eb6a1448bcb3b925cee8a29
   m_configObjects: {}

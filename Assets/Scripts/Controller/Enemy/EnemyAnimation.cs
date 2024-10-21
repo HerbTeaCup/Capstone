@@ -29,6 +29,7 @@ public class EnemyAnimation : MonoBehaviour
             _dead = true;
         }
 
+        _anim.SetBool("Chase", _status.state == EnemyState.Capture);
         _anim.SetFloat("Speed", _status.currnetSpeed);
     }
 

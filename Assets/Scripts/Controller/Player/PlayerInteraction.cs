@@ -7,6 +7,7 @@ public class PlayerInteraction : MonoBehaviour
 {
     //항상 인스펙터 확인해볼 것.
     [SerializeField] float interactionRadius;
+    [SerializeField] [Range(0.5f,1.5f)] float upperOffset;
 
     IinteractableObj obj;
     PlayerStatus _status;
@@ -24,7 +25,7 @@ public class PlayerInteraction : MonoBehaviour
     void ObjFounding()
     {
         if (_status.IsAlive == false) { return; }
-        Collider[] temps = Physics.OverlapSphere(this.transform.position, interactionRadius);
+        Collider[] temps = Physics.OverlapSphere(this.transform.position + Vector3.up * upperOffset, interactionRadius);
 
         foreach (Collider item in temps)
         {
@@ -48,7 +49,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
 
-        Gizmos.DrawWireSphere(this.transform.position, interactionRadius);
+        Gizmos.DrawWireSphere(this.transform.position + Vector3.up * upperOffset, interactionRadius);
     }
     void WorkingObj()
     {
@@ -61,6 +62,11 @@ public class PlayerInteraction : MonoBehaviour
 
         if (((MonoBehaviour)obj).TryGetComponent<EnemyInteractive>(out enemy) && _status.excuting == false)
         {
+            if (enemy._status.executable == false)
+            {
+                return;
+            }
+
             _status.excuting = true;
             StartCoroutine(Excuting());
         }

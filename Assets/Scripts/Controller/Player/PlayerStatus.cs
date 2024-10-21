@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerStatus : GenericUnit
 {
+    public PlayerSound Sound;
     [Header("Battle")]
     public bool isReloading = false;
     [SerializeField] bool _powerOverwheming;
@@ -17,6 +18,7 @@ public class PlayerStatus : GenericUnit
     public float speedBlend = 10f;
     public float trunSpeedBlend = 20f;
     public float viewSensitivity = 1f;
+    public bool isMoveable = true;
     public bool isGrounded = false;
     public bool excuting = false;
     public LayerMask GroundLayer;
@@ -27,6 +29,8 @@ public class PlayerStatus : GenericUnit
     protected override void Start()
     {
         base.Start();
+
+        Sound = GetComponent<PlayerSound>();
     }
     private void Update()
     {

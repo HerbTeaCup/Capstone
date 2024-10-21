@@ -57,6 +57,8 @@ public class EnemyAttack : MonoBehaviour
         //총알 생성 및 방향 설정
         Instantiate(WeaponExtand.Bullet, firePoint.position, firePoint.rotation);
         _status.CurrentWeapon.CurrentCapacity--;
+
+        _status.Sound.WeaponSoundPlay();
     }
     void RadialShoot()
     {

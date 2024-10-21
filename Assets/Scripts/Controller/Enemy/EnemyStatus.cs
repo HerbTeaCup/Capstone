@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyStatus : GenericUnit
 {
     [Header("EnemeyStatus")]
+    public EnemySound Sound = null;
     public Transform player = null;
     public Transform trapTransform = null;
     public EnemyState state = EnemyState.Idle;
@@ -31,8 +32,18 @@ public class EnemyStatus : GenericUnit
     {
         base.Start();
 
+        Sound = GetComponent<EnemySound>();
+
         this.walkTemp = this.walkSpeed;
         this.runTemp = this.runSpeed;
+    }
+    private void Update()
+    {
+        if (IsAlive == false)
+        {
+            Destroy(GetComponent<CapsuleCollider>());
+            Destroy(GetComponent<Rigidbody>());
+        }
     }
 
     public override void TakeDamage(int dmg)

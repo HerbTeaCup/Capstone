@@ -8,8 +8,7 @@ public class EnemySound : MonoBehaviour
 
     [SerializeField] AudioClip FootStepClip;
     [SerializeField] AudioClip WeaponClip;
-    [SerializeField] AudioClip HitCilp;
-    [SerializeField] AudioClip DieClip;
+    //[SerializeField] AudioClip HitCilp;
 
     // Start is called before the first frame update
     void Start()
@@ -19,24 +18,18 @@ public class EnemySound : MonoBehaviour
         Init();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void Init()
     {
         string path = "Sound/";
 
         if (FootStepClip == null)
-            Resources.Load<AudioClip>($"{path}FootSteps/Concrete_Type_02_05");
+            FootStepClip = Resources.Load<AudioClip>($"{path}FootSteps/Concrete_Type_02_05");
 
         if (WeaponClip == null)
-            Resources.Load<AudioClip>($"{path}Weapons/Shotgun-002");
+            WeaponClip = Resources.Load<AudioClip>($"{path}Weapons/Pistol-004");
 
-        if (HitCilp == null)
-            Resources.Load<AudioClip>($"{path}Weapons/Weapon_Hitting_Flesh-004");
+        //if (HitCilp == null)
+        //    HitCilp = Resources.Load<AudioClip>($"{path}Weapons/Weapon_Hitting_Flesh-004");
 
 
         //Load Check
@@ -44,7 +37,17 @@ public class EnemySound : MonoBehaviour
             Debug.Log($"Audio Load Fail");
         if (WeaponClip == null)
             Debug.Log($"Audio Load Fail");
-        if (HitCilp == null)
-            Debug.Log($"Audio Load Fail");
+        //if (HitCilp == null)
+        //    Debug.Log($"Audio Load Fail");
+    }
+
+    public void FootStepPlay()
+    {
+        _source.PlayOneShot(FootStepClip);
+    }
+
+    public void WeaponSoundPlay()
+    {
+        _source.PlayOneShot(WeaponClip);
     }
 }

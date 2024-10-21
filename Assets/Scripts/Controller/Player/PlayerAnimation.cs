@@ -9,6 +9,7 @@ public class PlayerAnimation : MonoBehaviour
     Animator _anim;
 
     bool _shootDelta = false;
+    bool _closeAttackDelta = false;
     bool _isExecuting = false;
 
     // Start is called before the first frame update
@@ -28,6 +29,7 @@ public class PlayerAnimation : MonoBehaviour
         _anim.SetFloat("Speed", _status.currnetSpeed);
         _anim.SetBool("Aiming", GameManager.Input.Aiming);
         _anim.SetBool("ShootDelta", _shootDelta);
+        _anim.SetBool("CloseDelta", _closeAttackDelta);
     }
     void InputParameterUpdate()
     {
@@ -36,7 +38,6 @@ public class PlayerAnimation : MonoBehaviour
             _shootDelta = true;
             _anim.SetTrigger("Shoot");
         }
-
         if (_status.excuting && !_isExecuting) // 이미 실행 중이 아닌 경우에만 트리거
         {
             _anim.SetTrigger("Excute");
@@ -46,11 +47,17 @@ public class PlayerAnimation : MonoBehaviour
         {
             _isExecuting = false; // 다음에 excute를 다시 실행할 수 있도록 플래그 초기화
         }
+        if (GameManager.Input.Aiming == false && GameManager.Input.FireTrigger)
+        {
+            _closeAttackDelta = true;
+            _anim.SetTrigger("CloseAttack");
+        }
 
         if (_status.CurrentWeapon.fireCurrentRate <= 0f)
         {
             _shootDelta = false;
-            return;
         }
+
+        _closeAttackDelta = _status.isMoveable;
     }
 }

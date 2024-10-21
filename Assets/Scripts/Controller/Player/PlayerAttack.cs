@@ -12,14 +12,18 @@ public class PlayerAttack : MonoBehaviour
     //[SerializeField] GameObject Bullet;
     [SerializeField] Transform target; //공격 대상 지점
     [SerializeField] Transform firePoint; //공격 시작 지점
+    [SerializeField] GameObject CloseAttackTrigger; //근접공격 Collider
     
     bool reloadingTrigger = false;
+    bool _closeAttackable = true;
 
     public Text ammoText; // Bullet Text UI
 
     void Start()
     {
         _status = GetComponent<PlayerStatus>();
+
+        CloseAttackTrigger.SetActive(false);
 
         GameManager.Input.InputDelegate += Fire;
         GameManager.Input.InputDelegate += ReLoad;
@@ -29,6 +33,8 @@ public class PlayerAttack : MonoBehaviour
     private void Update()
     {
         _status.CurrentWeapon.gameObject.SetActive(GameManager.Input.Aiming);
+
+        CloseAttack();
     }
 
     void Fire()
@@ -68,6 +74,8 @@ public class PlayerAttack : MonoBehaviour
         //총알 생성 및 방향 설정
         Instantiate(WeaponExtand.Bullet, firePoint.position, firePoint.rotation);
         _status.CurrentWeapon.CurrentCapacity--;
+
+        _status.Sound.WeaponSoundPlay();
     }
     void RadialShoot()
     {
@@ -106,12 +114,38 @@ public class PlayerAttack : MonoBehaviour
         reloadingTrigger = false;
     }
 
+    void CloseAttack()
+    {
+        if (GameManager.Input.Aiming == true)
+            return;
+        if (GameManager.Input.FireTrigger == false)
+            return;
+
+        if (_closeAttackable)
+        {
+            StartCoroutine(HitBoxOnOff());
+        }
+    }
+
     void UpdateAmmoUI()
     {
         if (ammoText != null & _status.CurrentWeapon != null)
         {
             ammoText.text = $"{_status.CurrentWeapon.CurrentCapacity} / {_status.CurrentWeapon.Magazine}";
         }
+    }
+
+    IEnumerator HitBoxOnOff()
+    {
+        CloseAttackTrigger.SetActive(true);
+        _closeAttackable = false;
+        _status.isMoveable = false;
+
+        yield return new WaitForSeconds(1.3f);
+
+        _status.isMoveable = true;
+        CloseAttackTrigger.SetActive(false);
+        _closeAttackable = true;
     }
 
     public void Clear()

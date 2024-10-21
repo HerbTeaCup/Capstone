@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class StageInteractiveObj : InteractableObjExtand
 {
+    [Tooltip("true면 스테이지 클리어 조건 상호작용")] [SerializeField] bool ClearCondition;
+
     AudioSource _effecSound;
 
     private void Start()
     {
-        GameManager.Stage.remainingStageObj++;
+        if (ClearCondition)
+        {
+            GameManager.Stage.remainingStageObj++;
+        }
     }
 
     public override void Interaction()
@@ -23,7 +28,12 @@ public class StageInteractiveObj : InteractableObjExtand
             //효과음 있으면 재생
         }
 
-        GameManager.Stage.remainingStageObj--;
+        Debug.Log($"{this.gameObject.name} Interaction");
+
+        if (ClearCondition)
+        {
+            GameManager.Stage.remainingStageObj--;
+        }
         interactable = false;
     }
 }

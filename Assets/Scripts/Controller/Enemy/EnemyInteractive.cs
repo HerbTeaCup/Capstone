@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class EnemyInteractive : InteractableObjExtand
 {
-    EnemyStatus _status;
+    public EnemyStatus _status;
 
     [Header("Detection UI")]
     [SerializeField] GameObject weakDetectionUIPrefab;  // 인스턴스된 '?' UI

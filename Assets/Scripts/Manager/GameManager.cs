@@ -113,5 +113,7 @@ public class GameManager : MonoBehaviour, IManager
 
         Debug.Log("Clearing UI...");
         if (UI != null) UI.Clear();
+
+        if (Stage != null) Stage.Clear();
     }
 }

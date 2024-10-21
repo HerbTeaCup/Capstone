@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 994533480738731882}
   - component: {fileID: 8875527894482033661}
   - component: {fileID: 1680323406134100443}
+  - component: {fileID: 6567120973262880960}
   m_Layer: 3
   m_Name: InteractivePoint
   m_TagString: Untagged
@@ -119,3 +120,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ClearCondition: 0
+--- !u!114 &6567120973262880960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6407286246137139067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e51d3a20f9de6ad43a11676b4f3eb0d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
+  targetCanvasPrefabPath: Prefabs/UI/TargetIndicator/Target Enemy Canvas
+  missionCanvasPrefabPath: Prefabs/UI/TargetIndicator/Mission Canvas
+  activationDistance: 500
+  deactivationDistance: 500
+  objectUIPanel: {fileID: 0}
+  missionFailedPanel: {fileID: 0}
+  missionCompletedPanel: {fileID: 0}
+  isMissionCompleted: 0
+  hasConvertText: 0

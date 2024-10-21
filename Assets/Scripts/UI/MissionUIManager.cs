@@ -22,8 +22,8 @@ public class MissionUIManager : MonoBehaviour
     public bool isMissionFailed = false;
 
     // 동적 로드 UI
-    private GameObject missionFailed; // 미션 실패
-    private GameObject missionCompleted; // 미션 성공
+    // private GameObject missionFailed; // 미션 실패
+    // private GameObject missionCompleted; // 미션 성공
 
     void Start()
     {
@@ -66,21 +66,21 @@ public class MissionUIManager : MonoBehaviour
             return;
         }
 
-        missionFailed = missionCanvasTransform.Find("MissionFailed_Panel").gameObject;
-        missionCompleted = missionCanvasTransform.Find("MissionCompleted_Panel").gameObject;
+        missionFailedPanel = missionCanvasTransform.Find("MissionFailed_Panel")?.gameObject;
+        missionCompletedPanel = missionCanvasTransform.Find("MissionCompleted_Panel")?.gameObject;
 
-        if (missionFailed != null)
+        if (missionFailedPanel != null)
         {
-            missionFailed.SetActive(false);  // 초기에는 비활성화
+           missionFailedPanel.SetActive(false);  // 초기에는 비활성화
         }
         else
         {
             Debug.LogError("MissionFailed_Panel을 찾을 수 없습니다. 경로를 확인해주세요.");
         }
 
-        if (missionCompleted != null)
+        if (missionCompletedPanel != null)
         {
-            missionCompleted.SetActive(false);  // 초기에는 비활성화
+            missionCompletedPanel.SetActive(false);  // 초기에는 비활성화
         }
         else
         {
@@ -97,6 +97,7 @@ public class MissionUIManager : MonoBehaviour
             {
                 ShowMissionFailedPanel();
                 isMissionFailed = true;
+                PauseGame();
             }
             return;
         }
@@ -108,6 +109,7 @@ public class MissionUIManager : MonoBehaviour
             {
                 ShowMissionCompletedPanel();
                 isMissionCompleted = true;
+                PauseGame();
             }
         }
     }
@@ -138,6 +140,38 @@ public class MissionUIManager : MonoBehaviour
         if (missionCompletedPanel != null)
         {
             missionCompletedPanel.SetActive(true); // 미션 완료 UI 활성화
+        }
+    }
+
+    void PauseGame()
+    {
+        Time.timeScale = 0f; // 게임 일시정지
+
+        Canvas[] allCanvas = FindObjectsOfType<Canvas>();
+        foreach (Canvas canvas in allCanvas)
+        {
+            if (canvas.gameObject != missionCanvas)
+            {
+                canvas.enabled = false;
+            }
+        }
+
+        // 미션 패널만 활성화
+        if (isMissionFailed && missionFailedPanel != null)
+        {
+            missionFailedPanel.SetActive(true);
+        }
+        
+        if (isMissionCompleted && missionCompletedPanel != null)
+        {
+            missionCompletedPanel.SetActive(true);
+        }
+
+        // Mission UI의 Canvas도 활성화
+        Canvas missionUICanvas = missionCanvas.GetComponentInChildren<Canvas>();
+        if (missionUICanvas != null)
+        {
+            missionUICanvas.enabled = true;
         }
     }
 }

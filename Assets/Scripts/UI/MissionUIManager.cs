@@ -97,7 +97,7 @@ public class MissionUIManager : MonoBehaviour
             {
                 ShowMissionFailedPanel();
                 isMissionFailed = true;
-                PauseGame();
+                StartCoroutine(PauseGameAfterDelay());
             }
             return;
         }
@@ -141,6 +141,13 @@ public class MissionUIManager : MonoBehaviour
         {
             missionCompletedPanel.SetActive(true); // 미션 완료 UI 활성화
         }
+    }
+
+    // 해당 코드가 있어야지 피가 0%가 되는 걸 본 이후에 미션 실패 창 팝업
+    IEnumerator PauseGameAfterDelay()
+    {
+        yield return new WaitForSeconds(1f); // 1초 대기 후
+        PauseGame();
     }
 
     void PauseGame()

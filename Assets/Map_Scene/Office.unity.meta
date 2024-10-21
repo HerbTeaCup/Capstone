@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: f551298726b969341ba41a5f2f866960
+<<<<<<<< HEAD:Assets/Map_Scene/Office.unity.meta
+guid: 5a0a5ef72bee60f4d9ec15b406c1ce3c
+========
+guid: 3c34b1455eb6a1448bcb3b925cee8a29
+>>>>>>>> main-temp-add-indicator:Assets/Scenes/_Game Scene/MainMenu Background Scene/Office_Background.unity.meta
 timeCreated: 1496223695
 licenseType: Store
 DefaultImporter:

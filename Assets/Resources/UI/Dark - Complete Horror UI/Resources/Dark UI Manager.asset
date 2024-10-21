@@ -34,6 +34,6 @@ MonoBehaviour:
   boldFont: {fileID: 11400000, guid: d452d52c272ff8442a3fce75bd39af55, type: 2}
   altFont: {fileID: 11400000, guid: 8b565b16fc86ee347943107f3b9f2da4, type: 2}
   alt2Font: {fileID: 0}
-  brandLogo: {fileID: 21300000, guid: 8c0eec3bdb21f6d46b1e9b0b5b7aa9b8, type: 3}
-  gameLogo: {fileID: 21300000, guid: 8c0eec3bdb21f6d46b1e9b0b5b7aa9b8, type: 3}
+  brandLogo: {fileID: 21300000, guid: ddc395f16ddb5f84a8a68ec1a6c6866b, type: 3}
+  gameLogo: {fileID: 21300000, guid: ddc395f16ddb5f84a8a68ec1a6c6866b, type: 3}
   logoColor: {r: 255, g: 255, b: 255, a: 255}

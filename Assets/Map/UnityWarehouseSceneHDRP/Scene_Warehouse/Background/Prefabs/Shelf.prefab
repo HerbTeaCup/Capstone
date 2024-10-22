@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6502038644542722341}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Shelf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,8 +81,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -6900385278981632002, guid: 1dfc970b59dd5a34f95ce5a5fe63c769, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -6900385278981632002, guid: 1dfc970b59dd5a34f95ce5a5fe63c769, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -6439663622188147049, guid: 1dfc970b59dd5a34f95ce5a5fe63c769, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -6439663622188147049, guid: 1dfc970b59dd5a34f95ce5a5fe63c769, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -105,6 +113,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 7642b781f0d08f7408d27b3b3b81f60d, type: 2}
     - target: {fileID: -4725594134784298328, guid: 1dfc970b59dd5a34f95ce5a5fe63c769, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -4725594134784298328, guid: 1dfc970b59dd5a34f95ce5a5fe63c769, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -125,12 +137,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: bdfd28d9839b21a4590fd49b32322129, type: 2}
     - target: {fileID: -1484000759336623469, guid: 1dfc970b59dd5a34f95ce5a5fe63c769, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -1484000759336623469, guid: 1dfc970b59dd5a34f95ce5a5fe63c769, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1dfc970b59dd5a34f95ce5a5fe63c769, type: 3}
       propertyPath: m_Name
       value: Shelf
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1dfc970b59dd5a34f95ce5a5fe63c769, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1dfc970b59dd5a34f95ce5a5fe63c769, type: 3}
       propertyPath: m_IsActive
@@ -144,6 +164,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 91d97c50fa49af049a0d9a8ca1bab928, type: 2}
+    - target: {fileID: 9065136288850963967, guid: 1dfc970b59dd5a34f95ce5a5fe63c769, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 9065136288850963967, guid: 1dfc970b59dd5a34f95ce5a5fe63c769, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647

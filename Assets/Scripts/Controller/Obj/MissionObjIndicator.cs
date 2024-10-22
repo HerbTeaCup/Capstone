@@ -105,17 +105,17 @@ public class MissionObjIndicator : MonoBehaviour
         // objectUIPanel 자동 설정 (missionCanvas의 자식으로 찾기)
         if (objectUIPanel == null && missionCanvas != null)
         {
-            objectUIPanel = missionCanvas.transform.Find("ObjectUIPanel");
+            objectUIPanel = missionCanvas.transform.Find("EnemyUIPanel");
             if (objectUIPanel == null)
             {
-                Debug.LogError("ObjectUIPanel을 찾을 수 없습니다. ObjectUIPanel을 설정해주세요.");
+                Debug.LogError("EnemyUIPanel을 찾을 수 없습니다. EnemyUIPanel을 설정해주세요.");
                 return;
             }
         }
 
         // 자식 오브젝트에서 이미지와 텍스트를 찾아 설정
-        missionCompletedImage = missionCanvas.transform.Find("ObjectUIPanel/MissionCompleted Image")?.GetComponent<Image>();
-        missionCompletedText = missionCanvas.transform.Find("ObjectUIPanel/MissionCompleted Text")?.GetComponent<Text>();
+        missionCompletedImage = missionCanvas.transform.Find("EnemyUIPanel/MissionCompleted Image")?.GetComponent<Image>();
+        missionCompletedText = missionCanvas.transform.Find("EnemyUIPanel/MissionCompleted Text")?.GetComponent<Text>();
         #region Image 및 Text 컴포넌트 에러 확인
         if (CheckImage(missionCompletedImage) == false) Debug.Log(":MissionCompleted Image");
         if (CheckText(missionCompletedText) == false) Debug.Log(":MissionCompleted Text");
@@ -247,6 +247,20 @@ public class MissionObjIndicator : MonoBehaviour
         if (isMissionCompleted)
         {
             missionCompletedText.text = "- Escape Here";
+        }
+    }
+
+    // UI 비활성화 메서드 추가
+    public void HideUI()
+    {
+        if (targetCanvas != null)
+        {
+            targetCanvas.SetActive(false); // 미션이 완료되었을 때 UI를 숨깁니다.
+        }
+
+        if (missionCanvas != null)
+        {
+            missionCanvas.SetActive(false); // 미션 관련 UI도 숨기기
         }
     }
 

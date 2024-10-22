@@ -17,34 +17,32 @@ public class StageInteractiveObj : InteractableObjExtand
 
     public override void Interaction()
     {
-        if (!interactable) return; // 상호작용 불가하면 리턴
+        if (!interactable) return;
 
         base.Interaction();
 
         if (_effectSound != null)
         {
-            _effectSound.Play(); // 효과음 재생
+            _effectSound.Play();
         }
 
         Debug.Log($"{this.gameObject.name} Interaction");
 
-        // ClearCondition이 true로 설정되었는지 확인
         if (!ClearCondition)
         {
-            ClearCondition = true;  // ClearCondition을 true로 변경
+            ClearCondition = true;
             Debug.Log("ClearCondition is now true.");
         }
 
         if (ClearCondition)
         {
             GameManager.Stage.remainingStageObj--;
-            FindObjectOfType<MissionManager>().ActivateNextMission(); // 다음 미션 활성화
+            FindObjectOfType<MissionManager>().ActivateNextMission();
         }
 
-        interactable = false; // 한 번 상호작용 후 더 이상 상호작용 불가
+        interactable = false;
     }
 
-    // 상호작용 가능 여부 설정
     public void SetInteractable(bool value)
     {
         interactable = value;

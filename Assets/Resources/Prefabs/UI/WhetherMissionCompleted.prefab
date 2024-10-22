@@ -298,7 +298,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1626576019167591372}
   m_Layer: 0
-  m_Name: Mission UI
+  m_Name: WhetherMissionCompleted
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -440,7 +440,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4351472840595529320}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: 0524f505ebc878a4fb18f49047ba65fe, type: 3}
+        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
+        m_MethodName: set_name
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3951872955858964356
 GameObject:
   m_ObjectHideFlags: 0

@@ -47,7 +47,7 @@ public class PlayerAnimation : MonoBehaviour
         {
             _isExecuting = false; // 다음에 excute를 다시 실행할 수 있도록 플래그 초기화
         }
-        if (GameManager.Input.Aiming == false && GameManager.Input.FireTrigger)
+        if (GameManager.Input.Aiming == false && GameManager.Input.FireTrigger && _closeAttackDelta == false)
         {
             _closeAttackDelta = true;
             _anim.SetTrigger("CloseAttack");
@@ -58,6 +58,9 @@ public class PlayerAnimation : MonoBehaviour
             _shootDelta = false;
         }
 
-        _closeAttackDelta = _status.isMoveable;
+        if (_status.isMoveable)
+        {
+            _closeAttackDelta = false; // 이동 가능할 때만 근접 공격 플래그 초기화
+        }
     }
 }

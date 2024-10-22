@@ -13,7 +13,7 @@ public class CloseAttack : MonoBehaviour
 
         if (other.TryGetComponent<IUnitDamageable>(out enemy))
         {
-            enemy.TakeDamage(10);
+            enemy.TakeDamage(5);
             this.transform.parent.GetComponent<PlayerStatus>().Sound.HitSoundPlay();
         }
     }

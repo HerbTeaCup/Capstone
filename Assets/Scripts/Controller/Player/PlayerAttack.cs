@@ -141,7 +141,7 @@ public class PlayerAttack : MonoBehaviour
         _closeAttackable = false;
         _status.isMoveable = false;
 
-        yield return new WaitForSeconds(1.3f);
+        yield return new WaitForSeconds(0.18f);
 
         _status.isMoveable = true;
         CloseAttackTrigger.SetActive(false);

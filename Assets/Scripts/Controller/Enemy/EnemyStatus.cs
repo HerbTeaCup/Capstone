@@ -15,6 +15,7 @@ public class EnemyStatus : GenericUnit
     public bool attraction = false; //true면 유인 당하는 중
     public bool executable = false; //true 일 때만 플레이어가 처형 가능
     public bool executing = false; //true면 처형당하는 중
+    public bool hitting = false;
 
     public bool weakDetecting = false;
     public bool strongDetecting = false;
@@ -57,7 +58,16 @@ public class EnemyStatus : GenericUnit
     {
         this.walkSpeed = 0f;
         this.runSpeed = 0f;
-        yield return new WaitForSeconds(0.6f);
+        this.hitting = true;
+
+        yield return new WaitForSeconds(1.8f);
+        if (player != null)
+        {
+            Vector3 dir = (player.position - this.transform.position).normalized;
+            this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(dir), 5f * Time.deltaTime);
+        }
+
+        this.hitting = false;
         this.walkSpeed = walkTemp;
         this.runSpeed = runTemp;
     }

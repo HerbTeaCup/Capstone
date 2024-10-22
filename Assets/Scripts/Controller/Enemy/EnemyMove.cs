@@ -54,11 +54,20 @@ public class EnemyMove : MonoBehaviour
     }
     void BoundaryMove()
     {
-        if (_status.IsAlive == false || _status.executing) { _navAgent.isStopped = true; return; }
+        if (_status.IsAlive == false || _status.executing) 
+        { 
+            _navAgent.isStopped = true;
+            _navAgent.speed = Mathf.Lerp(_navAgent.speed, 0f, 10 * Time.deltaTime);
+            _status.currnetSpeed = _navAgent.speed;
+            return; 
+        }
         if (_status.state != EnemyState.Boundary)
             return;
 
         _navAgent.isStopped = true;
+        _navAgent.speed = Mathf.Lerp(_navAgent.speed, 0f, 10 * Time.deltaTime);
+        _status.currnetSpeed = _navAgent.speed;
+
         this.transform.LookAt(_status.player.transform.position);
     }
     void CatureMove()
@@ -150,7 +159,11 @@ public class EnemyMove : MonoBehaviour
         if(_status.trapTransform == null) { Debug.Log($"trapTransform is null"); return; }
 
         _navAgent.SetDestination(_status.trapTransform.position);
-        _navAgent.speed = Mathf.Lerp(_navAgent.speed, this._status.walkSpeed, 10 * Time.deltaTime);
+
+        if (_navAgent.remainingDistance < 2f)
+            _navAgent.speed = Mathf.Lerp(_navAgent.speed, 0f, 10 * Time.deltaTime);
+        else
+            _navAgent.speed = Mathf.Lerp(_navAgent.speed, this._status.walkSpeed, 10 * Time.deltaTime);
 
         _status.currnetSpeed = _navAgent.speed;
     }

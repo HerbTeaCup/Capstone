@@ -13,8 +13,8 @@ public class MissionObjIndicator : MonoBehaviour
     [SerializeField] string missionCanvasPrefabPath = "Prefabs/UI/TargetIndicator/Mission Canvas";  // 캔버스 프리팹 경로
 
     [Header("Target Distance Settings")]
-    [SerializeField] float activationDistance = 20f; // 목표 활성화 거리
-    [SerializeField] float deactivationDistance = 20f; // 목표 비활성화 거리
+    [SerializeField] float activationDistance = 500f; // 목표 활성화 거리
+    [SerializeField] float deactivationDistance = 500f; // 목표 비활성화 거리
 
     [Header("Object UI Settings")]
     [SerializeField] Transform objectUIPanel; // 모든 오브젝트의 UI를 표시할 패널
@@ -42,7 +42,10 @@ public class MissionObjIndicator : MonoBehaviour
     private GameObject targetCanvas; // 목표 위치 Canvas
     private GameObject missionCanvas; // 미션 Canvas
 
-    void Start()
+    private static MissionObjIndicator currentIndicator;
+
+
+    public void Start()
     {
         // Main Camera 자동 설정
         if (mainCamera == null)
@@ -135,52 +138,50 @@ public class MissionObjIndicator : MonoBehaviour
     }
     #endregion
 
-    // 다음 미션의 UI 활성화
-    public static void ShowNextMissionUI()
+
+
+    // 미션 UI 활성화
+    public static void ShowMissionUIForMission(StageInteractiveObj missionObj)
     {
-        // 현재 활성화된 미션이 있다면 비활성화
-        var currentIndicator = FindObjectOfType<MissionObjIndicator>();
         if (currentIndicator != null)
         {
-            currentIndicator.HideUI(); // 현재 미션의 UI 비활성화
+            currentIndicator.HideUI(); // 이전 미션 UI 숨기기
         }
 
-        // 다음 미션의 Indicator를 찾아 UI를 활성화
-        var nextMission = FindNextMissionIndicator();
-        if (nextMission != null)
+        currentIndicator = missionObj.GetComponent<MissionObjIndicator>();
+
+        if (currentIndicator != null)
         {
-            nextMission.ActivateUI(); // 다음 미션 UI 활성화
+            currentIndicator.ActivateUI(); // 현재 미션 UI 활성화
         }
-        else
-        {
-            Debug.Log("더 이상 남은 미션이 없습니다.");
-        }
+
     }
 
-    // 현재 남은 미션 중 다음 미션을 찾아서 반환하는 함수
-    private static MissionObjIndicator FindNextMissionIndicator()
-    {
-        // MissionManager를 통해 현재 미션 리스트 중 다음 미션을 찾음
-        var missionManager = GameManager.Mission;
-        if (missionManager != null && missionManager.GetNextMission() != null)
-        {
-            var nextMissionObj = missionManager.GetNextMission().GetComponent<MissionObjIndicator>();
-            return nextMissionObj;
-        }
-
-        return null; // 다음 미션이 없을 경우
-    }
-
-    // UI 활성화 메서드
+    // UI 활성화
     public void ActivateUI()
     {
         if (targetCanvas != null)
         {
-            targetCanvas.SetActive(true); // UI 활성화
+            targetCanvas.SetActive(true);
         }
+
         if (missionCanvas != null)
         {
-            missionCanvas.SetActive(true); // 미션 관련 UI 활성화
+            missionCanvas.SetActive(true);
+        }
+    }
+
+    // UI 비활성화
+    public void HideUI()
+    {
+        if (targetCanvas != null)
+        {
+            targetCanvas.SetActive(false);
+        }
+
+        if (missionCanvas != null)
+        {
+            missionCanvas.SetActive(false);
         }
     }
 
@@ -296,20 +297,6 @@ public class MissionObjIndicator : MonoBehaviour
         if (isMissionCompleted)
         {
             missionCompletedText.text = "- Escape Here";
-        }
-    }
-
-    // UI 비활성화 메서드 추가
-    public void HideUI()
-    {
-        if (targetCanvas != null)
-        {
-            targetCanvas.SetActive(false); // 미션이 완료되었을 때 UI를 숨깁니다.
-        }
-
-        if (missionCanvas != null)
-        {
-            missionCanvas.SetActive(false); // 미션 관련 UI도 숨기기
         }
     }
 

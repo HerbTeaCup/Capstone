@@ -135,6 +135,55 @@ public class MissionObjIndicator : MonoBehaviour
     }
     #endregion
 
+    // 다음 미션의 UI 활성화
+    public static void ShowNextMissionUI()
+    {
+        // 현재 활성화된 미션이 있다면 비활성화
+        var currentIndicator = FindObjectOfType<MissionObjIndicator>();
+        if (currentIndicator != null)
+        {
+            currentIndicator.HideUI(); // 현재 미션의 UI 비활성화
+        }
+
+        // 다음 미션의 Indicator를 찾아 UI를 활성화
+        var nextMission = FindNextMissionIndicator();
+        if (nextMission != null)
+        {
+            nextMission.ActivateUI(); // 다음 미션 UI 활성화
+        }
+        else
+        {
+            Debug.Log("더 이상 남은 미션이 없습니다.");
+        }
+    }
+
+    // 현재 남은 미션 중 다음 미션을 찾아서 반환하는 함수
+    private static MissionObjIndicator FindNextMissionIndicator()
+    {
+        // MissionManager를 통해 현재 미션 리스트 중 다음 미션을 찾음
+        var missionManager = GameManager.Mission;
+        if (missionManager != null && missionManager.GetNextMission() != null)
+        {
+            var nextMissionObj = missionManager.GetNextMission().GetComponent<MissionObjIndicator>();
+            return nextMissionObj;
+        }
+
+        return null; // 다음 미션이 없을 경우
+    }
+
+    // UI 활성화 메서드
+    public void ActivateUI()
+    {
+        if (targetCanvas != null)
+        {
+            targetCanvas.SetActive(true); // UI 활성화
+        }
+        if (missionCanvas != null)
+        {
+            missionCanvas.SetActive(true); // 미션 관련 UI 활성화
+        }
+    }
+
     // 목표 탐지 및 UI 업데이트
     void UpdateUI()
     {

@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StageInteractiveObj : InteractableObjExtand
 {
-    [Tooltip("true면 스테이지 클리어 조건 상호작용")] [SerializeField] bool ClearCondition;
+    [Tooltip("true면 스테이지 클리어 조건 상호작용")]
+    [SerializeField] private bool ClearCondition;
 
-    AudioSource _effecSound;
+    private AudioSource _effectSound;
 
     private void Start()
     {
@@ -18,22 +17,35 @@ public class StageInteractiveObj : InteractableObjExtand
 
     public override void Interaction()
     {
+        if (!interactable) return;
+
         base.Interaction();
 
-        if (interactable == false)
-            return;
-
-        if (_effecSound != null)
+        if (_effectSound != null)
         {
-            //효과음 있으면 재생
+            _effectSound.Play();
         }
 
         Debug.Log($"{this.gameObject.name} Interaction");
 
+        if (!ClearCondition)
+        {
+            ClearCondition = true;
+            Debug.Log("ClearCondition is now true.");
+        }
+
         if (ClearCondition)
         {
             GameManager.Stage.remainingStageObj--;
+            FindObjectOfType<MissionManager>().ActivateNextMission();
         }
+
         interactable = false;
+    }
+
+    public void SetInteractable(bool value)
+    {
+        interactable = value;
+        Debug.Log($"{this.gameObject.name} Interactable: {value}");
     }
 }

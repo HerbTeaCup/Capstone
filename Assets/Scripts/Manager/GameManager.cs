@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour, IManager
 {
-    // MonoBehaviour
     static GameManager _ins = null;
     InputManager _input = null;
     UIManager _ui;
@@ -16,6 +15,7 @@ public class GameManager : MonoBehaviour, IManager
     EnemyManager _enemy = new EnemyManager();
     StageManager _stage = new StageManager();
     ObjectManager _object = new ObjectManager();
+    MissionManager _mission = new MissionManager();
 
     public static GameManager Instance { get { Init(); return _ins; } }
     public static InputManager Input { get { return Instance._input; } }
@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour, IManager
     public static UIManager UI { get { return Instance._ui; } set { Instance._ui = value; } }
     public static LoadingSceneManager LoadingScene { get { return Instance._loadingScene; } set { Instance._loadingScene = value; } }
     public static ObjectManager Object { get { return Instance._object; } }
+    public static MissionManager Mission { get { return Instance._mission; } set { Instance._mission = value; } }
 
     // Start is called before the first frame update
     void Start()
@@ -39,13 +40,13 @@ public class GameManager : MonoBehaviour, IManager
         Enemy.Updater();
         Object.Updater();
     }
+
     private void LateUpdate()
     {
         Input.LateUpdater();
         Enemy.LateUpdater();
     }
 
-    // GameManager가 이미 존재하면 새로 생성되지 않도록 수정
     static void Init()
     {
         if (_ins == null)
@@ -64,25 +65,26 @@ public class GameManager : MonoBehaviour, IManager
             temp.TryGetComponent<InputManager>(out _ins._input);
             if (_ins._input == null) { _ins._input = temp.AddComponent<InputManager>(); }
 
+            // MissionManager 초기화
+            if (_ins._mission == null)
+            {
+                _ins._mission = FindObjectOfType<MissionManager>();
+                if (_ins._mission == null)
+                {
+                    GameObject missionManagerObj = new GameObject("@MissionManager");
+                    _ins._mission = missionManagerObj.AddComponent<MissionManager>();
+                }
+                _ins._mission.InitializeMissions(); // MissionManager 초기화 수행
+            }
+
             // LoadingSceneManager 확인 및 추가
             if (_ins._loadingScene == null)
             {
                 _ins._loadingScene = FindObjectOfType<LoadingSceneManager>();
                 if (_ins._loadingScene == null)
                 {
-                    // 여기에서 새로운 오브젝트를 만들지 않고 기존 오브젝트 확인
-                    GameObject loadingSceneObj = GameObject.Find("@LoadingSceneManager");
-                    if (loadingSceneObj == null)
-                    {
-                        // LoadingSceneManager가 없을 때만 새로 생성
-                        loadingSceneObj = new GameObject("@LoadingSceneManager");
-                        _ins._loadingScene = loadingSceneObj.AddComponent<LoadingSceneManager>();
-                    }
-                    else
-                    {
-                        // 이미 존재하는 경우 찾기
-                        _ins._loadingScene = loadingSceneObj.GetComponent<LoadingSceneManager>();
-                    }
+                    GameObject loadingSceneObj = new GameObject("@LoadingSceneManager");
+                    _ins._loadingScene = loadingSceneObj.AddComponent<LoadingSceneManager>();
                 }
             }
         }
@@ -117,6 +119,6 @@ public class GameManager : MonoBehaviour, IManager
         Debug.Log("Clearing UI...");
         if (UI != null) UI.Clear();
 
-        if (Stage != null) Stage.Clear();
+        if (Mission != null) Mission.Clear();
     }
 }

@@ -118,3 +118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c00de5fe464faf4b87c14ae95947971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameClearPanelPrefabPath: Prefabs/UI/WhetherMissionCompleted
+  targetObject: {fileID: 0}
+  clearDistance: 5

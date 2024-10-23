@@ -64,14 +64,23 @@ public class MissionManager : MonoBehaviour
 
         if (nextMissionIndex < missionList.Count)
         {
+            // 다음 미션을 활성화
             ActivateMission(nextMissionIndex);
         }
         else
         {
+            // 마지막 미션이 완료된 경우, ClearInteractiveObj를 활성화하기 전에 마지막 미션 오브젝트를 비활성화
             Debug.Log("모든 미션을 완료했습니다!");
+
+            // 마지막 미션 오브젝트 비활성화
+            missionList[currentMissionIndex].gameObject.SetActive(false);
+            missionList[currentMissionIndex].SetInteractable(false);
+
+            // ClearInteractiveObj 활성화
             ActivateClearInteractive();
         }
     }
+
 
     private void ActivateClearInteractive()
     {

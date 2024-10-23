@@ -61,6 +61,16 @@ public class MissionObjIndicator : MonoBehaviour
             targetDistanceText.enabled = true;
         }
 
+        if (missionCompletedImage != null)
+        {
+            missionCompletedImage.enabled = true;
+        }
+
+        if (missionCompletedText != null)
+        {
+            missionCompletedText.enabled = true;
+        }
+
         if (mainCamera == null)
         {
             mainCamera = Camera.main;
@@ -109,13 +119,9 @@ public class MissionObjIndicator : MonoBehaviour
         if (missionCanvas != null) return; // 이미 로드된 경우 로드하지 않음
 
         GameObject missionCanvasPrefab = Resources.Load<GameObject>(missionCanvasPrefabPath);
-        if (missionCanvasPrefab == null)
-        {
-            Debug.LogError($"경로에서 프리팹을 로드할 수 없습니다: {missionCanvasPrefabPath}");
-            return;
-        }
+        CheckPrefabLoad(missionCanvasPrefab);
 
-        missionCanvas = Instantiate(missionCanvasPrefab, objectUIPanel);
+        missionCanvas = Instantiate(missionCanvasPrefab, transform);
         objectUIPanel = missionCanvas.transform.Find("EnemyUIPanel");
 
         missionCompletedImage = missionCanvas.transform.Find("EnemyUIPanel/MissionCompleted Image")?.GetComponent<Image>();
@@ -124,13 +130,13 @@ public class MissionObjIndicator : MonoBehaviour
         if (missionCompletedImage != null)
         {
             missionImageRect = missionCompletedImage.GetComponent<RectTransform>();
-            missionCompletedImage.enabled = true;
+            missionCompletedImage.enabled = false;
         }
 
         if (missionCompletedText != null)
         {
             missionTextRect = missionCompletedText.GetComponent<RectTransform>();
-            missionCompletedText.enabled = true;
+            missionCompletedText.enabled = false;
         }
     }
     #endregion
@@ -245,7 +251,7 @@ public class MissionObjIndicator : MonoBehaviour
 
         targetDistanceText.text = $"{Mathf.Floor(distanceToPlayer)}m";
     }
-
+    
     void MarkObjectAsCompleted()
     {
         isMissionCompleted = true;

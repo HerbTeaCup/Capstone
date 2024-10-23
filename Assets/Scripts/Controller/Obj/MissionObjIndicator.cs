@@ -202,6 +202,13 @@ public class MissionObjIndicator : MonoBehaviour
             if (player == null) return;
         }
 
+        // 타겟 이미지가 삭제되었는지 확인
+        if (targetImage == null || targetDistanceText == null)
+        {
+            Debug.LogWarning("타겟 이미지나 텍스트가 null입니다. UpdateUI를 중단합니다.");
+            return; // null이면 더 이상 실행하지 않음
+
+        }
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
         if (distanceToPlayer > deactivationDistance)
@@ -252,7 +259,7 @@ public class MissionObjIndicator : MonoBehaviour
         targetDistanceText.text = $"{Mathf.Floor(distanceToPlayer)}m";
     }
     
-    void MarkObjectAsCompleted()
+    public void MarkObjectAsCompleted()
     {
         isMissionCompleted = true;
 
@@ -270,19 +277,13 @@ public class MissionObjIndicator : MonoBehaviour
                 return;
             }
 
-            if (targetCanvas != null)
-            {
-                Destroy(targetCanvas);
-                targetCanvas = null;
-            }
-
             missionCompletedImage.color = Color.gray;
             missionCompletedText.text = "<b>- Mission Accomplished!</b>";
 
             if (!hasConvertText)
             {
                 hasConvertText = true;
-                StartCoroutine(ChangeMissionTextAfterDelay(3f));
+                StartCoroutine(ChangeMissionTextAfterDelay(4f));
             }
         }
     }
@@ -290,11 +291,6 @@ public class MissionObjIndicator : MonoBehaviour
     IEnumerator ChangeMissionTextAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-
-        if (isMissionCompleted)
-        {
-            missionCompletedText.text = "- Escape Here";
-        }
     }
 
     #region 에러 체크 메서드

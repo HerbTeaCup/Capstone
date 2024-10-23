@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -60,6 +61,22 @@ public class MissionManager : MonoBehaviour
 
     public void ActivateNextMission()
     {
+        StartCoroutine(ActivateNextMissionAfterCompletion());
+    }
+    private IEnumerator ActivateNextMissionAfterCompletion()
+    {
+        // MissionObjIndicator에서 MarkObjectAsCompleted 호출 완료까지 대기
+        MissionObjIndicator currentIndicator = FindObjectOfType<MissionObjIndicator>();
+        if (currentIndicator != null)
+        {
+            while (!currentIndicator.isMissionCompleted)
+            {
+                yield return null; // MarkObjectAsCompleted가 완료될 때까지 대기
+            }
+        }
+        yield return new WaitForSeconds(3f);
+
+        // 다음 미션을 처리
         int nextMissionIndex = currentMissionIndex + 1;
 
         if (nextMissionIndex < missionList.Count)
@@ -69,15 +86,7 @@ public class MissionManager : MonoBehaviour
         }
         else
         {
-            // 마지막 미션이 완료된 경우, ClearInteractiveObj를 활성화하기 전에 마지막 미션 오브젝트를 비활성화
             Debug.Log("모든 미션을 완료했습니다!");
-
-            // 마지막 미션 오브젝트 비활성화
-            missionList[currentMissionIndex].gameObject.SetActive(false);
-            missionList[currentMissionIndex].SetInteractable(false);
-
-            // ClearInteractiveObj 활성화
-            ActivateClearInteractive();
         }
     }
 

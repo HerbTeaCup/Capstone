@@ -6,9 +6,12 @@ public class StageInteractiveObj : InteractableObjExtand
     [SerializeField] private bool ClearCondition;
 
     private AudioSource _effectSound;
+    private MissionObjIndicator missionObjIndicator;
 
     private void Start()
     {
+        missionObjIndicator = FindObjectOfType<MissionObjIndicator>();
+
         if (ClearCondition)
         {
             GameManager.Stage.remainingStageObj++;
@@ -32,6 +35,11 @@ public class StageInteractiveObj : InteractableObjExtand
         {
             ClearCondition = true;
             Debug.Log("ClearCondition is now true.");
+
+            if (missionObjIndicator != null)
+            {
+                missionObjIndicator.MarkObjectAsCompleted();
+            }
         }
 
         if (ClearCondition)

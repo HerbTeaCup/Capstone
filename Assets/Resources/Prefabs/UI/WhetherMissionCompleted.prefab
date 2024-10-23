@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6725030896766306267}
   - component: {fileID: 2573104529213536073}
   - component: {fileID: 4958164523341255040}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 6468804450385759432}
   - component: {fileID: 8656307178935109691}
   - component: {fileID: 6079793739440243134}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: MissionCompleted_Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 3845680722989752121}
   - component: {fileID: 8702272681772147975}
   - component: {fileID: 9138814784522217876}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: LineImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,7 +297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1626576019167591372}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: WhetherMissionCompleted
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -332,7 +332,7 @@ GameObject:
   - component: {fileID: 9037411325013896251}
   - component: {fileID: 4351472840595529320}
   - component: {fileID: 8545016367754407809}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -465,7 +465,7 @@ GameObject:
   - component: {fileID: 8502890253289204361}
   - component: {fileID: 5198500784409798139}
   - component: {fileID: 6848876031392696956}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -514,7 +514,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!114 &5198500784409798139
 MonoBehaviour:
@@ -568,7 +568,7 @@ GameObject:
   - component: {fileID: 5453600959764681236}
   - component: {fileID: 8011523630146251351}
   - component: {fileID: 5131464298212746519}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: RestartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -688,7 +688,7 @@ GameObject:
   - component: {fileID: 8308921909205848397}
   - component: {fileID: 4803790724600464576}
   - component: {fileID: 7612944054238973576}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BackgroundImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -763,7 +763,7 @@ GameObject:
   - component: {fileID: 4309732247511062205}
   - component: {fileID: 5932426060732384254}
   - component: {fileID: 7224173521078230273}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CompletedImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -838,7 +838,7 @@ GameObject:
   - component: {fileID: 6535344975884971558}
   - component: {fileID: 1980729859709440529}
   - component: {fileID: 7505729209141708559}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: MissionFailed_Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -884,7 +884,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5313637305742153713}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -918,7 +918,7 @@ GameObject:
   - component: {fileID: 7037532345518041010}
   - component: {fileID: 263239055774029992}
   - component: {fileID: 8737483392239026039}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1052,7 +1052,7 @@ GameObject:
   - component: {fileID: 2516504256914933026}
   - component: {fileID: 2295343282908979171}
   - component: {fileID: 3902884072445936336}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: FailedImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1127,7 +1127,7 @@ GameObject:
   - component: {fileID: 2938229727679057867}
   - component: {fileID: 6284071318254469569}
   - component: {fileID: 6205499211181666936}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: LineImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1202,7 +1202,7 @@ GameObject:
   - component: {fileID: 8220312257940328570}
   - component: {fileID: 6870877752999113946}
   - component: {fileID: 7184331049512161866}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1337,7 +1337,7 @@ GameObject:
   - component: {fileID: 4928542591185441791}
   - component: {fileID: 3716089232547847972}
   - component: {fileID: 737947423681736662}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1457,7 +1457,7 @@ GameObject:
   - component: {fileID: 2293767955466166230}
   - component: {fileID: 4177579054167008172}
   - component: {fileID: 3391432651792724636}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BackgroundImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}

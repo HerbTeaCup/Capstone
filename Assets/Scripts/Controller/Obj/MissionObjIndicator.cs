@@ -46,6 +46,21 @@ public class MissionObjIndicator : MonoBehaviour
 
     public void Start()
     {
+        // Load the UI before enabling components
+        TargetLoadUI();
+        MissionLoadUI();
+
+        // 이미지와 텍스트 컴포넌트를 활성화
+        if (targetImage != null)
+        {
+            targetImage.enabled = true;
+        }
+
+        if (targetDistanceText != null)
+        {
+            targetDistanceText.enabled = true;
+        }
+
         if (mainCamera == null)
         {
             mainCamera = Camera.main;
@@ -61,9 +76,6 @@ public class MissionObjIndicator : MonoBehaviour
             currentIndicator = FindObjectOfType<MissionObjIndicator>();
         }
 
-        TargetLoadUI();
-        MissionLoadUI();
-
         GameManager.Object.UpdateDelegate += UpdateUI;
     }
 
@@ -72,7 +84,7 @@ public class MissionObjIndicator : MonoBehaviour
     {
         if (targetCanvas != null) return; // 이미 로드된 경우 로드하지 않음
 
-        GameObject targetCanvasPrefab = ResourceManager.Load<GameObject>(targetCanvasPrefabPath);
+        GameObject targetCanvasPrefab = Resources.Load<GameObject>(targetCanvasPrefabPath);
         CheckPrefabLoad(targetCanvasPrefab);
 
         targetCanvas = Instantiate(targetCanvasPrefab, transform);
@@ -96,8 +108,12 @@ public class MissionObjIndicator : MonoBehaviour
     {
         if (missionCanvas != null) return; // 이미 로드된 경우 로드하지 않음
 
-        GameObject missionCanvasPrefab = ResourceManager.Load<GameObject>(missionCanvasPrefabPath);
-        CheckPrefabLoad(missionCanvasPrefab);
+        GameObject missionCanvasPrefab = Resources.Load<GameObject>(missionCanvasPrefabPath);
+        if (missionCanvasPrefab == null)
+        {
+            Debug.LogError($"경로에서 프리팹을 로드할 수 없습니다: {missionCanvasPrefabPath}");
+            return;
+        }
 
         missionCanvas = Instantiate(missionCanvasPrefab, objectUIPanel);
         objectUIPanel = missionCanvas.transform.Find("EnemyUIPanel");
@@ -121,22 +137,8 @@ public class MissionObjIndicator : MonoBehaviour
 
     public void ShowClearInteractiveIndicator(ClearInteractiveObj clearObj)
     {
-        if (currentIndicator != null)
-        {
-            currentIndicator.HideUI();
-        }
-
-        currentIndicator = clearObj.GetComponent<MissionObjIndicator>();
-
-        if (currentIndicator != null)
-        {
-            currentIndicator.ActivateUI();
-            currentIndicator.SetCurrentTarget(clearObj.transform);
-        }
-        else
-        {
-            Debug.LogError("MissionObjIndicator를 ClearInteractiveObj에서 찾을 수 없습니다.");
-        }
+        currentTarget = clearObj.transform;
+        ActivateUI();
     }
 
     public void SetCurrentTarget(Transform target)

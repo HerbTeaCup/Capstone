@@ -17,6 +17,7 @@ public class MissionManager : MonoBehaviour
 
     public void InitializeMissions()
     {
+        clearInteractiveObj.gameObject.SetActive(false);
         if (missionList.Count > 0)
         {
             ActivateMission(0);
@@ -77,11 +78,11 @@ public class MissionManager : MonoBehaviour
         if (clearInteractiveObj != null)
         {
             clearInteractiveObj.gameObject.SetActive(true);
-            clearInteractiveObj.SetInteractable(true);
+            clearInteractiveObj.interactable = true;
 
             if (missionObjIndicator != null)
             {
-                missionObjIndicator.ShowClearInteractiveIndicator(clearInteractiveObj);
+                missionObjIndicator.ShowClearInteractiveIndicator(clearInteractiveObj); // 위치 UI 표시
             }
 
             Debug.Log("ClearInteractive 오브젝트 활성화됨");

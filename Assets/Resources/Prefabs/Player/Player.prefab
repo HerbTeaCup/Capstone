@@ -1547,7 +1547,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.88771963
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -1646,7 +1646,7 @@ MonoBehaviour:
   - {fileID: 831683473545504885}
   Sound: {fileID: 0}
   isReloading: 0
-  _powerOverwheming: 1
+  _powerOverwheming: 0
   _invincibleTime: 1
   speedBlend: 10
   trunSpeedBlend: 20

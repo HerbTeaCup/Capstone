@@ -648,6 +648,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100154, guid: 765e2fde8c84f094e99304c6198491ea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2319906518001649365}
+    - targetCorrespondingSourceObject: {fileID: 100154, guid: 765e2fde8c84f094e99304c6198491ea, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3164004543826895987}
   m_SourcePrefab: {fileID: 100100000, guid: 765e2fde8c84f094e99304c6198491ea, type: 3}
 --- !u!4 &5950451648583308002 stripped
 Transform:
@@ -862,6 +865,7 @@ MonoBehaviour:
   attraction: 0
   executable: 0
   executing: 0
+  hitting: 0
   weakDetecting: 0
   strongDetecting: 0
   searchRadius: 7.5
@@ -939,6 +943,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2319906518001649365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5950451648583536472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c0b39e8487e384bbe275810acc40c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FootStepClip: {fileID: 0}
+  WeaponClip: {fileID: 0}
+--- !u!114 &3164004543826895987
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

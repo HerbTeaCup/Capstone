@@ -9,7 +9,7 @@ public class MissionUIManager : MonoBehaviour
     [SerializeField] Camera mainCamera; // 메인 카메라
 
     [Header("Mission UI Canvas")]
-    [SerializeField] string missionCanvasPrefabPath = "Prefabs/UI/Mission UI";  // 캔버스 프리팹 경로
+    [SerializeField] string missionCanvasPrefabPath = "Prefabs/UI/Mission UI Manager";  // 캔버스 프리팹 경로
 
     [Header("Mission UI Settings")]
     [SerializeField] GameObject missionCanvas; // 미션 캔버스
@@ -54,6 +54,9 @@ public class MissionUIManager : MonoBehaviour
     {
         // 리소스 경로에서 캔버스 프리팹 로드
         GameObject missionCanvasPrefab = ResourceManager.Load<GameObject>(missionCanvasPrefabPath);
+
+        if (missionCanvasPrefab == null)
+            return;
 
         // 동적으로 캔버스 생성 및 추가
         missionCanvas = Instantiate(missionCanvasPrefab, transform);

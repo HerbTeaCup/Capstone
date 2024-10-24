@@ -8,7 +8,7 @@ public class EnemySound : MonoBehaviour
 
     [SerializeField] AudioClip FootStepClip;
     [SerializeField] AudioClip WeaponClip;
-    //[SerializeField] AudioClip HitCilp;
+    [SerializeField] AudioClip HitCilp;
 
     // Start is called before the first frame update
     void Start()
@@ -28,8 +28,8 @@ public class EnemySound : MonoBehaviour
         if (WeaponClip == null)
             WeaponClip = Resources.Load<AudioClip>($"{path}Weapons/Pistol-004");
 
-        //if (HitCilp == null)
-        //    HitCilp = Resources.Load<AudioClip>($"{path}Weapons/Weapon_Hitting_Flesh-004");
+        if (HitCilp == null)
+            HitCilp = Resources.Load<AudioClip>($"{path}poof-of-smoke-87381");
 
 
         //Load Check
@@ -49,5 +49,10 @@ public class EnemySound : MonoBehaviour
     public void WeaponSoundPlay()
     {
         _source.PlayOneShot(WeaponClip);
+    }
+
+    public void ExcutedSound()
+    {
+        _source.PlayOneShot(HitCilp);
     }
 }

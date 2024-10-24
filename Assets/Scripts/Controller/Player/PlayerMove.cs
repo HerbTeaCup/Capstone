@@ -108,8 +108,6 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        Debug.Log("ExcuteTransformMove Working");
-
         Vector3 targetPosition = targetTrans.position - targetTrans.forward * offsetDistance;
 
         // 타겟 위치와 현재 위치의 차이 벡터 계산

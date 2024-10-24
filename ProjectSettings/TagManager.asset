@@ -20,7 +20,7 @@ TagManager:
   - Enemy
   - Obstacle
   - Trap
-  - 
+  - NavException
   - Target
   - 
   - Waypoint

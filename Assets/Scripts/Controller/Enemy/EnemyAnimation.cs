@@ -38,6 +38,13 @@ public class EnemyAnimation : MonoBehaviour
     {
         if (_status.hitting == false || wasHitting)
             return;
+        if (_status.player == null)
+        {
+            _anim.SetFloat("HitX", 0);
+            _anim.SetFloat("HitY", 0);
+            _anim.SetTrigger("HitTrigger");
+            return;
+        }
 
         Vector3 hitDirection = (this._status.player.position - transform.position).normalized;
         float angle = Vector3.SignedAngle(transform.forward, hitDirection, Vector3.up);

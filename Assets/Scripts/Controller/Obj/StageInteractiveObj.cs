@@ -6,11 +6,13 @@ public class StageInteractiveObj : InteractableObjExtand
     [SerializeField] private bool ClearCondition;
 
     private AudioSource _effectSound;
+    private AudioClip _clip;
     private MissionObjIndicator missionObjIndicator;
 
     private void Start()
     {
         missionObjIndicator = FindObjectOfType<MissionObjIndicator>();
+        _clip = Resources.Load<AudioClip>("Sound/correct-2-46134");
 
         if (ClearCondition)
         {
@@ -26,7 +28,7 @@ public class StageInteractiveObj : InteractableObjExtand
 
         if (_effectSound != null)
         {
-            _effectSound.Play();
+            _effectSound.PlayOneShot(_clip);
         }
 
         Debug.Log($"{this.gameObject.name} Interaction");

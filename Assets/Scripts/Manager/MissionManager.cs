@@ -21,14 +21,14 @@ public class MissionManager : MonoBehaviour
         // clearInteractiveObj가 null인지 확인
         if (clearInteractiveObj == null)
         {
-            Debug.LogError("clearInteractiveObj가 null입니다. 인스펙터에서 확인하세요.");
+            Debug.Log("clearInteractiveObj가 null입니다. 인스펙터에서 확인하세요.");
             return;
         }
 
         // missionList가 비어 있는지 확인
         if (missionList == null || missionList.Count == 0)
         {
-            Debug.LogError("missionList가 비어있습니다. 미션 오브젝트를 확인하세요.");
+            Debug.Log("missionList가 비어있습니다. 미션 오브젝트를 확인하세요.");
             return;
         }
 

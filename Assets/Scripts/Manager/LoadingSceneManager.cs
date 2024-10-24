@@ -20,12 +20,11 @@ public class LoadingSceneManager : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
-            //GameManager.LoadingScene = this;
             DontDestroyOnLoad(gameObject);
             EnsureUIComponents();
             Debug.Log("LoadingSceneManager 인스턴스가 생성되었습니다.");
         }
-        else if (!_instance != this)
+        else if (_instance != this)
         {
             Destroy(gameObject);  // 중복된 인스턴스는 삭제
             Debug.LogWarning("LoadingSceneManager 중복 생성이 감지되어 파괴되었습니다.");
@@ -179,20 +178,23 @@ public class LoadingSceneManager : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("90% 로딩 완료, 추가 대기 중...");
         // 90% 도달 후, 완료 표시
         UpdateProgress(1f);
-        yield return new WaitForSeconds(1f);  // 필요한 경우, 추가 대기 시간
+        Debug.Log("90% 로딩 완료, 추가 대기 중...");
 
-        Debug.Log("씬 활성화 허용 중...");
+        // 1초 대기 후 씬 활성화
+        yield return new WaitForSeconds(1f);
         operation.allowSceneActivation = true;  // 씬 활성화 허용
 
+        // 씬이 로드될 때까지 대기
         while (!operation.isDone)
         {
             yield return null;
         }
 
         Debug.Log("씬 전환 완료");
+
+        // 씬 전환이 완료되면 로딩 화면 비활성화
         if (loadingScreen != null)
         {
             loadingScreen.SetActive(false);
@@ -217,6 +219,6 @@ public class LoadingSceneManager : MonoBehaviour
 
     public void Clear()
     {
-
+        // 나중에 필요 시 추가
     }
 }

@@ -1647,7 +1647,7 @@ MonoBehaviour:
   Sound: {fileID: 0}
   isReloading: 0
   _powerOverwheming: 0
-  _invincibleTime: 1
+  _invincibleTime: 0.25
   speedBlend: 10
   trunSpeedBlend: 20
   viewSensitivity: 3

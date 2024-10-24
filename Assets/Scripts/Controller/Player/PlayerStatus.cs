@@ -9,7 +9,7 @@ public class PlayerStatus : GenericUnit
     [Header("Battle")]
     public bool isReloading = false;
     [SerializeField] bool _powerOverwheming;
-    [SerializeField] float _invincibleTime = 1.0f;
+    [SerializeField] float _invincibleTime = 0.25f;
 
     float _invincibleDeltaTime = 0f;
     bool _damagedAble { get { return _invincibleDeltaTime > _invincibleTime; } }

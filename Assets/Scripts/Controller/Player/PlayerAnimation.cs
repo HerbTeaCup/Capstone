@@ -11,6 +11,7 @@ public class PlayerAnimation : MonoBehaviour
     bool _shootDelta = false;
     bool _closeAttackDelta = false;
     bool _isExecuting = false;
+    bool _Dying = false;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,18 @@ public class PlayerAnimation : MonoBehaviour
     void ParameterUpdate()
     {
         _anim.applyRootMotion = _status.excuting;
+
+        if (_status.IsAlive == false && _Dying == false)
+        {
+            _anim.SetBool("Dying", true);
+            _anim.applyRootMotion = true;
+            _Dying = true;
+            return;
+        }
+        else
+        {
+            _anim.SetBool("Dying", false);
+        }
 
         _anim.SetFloat("Speed", _status.currnetSpeed);
         _anim.SetBool("Aiming", GameManager.Input.Aiming);

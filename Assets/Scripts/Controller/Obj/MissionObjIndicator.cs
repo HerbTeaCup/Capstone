@@ -283,7 +283,7 @@ public class MissionObjIndicator : MonoBehaviour
             if (!hasConvertText)
             {
                 hasConvertText = true;
-                StartCoroutine(ChangeMissionTextAfterDelay(4f));
+                StartCoroutine(ChangeMissionTextAfterDelay(1f));
             }
         }
     }

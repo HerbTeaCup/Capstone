@@ -130,7 +130,7 @@ public class MissionFailed : MonoBehaviour
     // 피가 0%가 된 후 미션 실패 창 팝업
     IEnumerator PauseGameAfterDelay()
     {
-        yield return new WaitForSeconds(3f); // 1초 대기 후
+        yield return new WaitForSeconds(1f); // 1초 대기 후
     }
 
     // Quit 버튼 클릭 시 메인 메뉴로 이동

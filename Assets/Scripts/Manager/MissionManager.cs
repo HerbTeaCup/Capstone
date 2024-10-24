@@ -7,7 +7,7 @@ public class MissionManager : MonoBehaviour
     [Tooltip("미션 오브젝트 리스트")]
     [SerializeField] private List<StageInteractiveObj> missionList = new List<StageInteractiveObj>();
     [SerializeField] private ClearInteractiveObj clearInteractiveObj;
-    [SerializeField] private MissionObjIndicator missionObjIndicator;
+    private MissionObjIndicator missionObjIndicator;
 
     private int currentMissionIndex = 0;
 
@@ -74,7 +74,7 @@ public class MissionManager : MonoBehaviour
                 yield return null; // MarkObjectAsCompleted가 완료될 때까지 대기
             }
         }
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
 
         // 다음 미션을 처리
         int nextMissionIndex = currentMissionIndex + 1;
@@ -87,6 +87,8 @@ public class MissionManager : MonoBehaviour
         else
         {
             Debug.Log("모든 미션을 완료했습니다!");
+            DeactivateAllMissions();
+            ActivateClearInteractive();
         }
     }
 

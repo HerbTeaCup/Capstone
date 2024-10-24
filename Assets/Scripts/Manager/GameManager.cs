@@ -65,6 +65,17 @@ public class GameManager : MonoBehaviour, IManager
             temp.TryGetComponent<InputManager>(out _ins._input);
             if (_ins._input == null) { _ins._input = temp.AddComponent<InputManager>(); }
 
+            // ObjectManager 초기화
+            if (_ins._object == null)
+            {
+                _ins._object = FindObjectOfType<ObjectManager>();
+                if (_ins._object == null)
+                {
+                    GameObject objectManagerObj = new GameObject("@ObjectManager");
+                    _ins._object = objectManagerObj.AddComponent<ObjectManager>();
+                }
+
+            }
             // MissionManager 초기화
             if (_ins._mission == null)
             {

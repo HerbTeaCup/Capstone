@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour, IManager
     CameraManager _cam = new CameraManager();
     EnemyManager _enemy = new EnemyManager();
     StageManager _stage = new StageManager();
-    ObjectManager _object = new ObjectManager();
-    MissionManager _mission = new MissionManager();
+    ObjectManager _object = null;
+    MissionManager _mission = null;
 
     public static GameManager Instance { get { Init(); return _ins; } }
     public static InputManager Input { get { return Instance._input; } }

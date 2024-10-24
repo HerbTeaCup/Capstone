@@ -12,7 +12,7 @@ public class LoadingSceneManager : MonoBehaviour
     public Slider progressSlider;     // 로딩 진행 바
     public Text progressText;         // 퍼센티지 텍스트
 
-    private static LoadingSceneManager _instance = GameManager.LoadingScene;
+    private static LoadingSceneManager _instance;
 
     private void Start()
     {

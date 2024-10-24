@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour, IManager
                     GameObject missionManagerObj = new GameObject("@MissionManager");
                     _ins._mission = missionManagerObj.AddComponent<MissionManager>();
                 }
-                _ins._mission.InitializeMissions(); // MissionManager 초기화 수행
+               // _ins._mission.InitializeMissions(); // MissionManager 초기화 수행
             }
 
             // LoadingSceneManager 확인 및 추가
@@ -113,6 +113,14 @@ public class GameManager : MonoBehaviour, IManager
         else
         {
             Debug.LogError("PlayerInput을 찾을 수 없습니다.");
+        }
+    }
+
+    public void StartMissionManager()
+    {
+        if (_mission != null)
+        {
+            _mission.InitializeMissions(); // 이 부분은 따로 호출될 수 있음
         }
     }
 

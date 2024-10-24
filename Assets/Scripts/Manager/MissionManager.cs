@@ -18,11 +18,25 @@ public class MissionManager : MonoBehaviour
 
     public void InitializeMissions()
     {
-        clearInteractiveObj.gameObject.SetActive(false);
-        if (missionList.Count > 0)
+        // clearInteractiveObj가 null인지 확인
+        if (clearInteractiveObj == null)
         {
-            ActivateMission(0);
+            Debug.LogError("clearInteractiveObj가 null입니다. 인스펙터에서 확인하세요.");
+            return;
         }
+
+        // missionList가 비어 있는지 확인
+        if (missionList == null || missionList.Count == 0)
+        {
+            Debug.LogError("missionList가 비어있습니다. 미션 오브젝트를 확인하세요.");
+            return;
+        }
+
+        // Clear Interactive 오브젝트 비활성화
+        clearInteractiveObj.gameObject.SetActive(false);
+
+        // 첫 번째 미션 활성화
+        ActivateMission(0);
     }
 
     public void ActivateMission(int index)

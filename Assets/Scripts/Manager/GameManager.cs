@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour, IManager
     CameraManager _cam = new CameraManager();
     EnemyManager _enemy = new EnemyManager();
     StageManager _stage = new StageManager();
-    ObjectManager _object = new ObjectManager();
-    MissionManager _mission = new MissionManager();
+    ObjectManager _object = null;
+    MissionManager _mission = null;
 
     public static GameManager Instance { get { Init(); return _ins; } }
     public static InputManager Input { get { return Instance._input; } }
@@ -65,27 +65,15 @@ public class GameManager : MonoBehaviour, IManager
             temp.TryGetComponent<InputManager>(out _ins._input);
             if (_ins._input == null) { _ins._input = temp.AddComponent<InputManager>(); }
 
-            // ObjectManager 초기화
-            if (_ins._object == null)
-            {
-                _ins._object = FindObjectOfType<ObjectManager>();
-                if (_ins._object == null)
-                {
-                    GameObject objectManagerObj = new GameObject("@ObjectManager");
-                    _ins._object = objectManagerObj.AddComponent<ObjectManager>();
-                }
-
-            }
-            // MissionManager 초기화
+          
             if (_ins._mission == null)
             {
                 _ins._mission = FindObjectOfType<MissionManager>();
                 if (_ins._mission == null)
                 {
-                    GameObject missionManagerObj = new GameObject("@MissionManager");
-                    _ins._mission = missionManagerObj.AddComponent<MissionManager>();
+                    GameObject missionManager = new GameObject("@MissionManager");
+                    _ins._mission = missionManager.AddComponent<MissionManager>();  // AddComponent 사용
                 }
-               // _ins._mission.InitializeMissions(); // MissionManager 초기화 수행
             }
 
             // LoadingSceneManager 확인 및 추가
@@ -94,8 +82,18 @@ public class GameManager : MonoBehaviour, IManager
                 _ins._loadingScene = FindObjectOfType<LoadingSceneManager>();
                 if (_ins._loadingScene == null)
                 {
-                    GameObject loadingSceneObj = new GameObject("@LoadingSceneManager");
-                    _ins._loadingScene = loadingSceneObj.AddComponent<LoadingSceneManager>();
+                    GameObject loadingManager = new GameObject("@LoadingSceneManager");
+                    _ins._loadingScene = loadingManager.AddComponent<LoadingSceneManager>();  // AddComponent 사용
+                }
+            }
+
+            if (_ins._object == null)
+            {
+                _ins._object = FindObjectOfType<ObjectManager>();
+                if (_ins._object == null)
+                {
+                    GameObject objectManagerObj = new GameObject("@ObjectManager");
+                    _ins._object = objectManagerObj.AddComponent<ObjectManager>();  // AddComponent 사용
                 }
             }
         }
@@ -137,6 +135,8 @@ public class GameManager : MonoBehaviour, IManager
 
         Debug.Log("Clearing UI...");
         if (UI != null) UI.Clear();
+
+        if (LoadingScene != null) LoadingScene.Clear();
 
         if (Mission != null) Mission.Clear();
     }

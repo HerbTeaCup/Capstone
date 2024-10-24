@@ -44,7 +44,7 @@ public class GenericUnit : MonoBehaviour, IUnitDamageable
         Hp = Mathf.Clamp(Hp, 0, MaxHP); // HP가 0 미만으로 내려가지 않도록 제한
         UpdateHPGauge(); // HP 변경 시 게이지 업데이트
 
-        Debug.Log("Damaged");
+        // Debug.Log("Damaged");
     }
 
     void UpdateHPGauge()

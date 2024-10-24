@@ -11818,7 +11818,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4195430622835942823, guid: fca644ef066da26489ee7adffb3732d9, type: 3}
       propertyPath: m_text
-      value: COMMING SOON
+      value: ARE YOU SURE YOU WANT TO PLAY <b>THE WAREHOUSE</b>?
       objectReference: {fileID: 0}
     - target: {fileID: 7339638916436360140, guid: fca644ef066da26489ee7adffb3732d9, type: 3}
       propertyPath: onPressEvent.m_PersistentCalls.m_Calls.Array.size
@@ -13112,7 +13112,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1728654777}
   m_Direction: 1
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9259962
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -13717,15 +13717,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2680632805691590396, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632805691590396, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632805691590396, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 330.72
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632805691590396, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -13733,27 +13733,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2680632805691590396, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806222483744, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806222483744, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806222483744, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 420
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806222483744, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 250
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806222483744, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -328
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806222483746, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_text
@@ -13761,23 +13761,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806635527525, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806635527525, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806635527525, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 420
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806635527525, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 250
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806635527525, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -413
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806635527527, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_text
@@ -13789,19 +13789,19 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: d4524a239c4f15b4b9f328133c42210e, type: 3}
     - target: {fileID: 2680632806701652241, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 410.72
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632807010537989, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632807010537989, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632807010537989, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 851.7999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632807010537989, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_SizeDelta.y
@@ -13821,7 +13821,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2680632807265176992, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2680632807265176995, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_Pivot.x
@@ -13841,7 +13841,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2680632807265176995, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632807265176995, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchorMin.x
@@ -13849,7 +13849,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2680632807265176995, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632807265176995, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_SizeDelta.x
@@ -13857,7 +13857,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2680632807265176995, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 751
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632807265176995, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13889,11 +13889,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2680632807265176995, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2335
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632807265176995, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -375.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2680632807265176995, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -40480,7 +40480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4195430622835942823, guid: fca644ef066da26489ee7adffb3732d9, type: 3}
       propertyPath: m_text
-      value: ARE YOU SURE YOU WANT TO PLAY <b>CHPATER TWO</b>?
+      value: ARE YOU SURE YOU WANT TO PLAY <b>THE PARKING LOT</b>?
       objectReference: {fileID: 0}
     - target: {fileID: 7339638916436360140, guid: fca644ef066da26489ee7adffb3732d9, type: 3}
       propertyPath: onPressEvent.m_PersistentCalls.m_Calls.Array.size
@@ -44492,7 +44492,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2680632805691590393, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_text
-      value: COMMING SOON
+      value: CHAPTER THREE
       objectReference: {fileID: 0}
     - target: {fileID: 2680632805691590396, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchorMax.y
@@ -44508,7 +44508,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2680632805691590396, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 205.36
+      value: 205.31
       objectReference: {fileID: 0}
     - target: {fileID: 2680632805691590396, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -44552,7 +44552,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806222483746, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_text
-      value: COMMING SOON
+      value: THE WAREHOUSE
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806635527525, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchorMax.y
@@ -44576,7 +44576,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806635527527, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_text
-      value: COMMING SOON
+      value: In the Warehouse map, eliminate all enemies in a maze of storage containers.
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806701652237, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_Sprite
@@ -68860,7 +68860,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806222483746, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_text
-      value: CHAPTER TWO
+      value: THE PARKING LOT
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806635527525, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_AnchorMax.y
@@ -68884,7 +68884,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806635527527, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_text
-      value: DESCRIPTION
+      value: Navigate through a parking lot filled with numerous vehicles, and eliminate
+        all enemies to secure the area.
       objectReference: {fileID: 0}
     - target: {fileID: 2680632806701652237, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_Sprite

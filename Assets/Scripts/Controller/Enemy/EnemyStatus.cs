@@ -20,6 +20,9 @@ public class EnemyStatus : GenericUnit
     public bool weakDetecting = false;
     public bool strongDetecting = false;
 
+    public bool isMissionTarget = false; // 미션 타겟인지 확인
+    private bool isProcessed = false; // 적이 이미 처리되었는지
+
     public float searchRadius = 10f;
     public float boundaryTime = 2f;
     public float captureTime = 5f;
@@ -40,10 +43,17 @@ public class EnemyStatus : GenericUnit
     }
     private void Update()
     {
-        if (IsAlive == false)
+        if (IsAlive == false && isProcessed == false)
         {
+            isProcessed = true;
+
             Destroy(GetComponent<CapsuleCollider>());
             Destroy(GetComponent<Rigidbody>());
+
+            if (isMissionTarget)
+            {
+                GameManager.Mission.OnTargetEnemyEliminated(this);
+            }
         }
     }
 

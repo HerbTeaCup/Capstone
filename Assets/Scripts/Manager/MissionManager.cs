@@ -6,10 +6,14 @@ public class MissionManager : MonoBehaviour
 {
     [Tooltip("미션 오브젝트 리스트")]
     [SerializeField] private List<StageInteractiveObj> missionList = new List<StageInteractiveObj>();
+    [SerializeField] private List<EnemyStatus> targetEnemies = new List<EnemyStatus>();
+
     [SerializeField] private ClearInteractiveObj clearInteractiveObj;
+    
     private MissionObjIndicator missionObjIndicator;
 
     private int currentMissionIndex = 0;
+    private int eliminatedTargetCount = 0;
 
     private void Start()
     {
@@ -18,25 +22,73 @@ public class MissionManager : MonoBehaviour
 
     public void InitializeMissions()
     {
-        // clearInteractiveObj가 null인지 확인
-        if (clearInteractiveObj == null)
+        eliminatedTargetCount = 0;
+
+        // 미션 리스트와 타겟 적 리스트가 비어 있는지 확인
+        if (missionList.Count == 0 && targetEnemies.Count == 0)
         {
-            Debug.Log("clearInteractiveObj가 null입니다. 인스펙터에서 확인하세요.");
+            Debug.LogWarning("미션 또는 타겟 적이 없습니다.");
             return;
+
         }
 
-        // missionList가 비어 있는지 확인
-        if (missionList == null || missionList.Count == 0)
+        // ClearInteractiveObj는 초기화 상태로 설정
+        if (clearInteractiveObj != null)
         {
-            Debug.Log("missionList가 비어있습니다. 미션 오브젝트를 확인하세요.");
-            return;
+            clearInteractiveObj.gameObject.SetActive(false);
         }
 
-        // Clear Interactive 오브젝트 비활성화
-        clearInteractiveObj.gameObject.SetActive(false);
+        // 첫 번째 미션 또는 타겟 적 시작
+        if (missionList.Count > 0)
+        {
+            ActivateMission(0);
+        }
+    }
 
-        // 첫 번째 미션 활성화
-        ActivateMission(0);
+    public void OnTargetEnemyEliminated(EnemyStatus enemy)
+    {
+        if (targetEnemies.Contains(enemy))
+        {
+            eliminatedTargetCount++;
+            Debug.Log($"{eliminatedTargetCount}/{targetEnemies.Count} 타겟 제거됨");
+
+            // missionObjIndicator가 있으면 업데이트
+            if (missionObjIndicator != null)
+            {
+                missionObjIndicator.MarkObjectAsCompleted();
+
+            }
+            if (eliminatedTargetCount >= targetEnemies.Count)
+            {
+                Debug.Log("모든 타겟 제거 완료!");
+                CheckMissionCompletion();
+            }
+        }
+    }
+
+    public void OnMissionCompleted()
+    {
+        // 상호작용 미션 완료 처리
+        currentMissionIndex++;
+        if (currentMissionIndex < missionList.Count)
+        {
+            ActivateMission(currentMissionIndex);
+        }
+        else
+        {
+            Debug.Log("모든 상호작용 미션 완료!");
+            CheckMissionCompletion();
+        }
+    }
+
+    public void CheckMissionCompletion()
+    {
+        // 타겟 적 처치와 상호작용 미션이 모두 클리어되었는지 확인
+        if (eliminatedTargetCount >= targetEnemies.Count && currentMissionIndex >= missionList.Count)
+        {
+            Debug.Log("모든 미션 완료! ClearInteractiveObj 활성화!");
+            ActivateClearInteractive();
+        }
     }
 
     public void ActivateMission(int index)

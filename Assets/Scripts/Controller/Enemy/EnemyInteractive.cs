@@ -107,7 +107,7 @@ public class EnemyInteractive : InteractableObjExtand
         if (obj != null && !obj.activeSelf)
         {
             obj.SetActive(true);  // UI가 꺼져 있으면 켜기
-            Debug.Log($"UI {obj.name} activated");
+            // Debug.Log($"UI {obj.name} activated");
         }
     }
 
@@ -117,7 +117,7 @@ public class EnemyInteractive : InteractableObjExtand
         {
             obj.SetActive(false);  // UI가 켜져 있으면 끄기
             Destroy(obj);
-            Debug.Log($"UI {obj.name} deactivated");
+            // Debug.Log($"UI {obj.name} deactivated");
         }
     }
 

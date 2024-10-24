@@ -54,6 +54,6 @@ public class StageInteractiveObj : InteractableObjExtand
     public void SetInteractable(bool value)
     {
         interactable = value;
-        Debug.Log($"{this.gameObject.name} Interactable: {value}");
+        // Debug.Log($"{this.gameObject.name} Interactable: {value}");
     }
 }

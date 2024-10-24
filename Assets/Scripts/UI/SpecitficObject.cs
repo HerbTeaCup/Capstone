@@ -10,7 +10,7 @@ public class SpecitficObject : InteractableObjExtand
     [SerializeField] private GameObject missionClearPanel; // 미션 클리어 UI
     [SerializeField] private string targetSceneName = "MainMenuScene"; // 전환할 씬 이름
     [SerializeField] private float triggerDistance = 5f; // 트리거 범위
-    [SerializeField] private int sortingOrder = 100; // 다른 UI를 덮을 정렬 순서
+    // [SerializeField] private int sortingOrder = 100; // 다른 UI를 덮을 정렬 순서
 
     Transform player;
     private Button quitButton; // Quit 버튼

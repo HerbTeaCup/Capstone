@@ -12,7 +12,11 @@ public class EnemyIndicator : MonoBehaviour
 
     [Header("Target(Enemy) UI")]
     [SerializeField] string targetCanvasPrefabPath = "Prefabs/UI/TargetIndicator/Target Enemy Canvas";  // 캔버스 프리팹 경로
-    [SerializeField] string missionCanvasPrefabPath = "Prefabs/UI/TargetIndicator/Mission Canvas";  // 캔버스 프리팹 경로
+    [SerializeField] string missionCanvasPrefabPath = "Prefabs/UI/TargetIndicator/Mission Status Canvas";  // 캔버스 프리팹 경로
+    [SerializeField] private Image missionCompletedImage; // 미션 완수 이미지
+    [SerializeField] private Text missionCompletedText; // 미션 완수 텍스트
+    [SerializeField] private Image targetImage;  // 목표 위치 가시성 이미지
+    [SerializeField] private Text targetDistanceText;  // 목표 위치 텍스트
 
     [Header("Target Distance Settings")]
     [SerializeField] float activationDistance = 20f; // 목표 활성화 거리
@@ -29,12 +33,6 @@ public class EnemyIndicator : MonoBehaviour
 
     public bool isMissionCompleted = false;
     public bool hasConvertText = false;
-
-    // 동적 로드 UI
-    private Image targetImage;  // 목표 위치 가시성 이미지
-    private Text targetDistanceText;  // 목표 위치 텍스트
-    private Image missionCompletedImage; // 미션 완수 이미지
-    private Text missionCompletedText; // 미션 완수 텍스트
 
     private RectTransform imageRect; // UI 이미지의 RectTransform
     private RectTransform textRect; // UI 텍스트의 RectTransform
@@ -70,6 +68,8 @@ public class EnemyIndicator : MonoBehaviour
     // UI 프리팹 로드 및 추가
     void TargetLoadUI()
     {
+        if (targetCanvas != null) return;
+
         // 리소스 경로에서 캔버스 프리팹 로드
         GameObject targetCanvasPrefab = ResourceManager.Load<GameObject>(targetCanvasPrefabPath);
         CheckPrefabLoad(targetCanvasPrefab); // 프리팹 로드 에러 체크
@@ -100,6 +100,8 @@ public class EnemyIndicator : MonoBehaviour
     }
     void MissionLoadUI()
     {
+        if (missionCanvas != null) return;
+
         // 리소스 경로에서 캔버스 프리팹 로드
         GameObject missionCanvasPrefab = ResourceManager.Load<GameObject>(missionCanvasPrefabPath);
         CheckPrefabLoad(missionCanvasPrefab); // 프리팹 로드 에러 체크
@@ -110,17 +112,17 @@ public class EnemyIndicator : MonoBehaviour
         // enemyUIPanel 자동 설정 (missionCanvas의 자식으로 찾기)
         if (enemyUIPanel == null && missionCanvas != null)
         {
-            enemyUIPanel = missionCanvas.transform.Find("EnemyUIPanel");
+            enemyUIPanel = missionCanvas.transform.Find("ActivateObj");
             if (enemyUIPanel == null)
             {
-                Debug.LogError("EnemyUIPanel을 찾을 수 없습니다. EnemyUIPanel을 설정해주세요.");
+                Debug.LogError("ActivateObj을 찾을 수 없습니다. ActivateObj을 설정해주세요.");
                 return;
             }
         }
 
         // 자식 오브젝트에서 이미지와 텍스트를 찾아 설정
-        missionCompletedImage = missionCanvas.transform.Find("EnemyUIPanel/MissionCompleted Image")?.GetComponent<Image>();
-        missionCompletedText = missionCanvas.transform.Find("EnemyUIPanel/MissionCompleted Text")?.GetComponent<Text>();
+        missionCompletedImage = missionCanvas.transform.Find("ActivateObj/MissionCompleted Image")?.GetComponent<Image>();
+        missionCompletedText = missionCanvas.transform.Find("ActivateObj/MissionCompleted Text")?.GetComponent<Text>();
         #region Image 및 Text 컴포넌트 에러 확인
         if (CheckImage(missionCompletedImage) == false) Debug.Log(":MissionCompleted Image");
         if (CheckText(missionCompletedText) == false) Debug.Log(":MissionCompleted Text");

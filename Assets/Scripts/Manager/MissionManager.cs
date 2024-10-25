@@ -1,36 +1,45 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static MissionManager;
 
 public class MissionManager : MonoBehaviour
 {
     [Tooltip("미션 오브젝트 리스트")]
     [SerializeField] private List<StageInteractiveObj> missionList = new List<StageInteractiveObj>();
-    [SerializeField] private List<EnemyStatus> targetEnemies = new List<EnemyStatus>();
+    [SerializeField] public List<EnemyStatus> targetEnemies = new List<EnemyStatus>();
 
     [SerializeField] private ClearInteractiveObj clearInteractiveObj;
-    
+
+    public event Action<int> RemainingEnemiesUpdated;
+
     private MissionObjIndicator missionObjIndicator;
 
     private int currentMissionIndex = 0;
-    private int eliminatedTargetCount = 0;
+    public int eliminatedTargetCount = 0;
 
     private void Start()
     {
         InitializeMissions();
+
+        UpdateRemainingEnemiesUI();
     }
 
     public void InitializeMissions()
     {
         eliminatedTargetCount = 0;
 
+        UpdateRemainingEnemiesUI();
+
         // 미션 리스트와 타겟 적 리스트가 비어 있는지 확인
         if (missionList.Count == 0 && targetEnemies.Count == 0)
         {
             Debug.LogWarning("미션 또는 타겟 적이 없습니다.");
             return;
-
         }
+
+        MissionObjIndicator missionIndicator = FindObjectOfType<MissionObjIndicator>();
 
         // ClearInteractiveObj는 초기화 상태로 설정
         if (clearInteractiveObj != null)
@@ -52,6 +61,8 @@ public class MissionManager : MonoBehaviour
             eliminatedTargetCount++;
             Debug.Log($"{eliminatedTargetCount}/{targetEnemies.Count} 타겟 제거됨");
 
+            UpdateRemainingEnemiesUI();
+
             // missionObjIndicator가 있으면 업데이트
             if (missionObjIndicator != null)
             {
@@ -63,6 +74,17 @@ public class MissionManager : MonoBehaviour
                 Debug.Log("모든 타겟 제거 완료!");
                 CheckMissionCompletion();
             }
+        }
+    }
+
+    private void UpdateRemainingEnemiesUI()
+    {
+        int remainingEnemies = targetEnemies.Count - eliminatedTargetCount;
+
+        // 이벤트를 통해 UI에 남은 적 수 업데이트
+        if (RemainingEnemiesUpdated != null)
+        {
+            RemainingEnemiesUpdated.Invoke(remainingEnemies);
         }
     }
 

@@ -110,10 +110,6 @@ public class SpecitficObject : InteractableObjExtand
         }
     }
 
-
-
-
-
     private void ShowGameClearPanel()
     {
         // 게임 클리어 패널을 활성화

@@ -122,10 +122,10 @@ public class MissionObjIndicator : MonoBehaviour
         CheckPrefabLoad(missionCanvasPrefab);
 
         missionCanvas = Instantiate(missionCanvasPrefab, transform);
-        objectUIPanel = missionCanvas.transform.Find("EnemyUIPanel");
+        objectUIPanel = missionCanvas.transform.Find("ActivateObjl");
 
-        missionCompletedImage = missionCanvas.transform.Find("EnemyUIPanel/MissionCompleted Image")?.GetComponent<Image>();
-        missionCompletedText = missionCanvas.transform.Find("EnemyUIPanel/MissionCompleted Text")?.GetComponent<Text>();
+        missionCompletedImage = missionCanvas.transform.Find("ActivateObjl/MissionCompleted Image")?.GetComponent<Image>();
+        missionCompletedText = missionCanvas.transform.Find("ActivateObjl/MissionCompleted Text")?.GetComponent<Text>();
 
         if (missionCompletedImage != null)
         {
@@ -139,6 +139,7 @@ public class MissionObjIndicator : MonoBehaviour
             missionCompletedText.enabled = false;
         }
     }
+
     #endregion
 
     public void ShowClearInteractiveIndicator(ClearInteractiveObj clearObj)
@@ -258,7 +259,45 @@ public class MissionObjIndicator : MonoBehaviour
 
         targetDistanceText.text = $"{Mathf.Floor(distanceToPlayer)}m";
     }
-    
+
+    /*    public void UpdateActivateObjUI(StageInteractiveObj obj)
+        {
+            if (missionCanvas != null)
+            {
+                // ActivateObj UI 업데이트
+                Transform activateObjPanel = missionCanvas.transform.Find("ActivateObj");
+                if (activateObjPanel != null)
+                {
+                    Image missionCompletedImage = activateObjPanel.Find("MissionCompleted Image")?.GetComponent<Image>();
+                    Text missionCompletedText = activateObjPanel.Find("MissionCompleted Text")?.GetComponent<Text>();
+
+                    if (missionCompletedImage != null && missionCompletedText != null)
+                    {
+                        missionCompletedImage.color = Color.green;  // 상호작용 가능한 상태를 표시
+                        missionCompletedText.text = "<b>상호작용 가능한 물체</b>";
+                    }
+                }
+            }
+        }*/
+
+    public void ShowNoMissionAvailable()
+    {
+        if (missionCanvas != null)
+        {
+            // ActivateObj UI를 찾아서 미션이 없다는 메시지를 표시
+            objectUIPanel = missionCanvas.transform.Find("ActivateObj");
+            if (objectUIPanel != null)
+            {
+                Text missionCompletedText = objectUIPanel.Find("MissionCompleted Text")?.GetComponent<Text>();
+
+                if (missionCompletedText != null)
+                {
+                    missionCompletedText.text = "<b>- None</b>";  // 미션이 없다는 메시지 표시
+                }
+            }
+        }
+    }
+
     public void MarkObjectAsCompleted()
     {
         isMissionCompleted = true;

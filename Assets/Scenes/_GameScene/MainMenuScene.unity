@@ -44593,7 +44593,7 @@ PrefabInstance:
     - target: {fileID: 2680632807010537991, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9c81da89e06442249b84676b66b002d2, type: 3}
+      objectReference: {fileID: 21300000, guid: 3b3fd0c2931e2844c94e8c8e714a79d4, type: 3}
     - target: {fileID: 2680632807265176985, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: audioSource
       value: 
@@ -68902,7 +68902,7 @@ PrefabInstance:
     - target: {fileID: 2680632807010537991, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: af24ecf6effa8db46b5e6f1559d1e1dd, type: 3}
+      objectReference: {fileID: 21300000, guid: 415885a4c81bf204a8bf39ed661d98ff, type: 3}
     - target: {fileID: 2680632807265176985, guid: 07863f7de047ec640a049952995b9970, type: 3}
       propertyPath: audioSource
       value: 

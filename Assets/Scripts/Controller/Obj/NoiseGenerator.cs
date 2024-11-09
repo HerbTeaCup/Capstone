@@ -22,18 +22,22 @@ public class NoiseGenerator : InteractableObjExtand
 
     private void Start()
     {
-        _audio = this.GetComponent<AudioSource>();
+        _audio = GetComponent<AudioSource>();
         if (_audio == null)
         {
             _audio = gameObject.AddComponent<AudioSource>();
             Debug.Log("AudioSource가 없어서 자동으로 추가되었습니다.");
         }
 
+        _audio.volume = 1f; // 오디오 볼륨 설정
+        _audio.spatialBlend = 0f; // 2D 사운드로 설정
+        _audio.mute = false; // 음소거 해제
+
         player = GameObject.FindWithTag("Player");
 
         if (Sound == null)
         {
-            Sound = Resources.Load<AudioClip>("ElevatorError");
+            Sound = Resources.Load<AudioClip>("ElevatorError.wav");
             if (Sound == null)
             {
                 Debug.LogError("Sound 파일을 찾을 수 없습니다. 경로를 확인하세요.");
